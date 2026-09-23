@@ -3,179 +3,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>考研笔记 - 备战考研</title>
+    <title>理科笔记 - 多级卡片导航</title>
     <style>
         :root {
-            --primary-color: #00b06f;
-            --bg-color: #f7f9fb;
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --text-color: #2c3e50;
-            --text-muted: #7f8c8d;
-            --accent-yellow: #fff8e1;
-            --accent-border: #ffe082;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --accent-yellow: #fefce8;
+            --accent-border: #fef08a;
+            --accent-blue: #f0f9ff;
+            --accent-blue-border: #bae6fd;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-color); color: var(--text-main); line-height: 1.6; }
 
-        /* 顶部导航栏 */
-        header { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .nav-container { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; height: 60px; }
-        .logo { font-size: 18px; font-weight: bold; color: var(--primary-color); }
-        .nav-tabs { display: flex; gap: 10px; list-style: none; }
-        .nav-tab { padding: 6px 16px; border-radius: 20px; font-size: 14px; cursor: pointer; color: var(--text-muted); transition: all 0.2s; }
-        .nav-tab.active, .nav-tab:hover { background: #e8f7f0; color: var(--primary-color); font-weight: 600; }
+        header { background: #ffffff; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+        .nav-container { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; height: 64px; }
+        .logo { font-size: 18px; font-weight: 700; color: var(--primary-color); cursor: pointer; }
 
-        /* 主体布局 */
-        main { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+        .add-btn { background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; font-weight: 600; }
+        .add-btn:hover { background: var(--primary-hover); }
 
-        /* 首页 Banner */
-        .hero { text-align: center; padding: 40px 20px; background: #fff; border-radius: 16px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .hero h1 { font-size: 26px; color: #1a1a1a; margin-bottom: 8px; }
-        .hero p { color: var(--text-muted); font-size: 14px; }
+        main { max-width: 1000px; margin: 24px auto; padding: 0 20px; }
 
-        /* 模块板块 */
-        .section-title { font-size: 18px; font-weight: bold; margin: 25px 0 15px 0; display: flex; align-items: center; gap: 8px; }
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-        .card { background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); cursor: pointer; border: 1px solid #f0f0f0; transition: transform 0.2s, box-shadow 0.2s; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
-        .card h3 { font-size: 16px; margin-bottom: 6px; color: #222; }
+        /* 通用返回与路径栏 */
+        .breadcrumb-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 14px; color: var(--text-muted); }
+        .back-link { color: var(--primary-color); font-weight: 600; cursor: pointer; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+
+        /* 网格卡片样式 */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+        .card { background: var(--card-bg); padding: 22px; border-radius: 12px; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.2s; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.04); border-color: var(--primary-color); }
+        .card h3 { font-size: 17px; margin-bottom: 8px; color: var(--text-main); }
         .card p { font-size: 13px; color: var(--text-muted); }
+        .card .badge { display: inline-block; padding: 2px 8px; background: var(--primary-light); color: var(--primary-color); font-size: 12px; border-radius: 4px; margin-top: 10px; font-weight: 500; }
 
-        /* 详情页视图 (默认隐藏) */
-        .detail-view { display: none; background: #fff; padding: 30px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-        .back-btn { display: inline-flex; align-items: center; gap: 5px; color: var(--primary-color); font-size: 14px; cursor: pointer; margin-bottom: 20px; font-weight: bold; }
-        .detail-header { background: var(--primary-color); color: #fff; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
-        .detail-header h2 { font-size: 22px; }
+        /* 页面显示切换控制 */
+        .view-page { display: none; }
+        .view-page.active { display: block; }
 
-        /* 分类标签卡 */
-        .sub-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .sub-tab { padding: 6px 18px; background: #f0f2f5; border-radius: 6px; font-size: 14px; cursor: pointer; }
-        .sub-tab.active { background: var(--primary-color); color: white; }
+        /* 详情页排版 */
+        .detail-view { background: #fff; padding: 32px; border-radius: 16px; border: 1px solid var(--border-color); }
+        .detail-header { background: var(--primary-color); color: #fff; padding: 20px 24px; border-radius: 12px; margin-bottom: 24px; }
+        .edit-btn { float: right; background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+        .note-body { font-size: 15px; line-height: 1.8; color: #334155; }
+        .box-yellow { background: var(--accent-yellow); border: 1px solid var(--accent-border); border-radius: 8px; padding: 14px; margin-top: 12px; font-size: 14px; }
 
-        /* 知识点卡片盒 */
-        .rule-card { background: var(--accent-yellow); border: 1px solid var(--accent-border); border-radius: 8px; padding: 15px 20px; margin-bottom: 15px; font-size: 14px; }
-        .rule-card strong { color: #d97706; }
-        .code-inline { background: #eef2ff; color: #4f46e5; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 13px; }
+        /* 弹窗样式 */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); justify-content: center; align-items: center; z-index: 200; }
+        .modal-content { background: white; padding: 24px; border-radius: 12px; width: 90%; max-width: 500px; }
+        .modal-content input, .modal-content textarea, .modal-content select { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 6px; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
+        .modal-actions button { padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- 导航栏 -->
     <header>
         <div class="nav-container">
-            <div class="logo">📚 考研笔记</div>
-            <ul class="nav-tabs">
-                <li class="nav-tab active" onclick="switchView('home')">首页</li>
-                <li class="nav-tab" onclick="switchView('math')">数学</li>
-                <li class="nav-tab" onclick="switchView('cs')">408计算机</li>
-                <li class="nav-tab" onclick="switchView('english')">英语</li>
-                <li class="nav-tab" onclick="switchView('politics')">政治</li>
-            </ul>
+            <div class="logo" onclick="showMainPage()">🔬 理科知识库</div>
+            <button class="add-btn" onclick="openAddModal()">+ 新增子卡片</button>
         </div>
     </header>
 
     <main>
-        <!-- 首页内容 -->
-        <div id="home-view">
-            <div class="hero">
-                <h1>考研笔记</h1>
-                <p>备战考研，记录每一步的学习与成长</p>
-            </div>
 
-            <div class="section-title">📐 数学</div>
+        <!-- 第一层：顶级主题卡片页面 -->
+        <div id="page-main" class="view-page active">
+            <h2 style="margin-bottom: 16px;">选择学科主题</h2>
             <div class="card-grid">
-                <div class="card">
-                    <h3>高等数学</h3>
-                    <p>极限、导数、积分、微分方程</p>
+                <div class="card" onclick="openSubPage('math')">
+                    <h3>📐 高级数学</h3>
+                    <p>微积分、线性代数、概率论等专题</p>
+                    <span class="badge" id="count-math">0 篇卡片</span>
                 </div>
-                <div class="card">
-                    <h3>线性代数</h3>
-                    <p>矩阵、向量、特征值、二次型</p>
+                <div class="card" onclick="openSubPage('physics')">
+                    <h3>⚡ 物理</h3>
+                    <p>力学、电磁学、热学、量子力学</p>
+                    <span class="badge" id="count-physics">0 篇卡片</span>
                 </div>
-                <div class="card">
-                    <h3>概率论与数理统计</h3>
-                    <p>分布、统计、假设检验</p>
+                <div class="card" onclick="openSubPage('chemistry')">
+                    <h3>🧪 化学</h3>
+                    <p>无机化学、有机化学、物理化学</p>
+                    <span class="badge" id="count-chemistry">0 篇卡片</span>
                 </div>
-            </div>
-
-            <div class="section-title">💻 408 计算机基础</div>
-            <div class="card-grid">
-                <div class="card">
-                    <h3>数据结构</h3>
-                    <p>线性表、树、图、排序、查找</p>
-                </div>
-                <div class="card">
-                    <h3>计算机组成原理</h3>
-                    <p>CPU、存储器、指令系统、I/O</p>
-                </div>
-                <div class="card">
-                    <h3>操作系统</h3>
-                    <p>进程、内存、文件、设备管理</p>
-                </div>
-            </div>
-
-            <div class="section-title">🔤 英语</div>
-            <div class="card-grid">
-                <div class="card" onclick="openDetail('english-listening')">
-                    <h3>六级/考研听力 · 满分技巧</h3>
-                    <p>核心规律、三大题型绝杀技巧、预读步骤</p>
+                <div class="card" onclick="openSubPage('biology')">
+                    <h3>🧬 生物</h3>
+                    <p>细胞生物学、遗传学、分子生物学</p>
+                    <span class="badge" id="count-biology">0 篇卡片</span>
                 </div>
             </div>
         </div>
 
-        <!-- 英语听力详情页 (示例卡片) -->
-        <div id="detail-view" class="detail-view">
-            <div class="back-btn" onclick="switchView('home')">← 返回首页</div>
+        <!-- 第二层：跳转后的子卡片列表页面 -->
+        <div id="page-sub" class="view-page">
+            <div class="breadcrumb-bar">
+                <span class="back-link" onclick="showMainPage()">← 返回主题列表</span>
+                <span>/</span>
+                <span id="sub-page-title" style="font-weight: 600;">专栏卡片列表</span>
+            </div>
             
-            <div class="detail-header">
-                <h2>🎧 六级听力 · 满分技巧</h2>
-                <p style="font-size: 13px; opacity: 0.9; margin-top: 5px;">分类：六级听力</p>
-            </div>
-
-            <div class="sub-tabs">
-                <div class="sub-tab active">听力</div>
-                <div class="sub-tab">阅读</div>
-                <div class="sub-tab">翻译</div>
-                <div class="sub-tab">写作</div>
-            </div>
-
-            <h3 style="margin: 20px 0 10px 0;">一、核心底层规律</h3>
-            <div class="rule-card">
-                <strong>原则一：</strong> 答案永远同义替换，原词复现百分之九十是错的。
-            </div>
-            <div class="rule-card">
-                <strong>原则二：</strong> 视听一致降级 —— 四级听啥选啥，六级反向，越像越错。
-            </div>
-            <div class="rule-card">
-                <strong>原则三：</strong> 答案全部出现在转折词后 —— <span class="code-inline">but</span> / <span class="code-inline">however</span> / <span class="code-inline">yet</span> / <span class="code-inline">although</span> 后面必是考点。
-            </div>
-            <div class="rule-card">
-                <strong>原则四：</strong> 否定词、最高级、比较级必出答案 —— <span class="code-inline">never</span> / <span class="code-inline">must</span> / <span class="code-inline">better</span> / <span class="code-inline">worse</span>。
-            </div>
-            <div class="rule-card">
-                <strong>原则五：</strong> 首尾原则 —— 长对话/篇章前三句 + 最后两句必有两道答案。
+            <div class="card-grid" id="sub-card-grid">
+                <!-- 这里将动态填充子卡牌 -->
             </div>
         </div>
+
+        <!-- 第三层：卡片详情（笔记正文）界面 -->
+        <div id="page-detail" class="view-page">
+            <div class="breadcrumb-bar">
+                <span class="back-link" onclick="backToSubPage()">← 返回卡片列表</span>
+                <span>/</span>
+                <span id="detail-subject-name">专栏</span>
+            </div>
+
+            <div class="detail-view">
+                <div class="detail-header">
+                    <button class="edit-btn" onclick="openEditModal()">✏️ 编辑卡片</button>
+                    <h2 id="detail-title">卡片标题</h2>
+                </div>
+                <div id="detail-content" class="note-body"></div>
+            </div>
+        </div>
+
     </main>
 
-    <script>
-        function switchView(viewName) {
-            const homeView = document.getElementById('home-view');
-            const detailView = document.getElementById('detail-view');
+    <!-- 弹窗 -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-heading">添加卡片</h3>
+            <select id="modal-cat">
+                <option value="math">高级数学</option>
+                <option value="physics">物理</option>
+                <option value="chemistry">化学</option>
+                <option value="biology">生物</option>
+            </select>
+            <input type="text" id="modal-title" placeholder="卡片标题 (如: 导数与微分)">
+            <input type="text" id="modal-desc" placeholder="简短描述...">
+            <textarea id="modal-content" rows="6" placeholder="详细内容..."></textarea>
             
-            if (viewName === 'english-listening') {
-                homeView.style.display = 'none';
-                detailView.style.display = 'block';
-            } else {
-                homeView.style.display = 'block';
-                detailView.style.display = 'none';
-            }
+            <div class="modal-actions">
+                <button onclick="closeModal()">取消</button>
+                <button style="background: var(--primary-color); color: white;" onclick="saveNote()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化数据示例
+        const defaultNotes = [
+            { id: '1', cat: 'math', title: '微积分 - 极限', desc: '等价无穷小与洛必达法则', content: '<p>这里是微积分极限部分的内容...</p><div class="box-yellow">重点公式：1 - cos(x) ~ 1/2 * x²</div>' },
+            { id: '2', cat: 'math', title: '线性代数 - 矩阵', desc: '逆矩阵与特征值求解', content: '<p>这里是矩阵运算内容...</p>' },
+            { id: '3', cat: 'physics', title: '电磁学 - 麦克斯韦方程', desc: '经典电磁学四大方程', content: '<p>电磁感应与电磁波基础知识...</p>' }
+        ];
+
+        let notes = JSON.parse(localStorage.getItem('nested_cards_data')) || defaultNotes;
+        let currentSubject = ''; // 当前处于哪个大类
+        let currentCardId = '';   // 当前查看的卡片ID
+
+        const subjectNames = { math: '高级数学', physics: '物理', chemistry: '化学', biology: '生物' };
+
+        // 切换页面显示函数
+        function showPage(pageId) {
+            document.querySelectorAll('.view-page').forEach(el => el.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
         }
 
-        function openDetail(id) {
-            switchView(id);
+        // 更新首页统计角标
+        function updateCounts() {
+            ['math', 'physics', 'chemistry', 'biology'].forEach(cat => {
+                const count = notes.filter(n => n.cat === cat).length;
+                document.getElementById(`count-${cat}`).innerText = `${count} 篇卡片`;
+            });
+            localStorage.setItem('nested_cards_data', JSON.stringify(notes));
         }
+
+        // 第一层 -> 第二层：点击主题卡片后跳转
+        function openSubPage(cat) {
+            currentSubject = cat;
+            document.getElementById('sub-page-title').innerText = subjectNames[cat] + ' · 内部卡片';
+            
+            const grid = document.getElementById('sub-card-grid');
+            grid.innerHTML = '';
+            
+            const subNotes = notes.filter(n => n.cat === cat);
+
+            if(subNotes.length === 0) {
+                grid.innerHTML = `<p style="color:var(--text-muted); grid-column: 1/-1;">当前学科还没有卡片，请点击右上角新增卡片！</p>`;
+            } else {
+                subNotes.forEach(note => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.onclick = () => openDetailPage(note.id);
+                    card.innerHTML = `<h3>${note.title}</h3><p>${note.desc || '点击查看详情...'}</p>`;
+                    grid.appendChild(card);
+                });
+            }
+
+            showPage('page-sub');
+        }
+
+        // 返回第一层主页
+        function showMainPage() {
+            updateCounts();
+            showPage('page-main');
+        }
+
+        // 第二层 -> 第三层：点击子卡片进入详情页
+        function openDetailPage(id) {
+            currentCardId = id;
+            const note = notes.find(n => n.id === id);
+            if (!note) return;
+
+            document.getElementById('detail-subject-name').innerText = subjectNames[note.cat];
+            document.getElementById('detail-title').innerText = note.title;
+            document.getElementById('detail-content').innerHTML = note.content;
+
+            showPage('page-detail');
+        }
+
+        // 从详情页退回第二层卡片页
+        function backToSubPage() {
+            openSubPage(currentSubject);
+        }
+
+        // 弹窗与新增修改功能
+        function openAddModal() {
+            currentCardId = null;
+            document.getElementById('modal-heading').innerText = '新建卡片';
+            if(currentSubject) document.getElementById('modal-cat').value = currentSubject;
+            document.getElementById('modal-title').value = '';
+            document.getElementById('modal-desc').value = '';
+            document.getElementById('modal-content').value = '';
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function openEditModal() {
+            const note = notes.find(n => n.id === currentCardId);
+            if(!note) return;
+            document.getElementById('modal-heading').innerText = '编辑卡片';
+            document.getElementById('modal-cat').value = note.cat;
+            document.getElementById('modal-title').value = note.title;
+            document.getElementById('modal-desc').value = note.desc;
+            document.getElementById('modal-content').value = note.content;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function saveNote() {
+            const cat = document.getElementById('modal-cat').value;
+            const title = document.getElementById('modal-title').value;
+            const desc = document.getElementById('modal-desc').value;
+            const content = document.getElementById('modal-content').value;
+
+            if (!title) { alert('标题不能为空！'); return; }
+
+            if (currentCardId) {
+                const note = notes.find(n => n.id === currentCardId);
+                note.cat = cat; note.title = title; note.desc = desc; note.content = content;
+                openDetailPage(currentCardId);
+            } else {
+                const newNote = { id: 'card-' + Date.now(), cat, title, desc, content };
+                notes.unshift(newNote);
+                openSubPage(cat);
+            }
+
+            closeModal();
+            updateCounts();
+        }
+
+        // 初始化页面
+        updateCounts();
     </script>
 </body>
 </html>
