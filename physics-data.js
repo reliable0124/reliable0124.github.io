@@ -427,4 +427,58 @@ content: `
     <strong>力是改变物体运动状态的原因。</strong><br>
     </div>`
 },
+{
+    id: 'sec-1001',
+    chapterId: 'p-ch10',
+    title: '10.1 振动现象',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-1002',
+    chapterId: 'p-ch10',
+    title: '10.2 简谐运动',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-1003',
+    chapterId: 'p-ch10',
+    title: '10.3 简谐运动方程',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-1004',
+    chapterId: 'p-ch10',
+    title: '10.4 简谐运动的图像',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-1005',
+    chapterId: 'p-ch10',
+    title: '10.5 简谐运动的能量',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-1006',
+    chapterId: 'p-ch10',
+    title: '10.6 受迫振动 共振',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
 ];
