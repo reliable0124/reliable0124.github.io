@@ -36,6 +36,7 @@ const physicsChapters = [
 ];
 
 const defaultSections = [
+//1
 {
 id: 'sec-101',
 chapterId: 'p-ch1',
@@ -53,7 +54,63 @@ content: `
 `
 },
 {
-id: 'sec-102',
+    id: 'sec-301',
+    chapterId: 'p-ch3',
+    title: '3.1 机械运动',
+    desc: '-',
+    content: `<p>笔记正文...</p>`
+},
+{
+    id: 'sec-302',
+    chapterId: 'p-ch3',
+    title: '3.2 参照物、坐标系和参照系',
+    desc: '-',
+    content: `<p>笔记正文...</p>`
+},
+{
+    id: 'sec-303',
+    chapterId: 'p-ch3',
+    title: '3.3 路程与位移',
+    desc: '-',
+    content: `<p>笔记正文...</p>`
+},
+{
+    id: 'sec-304',
+    chapterId: 'p-ch3',
+    title: '3.4 匀速直线运动 速度和速率',
+    desc: '-',
+    content: `<p>笔记正文...</p>`
+},
+{
+    id: 'sec-305',
+    chapterId: 'p-ch3',
+    title: '3.5 匀速直线运动图像',
+    desc: '-',
+    content: `<p>笔记正文...</p>`
+},
+{
+    id: 'sec-306',
+    chapterId: 'p-ch3',
+    title: '3.6 变速直线运动 平均速度和瞬时速度',
+    desc: '-',
+    content: `<p>笔记正文...</p>`
+},
+{
+    id: 'sec-307',
+    chapterId: 'p-ch3',
+    title: '3.7 变速直线运动的加速度',
+    desc: '-',
+    content: `<p>笔记正文...</p>`
+},
+{
+    id: 'sec-308',
+    chapterId: 'p-ch3',
+    title: '3.8 匀加速直线运动',
+    desc: '-',
+    content: `<p>笔记正文...</p>`
+},
+{
+id: 'sec-402',
 chapterId: 'p-ch4',
 title: '4.2 牛顿第二定律',
 desc: '加速度与力、质量的定量关系',
