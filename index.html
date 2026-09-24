@@ -14,71 +14,267 @@
             --primary-color: #2563eb;
             --primary-hover: #1d4ed8;
             --primary-light: #eff6ff;
-            --bg-color: #f8fafc;
+            --bg-color: #f1f5f9;
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-muted: #64748b;
             --border-color: #e2e8f0;
             --accent-yellow: #fefce8;
             --accent-border: #fef08a;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.08);
+            --radius-md: 10px;
+            --radius-lg: 16px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            background: var(--bg-color); 
+            color: var(--text-main); 
+            line-height: 1.6;
+            min-height: 100vh;
+        }
 
-        header { background: #ffffff; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
-        .nav-container { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; height: 64px; }
-        .logo { font-size: 18px; font-weight: 700; color: var(--primary-color); cursor: pointer; }
+        /* 顶部导航条 */
+        header { 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100; 
+            box-shadow: var(--shadow-sm);
+        }
+        .nav-container { 
+            max-width: 1080px; 
+            margin: 0 auto; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 24px; 
+            height: 68px; 
+        }
         
-        .add-btn { background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; font-weight: 600; }
-        .add-btn:hover { background: var(--primary-hover); }
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo { 
+            font-size: 20px; 
+            font-weight: 800; 
+            color: var(--primary-color); 
+            cursor: pointer; 
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+        }
+        .logo:hover { opacity: 0.85; }
 
-        main { max-width: 1000px; margin: 24px auto; padding: 0 20px; }
+        /* 右侧新增标语/文字 */
+        .logo-tagline {
+            font-size: 13px;
+            font-weight: 500;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding-left: 12px;
+            border-left: 2px solid var(--border-color);
+            line-height: 1.2;
+        }
+
+        .add-btn { 
+            background: var(--primary-color); 
+            color: white; 
+            border: none; 
+            padding: 9px 20px; 
+            border-radius: 20px; 
+            font-size: 14px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+            transition: all 0.2s ease;
+        }
+        .add-btn:hover { 
+            background: var(--primary-hover); 
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+        }
+
+        main { max-width: 1080px; margin: 32px auto; padding: 0 24px; }
 
         /* 面包屑导航 */
-        .breadcrumb-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 14px; color: var(--text-muted); flex-wrap: wrap; }
-        .back-link { color: var(--primary-color); font-weight: 600; cursor: pointer; text-decoration: none; }
-        .back-link:hover { text-decoration: underline; }
+        .breadcrumb-bar { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            margin-bottom: 24px; 
+            font-size: 14px; 
+            color: var(--text-muted); 
+            flex-wrap: wrap; 
+        }
+        .back-link { 
+            color: var(--primary-color); 
+            font-weight: 600; 
+            cursor: pointer; 
+            text-decoration: none; 
+            transition: color 0.2s;
+        }
+        .back-link:hover { text-decoration: underline; color: var(--primary-hover); }
 
         /* 册别选项卡 (Tabs) 样式 */
-        .volume-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 2px; }
-        .tab-btn { background: none; border: none; padding: 8px 16px; font-size: 15px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 6px 6px 0 0; transition: all 0.2s; }
+        .volume-tabs { 
+            display: flex; 
+            gap: 8px; 
+            margin-bottom: 24px; 
+            border-bottom: 2px solid var(--border-color); 
+            padding-bottom: 2px; 
+            overflow-x: auto;
+        }
+        .tab-btn { 
+            background: none; 
+            border: none; 
+            padding: 10px 18px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: var(--text-muted); 
+            cursor: pointer; 
+            border-radius: var(--radius-md) var(--radius-md) 0 0; 
+            transition: all 0.2s; 
+            white-space: nowrap;
+        }
         .tab-btn:hover { color: var(--primary-color); background: var(--primary-light); }
-        .tab-btn.active { color: var(--primary-color); border-bottom: 3px solid var(--primary-color); }
+        .tab-btn.active { color: var(--primary-color); border-bottom: 3px solid var(--primary-color); background: #ffffff; }
 
         /* 卡片网格布局 */
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
-        .card { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.2s; position: relative; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.04); border-color: var(--primary-color); }
-        .card h3 { font-size: 16px; margin-bottom: 6px; color: var(--text-main); }
-        .card p { font-size: 13px; color: var(--text-muted); }
-        .card .badge { display: inline-block; padding: 2px 8px; background: var(--primary-light); color: var(--primary-color); font-size: 12px; border-radius: 4px; margin-top: 10px; font-weight: 500; }
-        .card .vol-tag { position: absolute; top: 16px; right: 16px; font-size: 11px; padding: 2px 6px; border-radius: 4px; background: #f1f5f9; color: var(--text-muted); font-weight: 600; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .card { 
+            background: var(--card-bg); 
+            padding: 24px; 
+            border-radius: var(--radius-lg); 
+            border: 1px solid var(--border-color); 
+            cursor: pointer; 
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+            position: relative; 
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card:hover { 
+            transform: translateY(-4px); 
+            box-shadow: var(--shadow-lg); 
+            border-color: #93c5fd; 
+        }
+        .card h3 { font-size: 17px; margin-bottom: 8px; color: var(--text-main); font-weight: 700; line-height: 1.4; }
+        .card p { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+        .card .badge { 
+            display: inline-block; 
+            align-self: flex-start;
+            padding: 4px 10px; 
+            background: var(--primary-light); 
+            color: var(--primary-color); 
+            font-size: 12px; 
+            border-radius: 6px; 
+            font-weight: 600; 
+        }
+        .card .vol-tag { 
+            position: absolute; 
+            top: 20px; 
+            right: 20px; 
+            font-size: 11px; 
+            padding: 3px 8px; 
+            border-radius: 6px; 
+            background: #f1f5f9; 
+            color: var(--text-muted); 
+            font-weight: 600; 
+        }
 
         /* 视图页面控制 */
         .view-page { display: none; }
-        .view-page.active { display: block; }
+        .view-page.active { 
+            display: block; 
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         /* 详情页 */
-        .detail-view { background: #fff; padding: 32px; border-radius: 16px; border: 1px solid var(--border-color); }
-        .detail-header { background: var(--primary-color); color: #fff; padding: 20px 24px; border-radius: 12px; margin-bottom: 24px; position: relative; }
-        .edit-btn { position: absolute; right: 20px; top: 20px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
-        .note-body { font-size: 15px; line-height: 1.8; color: #334155; }
-        .box-yellow { background: var(--accent-yellow); border: 1px solid var(--accent-border); border-radius: 8px; padding: 14px; margin: 12px 0; font-size: 14px; }
+        .detail-view { background: #fff; padding: 40px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-md); }
+        .detail-header { 
+            background: linear-gradient(135deg, #2563eb, #1d4ed8); 
+            color: #fff; 
+            padding: 28px 32px; 
+            border-radius: var(--radius-md); 
+            margin-bottom: 32px; 
+            position: relative; 
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+        }
+        .edit-btn { 
+            position: absolute; 
+            right: 24px; 
+            top: 24px; 
+            background: rgba(255,255,255,0.2); 
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.3); 
+            color: white; 
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 13px; 
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .edit-btn:hover { background: rgba(255,255,255,0.3); }
+        .note-body { font-size: 16px; line-height: 1.8; color: #334155; }
+        .box-yellow { background: var(--accent-yellow); border: 1px solid var(--accent-border); border-radius: 8px; padding: 16px; margin: 16px 0; font-size: 14px; }
 
         /* 弹窗 */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); justify-content: center; align-items: center; z-index: 200; }
-        .modal-content { background: white; padding: 24px; border-radius: 12px; width: 90%; max-width: 520px; }
-        .modal-content input, .modal-content textarea, .modal-content select { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 6px; }
-        .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
-        .modal-actions button { padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 200; }
+        .modal-content { background: white; padding: 32px; border-radius: var(--radius-lg); width: 90%; max-width: 560px; box-shadow: var(--shadow-lg); }
+        .modal-content h3 { margin-bottom: 20px; font-size: 18px; color: var(--text-main); }
+        .modal-content input, .modal-content textarea, .modal-content select { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 16px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px; 
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .modal-content input:focus, .modal-content textarea:focus, .modal-content select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 8px; }
+        .modal-actions button { padding: 9px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; font-weight: 600; }
+
+        /* 响应式调整 */
+        @media (max-width: 640px) {
+            .logo-tagline { display: none; }
+            .nav-container { padding: 0 16px; }
+            main { padding: 0 16px; margin: 20px auto; }
+            .detail-view { padding: 20px; }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="nav-container">
-            <div class="logo" onclick="navTo('level-1')">🔬 理科知识库</div>
+            <div class="logo-group">
+                <div class="logo" onclick="navTo('level-1')">🔬 理科知识库</div>
+                <div class="logo-tagline">探索自然科学的终极秩序</div>
+            </div>
             <button class="add-btn" onclick="openAddModal()">+ 新建知识点小节</button>
         </div>
     </header>
@@ -87,26 +283,34 @@
 
         <!-- 第 1 层：学科选择 (首页) -->
         <div id="level-1" class="view-page active">
-            <h2 style="margin-bottom: 16px;">选择学科</h2>
+            <h2 style="margin-bottom: 20px; font-weight: 800; font-size: 22px;">选择学科专栏</h2>
             <div class="card-grid">
                 <div class="card" onclick="openSubject('math')">
-                    <h3>📐 高级数学</h3>
-                    <p>-</p>
+                    <div>
+                        <h3>📐 高级数学</h3>
+                        <p>涵盖高等微积分、线性代数与概率论体系</p>
+                    </div>
                     <span class="badge" id="badge-math">建设中</span>
                 </div>
                 <div class="card" onclick="openSubject('physics')">
-                    <h3>⚡ 物理</h3>
-                    <p>上册、中册、下册 · 共 27 章</p>
+                    <div>
+                        <h3>⚡ 物理</h3>
+                        <p>上册、中册、下册 · 共 27 章核心知识</p>
+                    </div>
                     <span class="badge" id="badge-physics">加载中...</span>
                 </div>
                 <div class="card" onclick="openSubject('chemistry')">
-                    <h3>🧪 化学</h3>
-                    <p>-</p>
+                    <div>
+                        <h3>🧪 化学</h3>
+                        <p>无机化学、有机结构与化学反应动力学</p>
+                    </div>
                     <span class="badge" id="badge-chemistry">建设中</span>
                 </div>
                 <div class="card" onclick="openSubject('biology')">
-                    <h3>🧬 生物</h3>
-                    <p>-</p>
+                    <div>
+                        <h3>🧬 生物</h3>
+                        <p>分子生物学、遗传学与生态演化系统</p>
+                    </div>
                     <span class="badge" id="badge-biology">建设中</span>
                 </div>
             </div>
@@ -117,10 +321,10 @@
             <div class="breadcrumb-bar">
                 <span class="back-link" onclick="navTo('level-1')">首页</span>
                 <span>/</span>
-                <span id="nav-subject-name" style="font-weight: 600;">物理</span>
+                <span id="nav-subject-name" style="font-weight: 600; color: var(--text-main);">物理</span>
             </div>
             
-            <h2 style="margin-bottom: 12px;" id="subject-title">章节目录</h2>
+            <h2 style="margin-bottom: 16px; font-weight: 800; font-size: 22px;" id="subject-title">章节目录</h2>
 
             <!-- 上册、中册、下册 分类选项卡 -->
             <div class="volume-tabs">
@@ -140,9 +344,9 @@
                 <span>/</span>
                 <span class="back-link" onclick="navTo('level-2')" id="nav-chapter-subject">物理</span>
                 <span>/</span>
-                <span id="nav-chapter-name" style="font-weight: 600;">第一章</span>
+                <span id="nav-chapter-name" style="font-weight: 600; color: var(--text-main);">第一章</span>
             </div>
-            <h2 style="margin-bottom: 16px;" id="chapter-title">小节列表</h2>
+            <h2 style="margin-bottom: 20px; font-weight: 800; font-size: 22px;" id="chapter-title">小节列表</h2>
             <div class="card-grid" id="sections-grid"></div>
         </div>
 
@@ -159,7 +363,7 @@
             <div class="detail-view">
                 <div class="detail-header">
                     <button class="edit-btn" onclick="openEditModal()">✏️ 编辑本节笔记</button>
-                    <h2 id="detail-title">小节标题</h2>
+                    <h2 id="detail-title" style="font-size: 24px; font-weight: 800;">小节标题</h2>
                 </div>
                 <div id="detail-content" class="note-body"></div>
             </div>
@@ -177,7 +381,7 @@
             <textarea id="modal-content" rows="8" placeholder="笔记正文 (支持 HTML & LaTeX 公式，如 $F=ma$)"></textarea>
             
             <div class="modal-actions">
-                <button onclick="closeModal()">取消</button>
+                <button onclick="closeModal()" style="background: #f1f5f9; color: var(--text-muted);">取消</button>
                 <button style="background: var(--primary-color); color: white;" onclick="saveSectionNote()">保存</button>
             </div>
         </div>
@@ -242,8 +446,10 @@
                 card.onclick = () => openChapter(ch.id);
                 card.innerHTML = `
                     <span class="vol-tag">${ch.volName}</span>
-                    <h3>${ch.title}</h3>
-                    <p>${ch.desc}</p>
+                    <div>
+                        <h3>${ch.title}</h3>
+                        <p>${ch.desc}</p>
+                    </div>
                     <span class="badge">${count} 个已写小节</span>
                 `;
                 grid.appendChild(card);
