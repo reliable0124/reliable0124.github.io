@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>理科全科知识库 - 物理专栏</title>
-    <!-- 引入 KaTeX 用于渲染物理与数学公式 -->
+    <title>理科全科知识库</title>
+    <!-- 引入 KaTeX 用于渲染数学与物理公式 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
@@ -398,9 +398,9 @@
         <div class="modal-content">
             <h3 id="modal-heading">新增/编辑小节笔记</h3>
             <select id="modal-chapter-select"></select>
-            <input type="text" id="modal-title" placeholder="小节标题 (例: 1.1 质点 参考系)">
-            <input type="text" id="modal-desc" placeholder="简短摘要 (例: 质点条件与参考系选择)">
-            <textarea id="modal-content" rows="8" placeholder="笔记正文 (支持 HTML & LaTeX 公式，如 $F=ma$)"></textarea>
+            <input type="text" id="modal-title" placeholder="小节标题">
+            <input type="text" id="modal-desc" placeholder="简短摘要">
+            <textarea id="modal-content" rows="8" placeholder="笔记正文 (支持 HTML & LaTeX 公式)"></textarea>
             
             <div class="modal-actions">
                 <button onclick="closeModal()" style="background: #f1f5f9; color: var(--text-muted);">取消</button>
@@ -431,7 +431,7 @@
             document.getElementById('badge-physics').innerText = `${physicsChapters.length} 章 / 已存 ${pCount} 节`;
         }
 
-        // 第一层 -> 第二层 (进入物理章节列表)
+        // 第一层 -> 第二层
         function openSubject(sub) {
             currentSubject = sub;
             if(sub !== 'physics') {
