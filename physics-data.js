@@ -481,4 +481,76 @@ content: `
     <strong>力是改变物体运动状态的原因。</strong><br>
     </div>`
 },
+{
+    id: 'sec-1101',
+    chapterId: 'p-ch11',
+    title: '11.1 流体的性质',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-1102',
+    chapterId: 'p-ch11',
+    title: '11.2 液体的压强',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-1103',
+    chapterId: 'p-ch11',
+    title: '11.3 阿基米德原理',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-1104',
+    chapterId: 'p-ch11',
+    title: '11.4 大气压强',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-1105',
+    chapterId: 'p-ch11',
+    title: '11.5 稳定流动和连续性方程式',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-1106',
+    chapterId: 'p-ch11',
+    title: '11.6 伯努利方程式',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-1107',
+    chapterId: 'p-ch11',
+    title: '11.7 伯努利方程式的应用',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-1108',
+    chapterId: 'p-ch11',
+    title: '11.8 物体在真实流体中的运动',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
 ];
