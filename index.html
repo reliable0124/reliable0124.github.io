@@ -82,30 +82,30 @@
         <div id="level-1" class="view-page active">
             <h2 style="margin-bottom: 16px;">选择学科</h2>
             <div class="card-grid">
-                <div class="card" onclick="openSubject('physics')">
-                    <h3>⚡ 物理 (高中全套)</h3>
-                    <p>必修一至选择性必修 · 共30章结构</p>
-                    <span class="badge" id="badge-physics">加载中...</span>
-                </div>
                 <div class="card" onclick="openSubject('math')">
                     <h3>📐 高级数学</h3>
-                    <p>微积分、线性代数等</p>
+                    <p>-</p>
                     <span class="badge" id="badge-math">建设中</span>
+                </div>
+                <div class="card" onclick="openSubject('physics')">
+                    <h3>⚡ 物理</h3>
+                    <p>高一至高三 · 共27章</p>
+                    <span class="badge" id="badge-physics">加载中...</span>
                 </div>
                 <div class="card" onclick="openSubject('chemistry')">
                     <h3>🧪 化学</h3>
-                    <p>无机、有机与物理化学</p>
+                    <p>-</p>
                     <span class="badge" id="badge-chemistry">建设中</span>
                 </div>
                 <div class="card" onclick="openSubject('biology')">
-                    <h3>🧬 生物</h3>
-                    <p>分子、细胞与遗传学</p>
+                    <h3>🧬-</h3>
+                    <p>-</p>
                     <span class="badge" id="badge-biology">建设中</span>
                 </div>
             </div>
         </div>
 
-        <!-- 第 2 层：章节列表页 (例如：物理的 30 个大章) -->
+        <!-- 第 2 层：章节列表页 (例如：物理的 27 个大章) -->
         <div id="level-2" class="view-page">
             <div class="breadcrumb-bar">
                 <span class="back-link" onclick="navTo('level-1')">首页</span>
@@ -167,17 +167,35 @@
     </div>
 
     <script>
-        // 1. 预置物理 30 章框架数据 (可根据实际教材调整)
+        // 1. 预置物理 27 章框架数据 (可根据实际教材调整)
         const physicsChapters = [
-            { id: 'p-ch1', title: '第一章 运动的描述', desc: '质点、位移、速度与加速度基础概念' },
-            { id: 'p-ch2', title: '第二章 匀变速直线运动', desc: '速度与时间、位移与时间的关系及自由落体' },
-            { id: 'p-ch3', title: '第三章 相互作用——力', desc: '重力、弹力、摩擦力及力的合成与分解' },
-            { id: 'p-ch4', title: '第四章 牛顿运动定律', desc: '牛顿第一、二、三定律及其综合应用' },
-            { id: 'p-ch5', title: '第五章 抛体运动', desc: '曲线运动、运动的合成与分解、平抛运动' },
-            { id: 'p-ch6', title: '第六章 圆周运动', desc: '线速度、角速度、向心加速度与向心力' },
-            { id: 'p-ch7', title: '第七章 万有引力与宇宙航行', desc: '开普勒定律、万有引力定律与卫星运动' },
-            { id: 'p-ch8', title: '第八章 机械能守恒定律', desc: '功、功率、动能定理与机械能守恒' }
-            // 可随时增加至 30 章...
+            { id: 'p-ch1', title: '第1章 物理学简介', desc: '质点、位移、速度与加速度基础概念' },
+            { id: 'p-ch2', title: '第2章 物理量的测量、单位和数据处理', desc: '速度与时间、位移与时间的关系及自由落体' },
+            { id: 'p-ch3', title: '第3章 直线运动', desc: '重力、弹力、摩擦力及力的合成与分解' },
+            { id: 'p-ch4', title: '第4章 牛顿运动定律', desc: '牛顿第一、二、三定律及其综合应用' },
+            { id: 'p-ch5', title: '第5章 静力学', desc: '曲线运动、运动的合成与分解、平抛运动' },
+            { id: 'p-ch6', title: '第6章 平面运动', desc: '线速度、角速度、向心加速度与向心力' },
+            { id: 'p-ch7', title: '第7章 功与能', desc: '开普勒定律、万有引力定律与卫星运动' },
+            { id: 'p-ch8', title: '第8章 动量守恒定律', desc: '功、功率、动能定理与机械能守恒' },
+            { id: 'p-ch9', title: '第9章 转动', desc: '质点、位移、速度与加速度基础概念' },
+            { id: 'p-ch10', title: '第10章 振动', desc: '速度与时间、位移与时间的关系及自由落体' },
+            { id: 'p-ch11', title: '第11章 流体力学', desc: '重力、弹力、摩擦力及力的合成与分解' },
+            { id: 'p-ch12', title: '第12章 物质的性质', desc: '牛顿第一、二、三定律及其综合应用' },
+            { id: 'p-ch13', title: '第13章 温度与热量', desc: '曲线运动、运动的合成与分解、平抛运动' },
+            { id: 'p-ch14', title: '第14章 热的传递', desc: '线速度、角速度、向心加速度与向心力' },
+            { id: 'p-ch15', title: '第15章 气体定律', desc: '开普勒定律、万有引力定律与卫星运动' },
+            { id: 'p-ch16', title: '第16章 气体分子运动论与热力学', desc: '功、功率、动能定理与机械能守恒' },
+            { id: 'p-ch17', title: '第17章 机械波', desc: '质点、位移、速度与加速度基础概念' },
+            { id: 'p-ch18', title: '第18章 光的反射与折射', desc: '速度与时间、位移与时间的关系及自由落体' },
+            { id: 'p-ch19', title: '第19章 棱镜和透镜', desc: '重力、弹力、摩擦力及力的合成与分解' },
+            { id: 'p-ch20', title: '第20章 光的波动性', desc: '牛顿第一、二、三定律及其综合应用' },
+            { id: 'p-ch21', title: '第21章 电场', desc: '曲线运动、运动的合成与分解、平抛运动' },
+            { id: 'p-ch22', title: '第22章 恒定电流', desc: '线速度、角速度、向心加速度与向心力' },
+            { id: 'p-ch23', title: '第23章 电流与磁场', desc: '开普勒定律、万有引力定律与卫星运动' },
+            { id: 'p-ch24', title: '第24章 电磁感应与交流电', desc: '功、功率、动能定理与机械能守恒' },
+            { id: 'p-ch25', title: '第25章 量子物理学', desc: '重力、弹力、摩擦力及力的合成与分解' },
+            { id: 'p-ch26', title: '第26章 原子与原子核物理学', desc: '牛顿第一、二、三定律及其综合应用' },
+            { id: 'p-ch27', title: '第27章 相对论简介', desc: '曲线运动、运动的合成与分解、平抛运动' },
         ];
 
         // 2. 小节示例数据（对应第四层具体笔记）
