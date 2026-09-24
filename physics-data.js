@@ -114,9 +114,9 @@ content: `
     chapterId: 'p-ch4',
     title: '4.1 力与运动',
     desc: '-',
-    content: `<p><div class="box-yellow">
+    content: `<div class="box-yellow">
     <strong>力是改变物体运动状态的原因。</strong><br>
-    </div></p>`
+    </div>`
 },
 {
 id: 'sec-402',
