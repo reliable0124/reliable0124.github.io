@@ -87,6 +87,24 @@
             border-left: 2px solid var(--border-color);
             line-height: 1.2;
         }
+        /* 右侧区域容器，保持两端/居中对齐 */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* 署名字体样式 */
+        .author-credit {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
 
         .add-btn { 
             background: var(--primary-color); 
@@ -274,7 +292,6 @@
             <div class="logo-group">
                 <div class="logo" onclick="navTo('level-1')">🔬 理科知识库</div>
                 <div class="logo-tagline">探索自然科学的终极秩序</div>
-                <span class="logo-subtitle">理科全科复习 · 高效知识沉淀系统</span>
             </div>
 
             <div class="nav-right">
