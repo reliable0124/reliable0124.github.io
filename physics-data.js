@@ -293,24 +293,6 @@ content: `
     </div>`
 },
 {
-    id: 'sec-701',
-    chapterId: 'p-ch7',
-    title: '7.1 功和功率',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
-},
-{
-    id: 'sec-701',
-    chapterId: 'p-ch7',
-    title: '7.1 功和功率',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
-},
-{
     id: 'sec-702',
     chapterId: 'p-ch7',
     title: '7.2 恒力与变力的功',
