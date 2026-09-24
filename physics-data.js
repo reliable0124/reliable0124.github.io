@@ -12,7 +12,7 @@ const physicsChapters = [
 { id: 'p-ch8', volume: 'upper', volName: '上册', title: '第8章 动量守恒定律', desc: '冲量、动量定理与动量守恒' },
 { id: 'p-ch9', volume: 'upper', volName: '上册', title: '第9章 转动', desc: '刚体转动与力矩' },
 { id: 'p-ch10', volume: 'upper', volName: '上册', title: '第10章 振动', desc: '简谐运动与单摆' },
-{ id: 'p-ch11', volume: 'middle', volName: '中册', title: '第11章 流体力学', desc: '帕斯卡定律与伯努利方程' },
+{ id: 'p-ch11', volume: 'upper', volName: '中册', title: '第11章 流体力学', desc: '帕斯卡定律与伯努利方程' },
 
 // 中册 (高二)
 { id: 'p-ch12', volume: 'middle', volName: '中册', title: '第12章 物质的性质', desc: '固态、液态与气体性质' },
@@ -23,7 +23,7 @@ const physicsChapters = [
 { id: 'p-ch17', volume: 'middle', volName: '中册', title: '第17章 机械波', desc: '波的干涉、衍射与多普勒效应' },
 { id: 'p-ch18', volume: 'middle', volName: '中册', title: '第18章 光的反射与折射', desc: '全反射与折射率测量' },
 { id: 'p-ch19', volume: 'middle', volName: '中册', title: '第19章 棱镜和透镜', desc: '透镜成像公式与光学仪器' },
-{ id: 'p-ch20', volume: 'lower', volName: '下册', title: '第20章 光的波动性', desc: '双缝干涉与偏振光' },
+{ id: 'p-ch20', volume: 'middle', volName: '下册', title: '第20章 光的波动性', desc: '双缝干涉与偏振光' },
 
 // 下册 (高三)
 { id: 'p-ch21', volume: 'lower', volName: '下册', title: '第21章 电场', desc: '库仑定律、电场强度与电势能' },
