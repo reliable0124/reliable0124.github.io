@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>理科全科知识库 - 物理专栏</title>
-    <!-- 引入 KaTeX 用于渲染渲染物理与数学公式 -->
+    <!-- 引入 KaTeX 用于渲染物理与数学公式 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
@@ -40,6 +40,12 @@
         .back-link { color: var(--primary-color); font-weight: 600; cursor: pointer; text-decoration: none; }
         .back-link:hover { text-decoration: underline; }
 
+        /* 册别选项卡 (Tabs) 样式 */
+        .volume-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 2px; }
+        .tab-btn { background: none; border: none; padding: 8px 16px; font-size: 15px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 6px 6px 0 0; transition: all 0.2s; }
+        .tab-btn:hover { color: var(--primary-color); background: var(--primary-light); }
+        .tab-btn.active { color: var(--primary-color); border-bottom: 3px solid var(--primary-color); }
+
         /* 卡片网格布局 */
         .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
         .card { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.2s; position: relative; }
@@ -47,6 +53,7 @@
         .card h3 { font-size: 16px; margin-bottom: 6px; color: var(--text-main); }
         .card p { font-size: 13px; color: var(--text-muted); }
         .card .badge { display: inline-block; padding: 2px 8px; background: var(--primary-light); color: var(--primary-color); font-size: 12px; border-radius: 4px; margin-top: 10px; font-weight: 500; }
+        .card .vol-tag { position: absolute; top: 16px; right: 16px; font-size: 11px; padding: 2px 6px; border-radius: 4px; background: #f1f5f9; color: var(--text-muted); font-weight: 600; }
 
         /* 视图页面控制 */
         .view-page { display: none; }
@@ -89,7 +96,7 @@
                 </div>
                 <div class="card" onclick="openSubject('physics')">
                     <h3>⚡ 物理</h3>
-                    <p>高一至高三 · 共27章</p>
+                    <p>上册、中册、下册 · 共 27 章</p>
                     <span class="badge" id="badge-physics">加载中...</span>
                 </div>
                 <div class="card" onclick="openSubject('chemistry')">
@@ -98,25 +105,35 @@
                     <span class="badge" id="badge-chemistry">建设中</span>
                 </div>
                 <div class="card" onclick="openSubject('biology')">
-                    <h3>🧬-</h3>
+                    <h3>🧬 生物</h3>
                     <p>-</p>
                     <span class="badge" id="badge-biology">建设中</span>
                 </div>
             </div>
         </div>
 
-        <!-- 第 2 层：章节列表页 (例如：物理的 27 个大章) -->
+        <!-- 第 2 层：章节列表页 (物理 27 章，包含上中下册卡片过滤) -->
         <div id="level-2" class="view-page">
             <div class="breadcrumb-bar">
                 <span class="back-link" onclick="navTo('level-1')">首页</span>
                 <span>/</span>
                 <span id="nav-subject-name" style="font-weight: 600;">物理</span>
             </div>
-            <h2 style="margin-bottom: 16px;" id="subject-title">章节目录</h2>
+            
+            <h2 style="margin-bottom: 12px;" id="subject-title">章节目录</h2>
+
+            <!-- 上册、中册、下册 分类选项卡 -->
+            <div class="volume-tabs">
+                <button class="tab-btn active" onclick="filterVolume('all', this)">全部 (27章)</button>
+                <button class="tab-btn" onclick="filterVolume('upper', this)">上册 (第1-10章)</button>
+                <button class="tab-btn" onclick="filterVolume('middle', this)">中册 (第11-19章)</button>
+                <button class="tab-btn" onclick="filterVolume('lower', this)">下册 (第20-27章)</button>
+            </div>
+
             <div class="card-grid" id="chapters-grid"></div>
         </div>
 
-        <!-- 第 3 层：小节卡片列表页 (例如：第一章内的 7-8 个小节) -->
+        <!-- 第 3 层：小节卡片列表页 -->
         <div id="level-3" class="view-page">
             <div class="breadcrumb-bar">
                 <span class="back-link" onclick="navTo('level-1')">首页</span>
@@ -167,38 +184,43 @@
     </div>
 
     <script>
-        // 1. 预置物理 27 章框架数据 (可根据实际教材调整)
+        // 1. 物理 27 章框架数据，明确标记了 volume (upper: 上册, middle: 中册, lower: 下册)
         const physicsChapters = [
-            { id: 'p-ch1', title: '第1章 物理学简介', desc: '质点、位移、速度与加速度基础概念' },
-            { id: 'p-ch2', title: '第2章 物理量的测量、单位和数据处理', desc: '速度与时间、位移与时间的关系及自由落体' },
-            { id: 'p-ch3', title: '第3章 直线运动', desc: '重力、弹力、摩擦力及力的合成与分解' },
-            { id: 'p-ch4', title: '第4章 牛顿运动定律', desc: '牛顿第一、二、三定律及其综合应用' },
-            { id: 'p-ch5', title: '第5章 静力学', desc: '曲线运动、运动的合成与分解、平抛运动' },
-            { id: 'p-ch6', title: '第6章 平面运动', desc: '线速度、角速度、向心加速度与向心力' },
-            { id: 'p-ch7', title: '第7章 功与能', desc: '开普勒定律、万有引力定律与卫星运动' },
-            { id: 'p-ch8', title: '第8章 动量守恒定律', desc: '功、功率、动能定理与机械能守恒' },
-            { id: 'p-ch9', title: '第9章 转动', desc: '质点、位移、速度与加速度基础概念' },
-            { id: 'p-ch10', title: '第10章 振动', desc: '速度与时间、位移与时间的关系及自由落体' },
-            { id: 'p-ch11', title: '第11章 流体力学', desc: '重力、弹力、摩擦力及力的合成与分解' },
-            { id: 'p-ch12', title: '第12章 物质的性质', desc: '牛顿第一、二、三定律及其综合应用' },
-            { id: 'p-ch13', title: '第13章 温度与热量', desc: '曲线运动、运动的合成与分解、平抛运动' },
-            { id: 'p-ch14', title: '第14章 热的传递', desc: '线速度、角速度、向心加速度与向心力' },
-            { id: 'p-ch15', title: '第15章 气体定律', desc: '开普勒定律、万有引力定律与卫星运动' },
-            { id: 'p-ch16', title: '第16章 气体分子运动论与热力学', desc: '功、功率、动能定理与机械能守恒' },
-            { id: 'p-ch17', title: '第17章 机械波', desc: '质点、位移、速度与加速度基础概念' },
-            { id: 'p-ch18', title: '第18章 光的反射与折射', desc: '速度与时间、位移与时间的关系及自由落体' },
-            { id: 'p-ch19', title: '第19章 棱镜和透镜', desc: '重力、弹力、摩擦力及力的合成与分解' },
-            { id: 'p-ch20', title: '第20章 光的波动性', desc: '牛顿第一、二、三定律及其综合应用' },
-            { id: 'p-ch21', title: '第21章 电场', desc: '曲线运动、运动的合成与分解、平抛运动' },
-            { id: 'p-ch22', title: '第22章 恒定电流', desc: '线速度、角速度、向心加速度与向心力' },
-            { id: 'p-ch23', title: '第23章 电流与磁场', desc: '开普勒定律、万有引力定律与卫星运动' },
-            { id: 'p-ch24', title: '第24章 电磁感应与交流电', desc: '功、功率、动能定理与机械能守恒' },
-            { id: 'p-ch25', title: '第25章 量子物理学', desc: '重力、弹力、摩擦力及力的合成与分解' },
-            { id: 'p-ch26', title: '第26章 原子与原子核物理学', desc: '牛顿第一、二、三定律及其综合应用' },
-            { id: 'p-ch27', title: '第27章 相对论简介', desc: '曲线运动、运动的合成与分解、平抛运动' },
+            // 上册 (高一)
+            { id: 'p-ch1', volume: 'upper', volName: '上册', title: '第1章 物理学简介', desc: '质点、位移、速度与加速度基础概念' },
+            { id: 'p-ch2', volume: 'upper', volName: '上册', title: '第2章 物理量的测量、单位和数据处理', desc: '速度与时间、位移与时间的关系及自由落体' },
+            { id: 'p-ch3', volume: 'upper', volName: '上册', title: '第3章 直线运动', desc: '重力、弹力、摩擦力及力的合成与分解' },
+            { id: 'p-ch4', volume: 'upper', volName: '上册', title: '第4章 牛顿运动定律', desc: '牛顿第一、二、三定律及其综合应用' },
+            { id: 'p-ch5', volume: 'upper', volName: '上册', title: '第5章 静力学', desc: '共点力平衡与胡克定律' },
+            { id: 'p-ch6', volume: 'upper', volName: '上册', title: '第6章 平面运动', desc: '平抛运动与圆周运动' },
+            { id: 'p-ch7', volume: 'upper', volName: '上册', title: '第7章 功与能', desc: '功、动能定理与机械能守恒定律' },
+            { id: 'p-ch8', volume: 'upper', volName: '上册', title: '第8章 动量守恒定律', desc: '冲量、动量定理与动量守恒' },
+            { id: 'p-ch9', volume: 'upper', volName: '上册', title: '第9章 转动', desc: '刚体转动与力矩' },
+            { id: 'p-ch10', volume: 'upper', volName: '上册', title: '第10章 振动', desc: '简谐运动与单摆' },
+
+            // 中册 (高二)
+            { id: 'p-ch11', volume: 'middle', volName: '中册', title: '第11章 流体力学', desc: '帕斯卡定律与伯努利方程' },
+            { id: 'p-ch12', volume: 'middle', volName: '中册', title: '第12章 物质的性质', desc: '固态、液态与气体性质' },
+            { id: 'p-ch13', volume: 'middle', volName: '中册', title: '第13章 温度与热量', desc: '热平衡与比热容' },
+            { id: 'p-ch14', volume: 'middle', volName: '中册', title: '第14章 热的传递', desc: '热传导、对流与热辐射' },
+            { id: 'p-ch15', volume: 'middle', volName: '中册', title: '第15章 气体定律', desc: '玻意耳定律与理想气体状态方程' },
+            { id: 'p-ch16', volume: 'middle', volName: '中册', title: '第16章 气体分子运动论与热力学', desc: '热力学第一、第二定律' },
+            { id: 'p-ch17', volume: 'middle', volName: '中册', title: '第17章 机械波', desc: '波的干涉、衍射与多普勒效应' },
+            { id: 'p-ch18', volume: 'middle', volName: '中册', title: '第18章 光的反射与折射', desc: '全反射与折射率测量' },
+            { id: 'p-ch19', volume: 'middle', volName: '中册', title: '第19章 棱镜和透镜', desc: '透镜成像公式与光学仪器' },
+
+            // 下册 (高三)
+            { id: 'p-ch20', volume: 'lower', volName: '下册', title: '第20章 光的波动性', desc: '双缝干涉与偏振光' },
+            { id: 'p-ch21', volume: 'lower', volName: '下册', title: '第21章 电场', desc: '库仑定律、电场强度与电势能' },
+            { id: 'p-ch22', volume: 'lower', volName: '下册', title: '第22章 恒定电流', desc: '欧姆定律与闭合电路欧姆定律' },
+            { id: 'p-ch23', volume: 'lower', volName: '下册', title: '第23章 电流与磁场', desc: '安培力与洛伦兹力' },
+            { id: 'p-ch24', volume: 'lower', volName: '下册', title: '第24章 电磁感应与交流电', desc: '法拉第电磁感应定律与变压器' },
+            { id: 'p-ch25', volume: 'lower', volName: '下册', title: '第25章 量子物理学', desc: '光电效应与能级跃迁' },
+            { id: 'p-ch26', volume: 'lower', volName: '下册', title: '第26章 原子与原子核物理学', desc: '衰变、核反应与质能方程' },
+            { id: 'p-ch27', volume: 'lower', volName: '下册', title: '第27章 相对论简介', desc: '狭义相对论基本假设' }
         ];
 
-        // 2. 小节示例数据（对应第四层具体笔记）
+        // 2. 小节示例数据
         const defaultSections = [
             {
                 id: 'sec-101',
@@ -235,6 +257,7 @@
         // 本地数据加载
         let sections = JSON.parse(localStorage.getItem('physics_sections')) || defaultSections;
         let currentSubject = 'physics';
+        let currentVolumeFilter = 'all';
         let currentChapterId = '';
         let currentSectionId = '';
 
@@ -247,7 +270,7 @@
         // 状态更新
         function updateMainBadges() {
             const pCount = sections.length;
-            document.getElementById('badge-physics').innerText = `${physicsChapters.length} 章 /已存 ${pCount} 节`;
+            document.getElementById('badge-physics').innerText = `${physicsChapters.length} 章 / 已存 ${pCount} 节`;
         }
 
         // 第一层 -> 第二层 (进入物理章节列表)
@@ -259,25 +282,40 @@
             }
             
             document.getElementById('nav-subject-name').innerText = '物理';
-            document.getElementById('subject-title').innerText = '物理 · 章节目录 (共 27 章)';
-            
+            renderChaptersGrid();
+            navTo('level-2');
+        }
+
+        // 筛选选项卡切换
+        function filterVolume(vol, btnEl) {
+            currentVolumeFilter = vol;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btnEl.classList.add('active');
+            renderChaptersGrid();
+        }
+
+        // 渲染章节列表卡片
+        function renderChaptersGrid() {
             const grid = document.getElementById('chapters-grid');
             grid.innerHTML = '';
 
-            physicsChapters.forEach(ch => {
+            const filteredChapters = currentVolumeFilter === 'all' 
+                ? physicsChapters 
+                : physicsChapters.filter(ch => ch.volume === currentVolumeFilter);
+
+            filteredChapters.forEach(ch => {
                 const count = sections.filter(s => s.chapterId === ch.id).length;
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => openChapter(ch.id);
                 card.innerHTML = `
+                    <span class="vol-tag">${ch.volName}</span>
                     <h3>${ch.title}</h3>
                     <p>${ch.desc}</p>
                     <span class="badge">${count} 个已写小节</span>
                 `;
                 grid.appendChild(card);
             });
-
-            navTo('level-2');
         }
 
         // 第二层 -> 第三层 (进入具体章节的小节列表)
@@ -286,7 +324,7 @@
             const chapter = physicsChapters.find(c => c.id === chId);
             
             document.getElementById('nav-chapter-name').innerText = chapter.title;
-            document.getElementById('chapter-title').innerText = chapter.title + ' · 小节卡片';
+            document.getElementById('chapter-title').innerText = `${chapter.volName} · ${chapter.title}`;
 
             renderSectionsGrid();
             navTo('level-3');
@@ -333,11 +371,11 @@
             currentSectionId = null;
             document.getElementById('modal-heading').innerText = '新建小节笔记';
             
-            // 动态填充章节下拉框
+            // 动态填充章节下拉框，带上分册提示
             const select = document.getElementById('modal-chapter-select');
             select.innerHTML = '';
             physicsChapters.forEach(ch => {
-                select.innerHTML += `<option value="${ch.id}">${ch.title}</option>`;
+                select.innerHTML += `<option value="${ch.id}">[${ch.volName}] ${ch.title}</option>`;
             });
             if(currentChapterId) select.value = currentChapterId;
 
@@ -356,7 +394,7 @@
             const select = document.getElementById('modal-chapter-select');
             select.innerHTML = '';
             physicsChapters.forEach(ch => {
-                select.innerHTML += `<option value="${ch.id}">${ch.title}</option>`;
+                select.innerHTML += `<option value="${ch.id}">[${ch.volName}] ${ch.title}</option>`;
             });
             select.value = sec.chapterId;
 
