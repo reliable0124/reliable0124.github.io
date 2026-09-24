@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>理科笔记 - 多级卡片导航</title>
+    <title>理科全科知识库 - 物理专栏</title>
+    <!-- 引入 KaTeX 用于渲染渲染物理与数学公式 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
     <style>
         :root {
             --primary-color: #2563eb;
@@ -16,8 +21,6 @@
             --border-color: #e2e8f0;
             --accent-yellow: #fefce8;
             --accent-border: #fef08a;
-            --accent-blue: #f0f9ff;
-            --accent-blue-border: #bae6fd;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,39 +29,39 @@
         header { background: #ffffff; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
         .nav-container { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; height: 64px; }
         .logo { font-size: 18px; font-weight: 700; color: var(--primary-color); cursor: pointer; }
-
+        
         .add-btn { background: var(--primary-color); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; font-weight: 600; }
         .add-btn:hover { background: var(--primary-hover); }
 
         main { max-width: 1000px; margin: 24px auto; padding: 0 20px; }
 
-        /* 通用返回与路径栏 */
-        .breadcrumb-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 14px; color: var(--text-muted); }
+        /* 面包屑导航 */
+        .breadcrumb-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 14px; color: var(--text-muted); flex-wrap: wrap; }
         .back-link { color: var(--primary-color); font-weight: 600; cursor: pointer; text-decoration: none; }
         .back-link:hover { text-decoration: underline; }
 
-        /* 网格卡片样式 */
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-        .card { background: var(--card-bg); padding: 22px; border-radius: 12px; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.2s; }
+        /* 卡片网格布局 */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+        .card { background: var(--card-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.2s; position: relative; }
         .card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.04); border-color: var(--primary-color); }
-        .card h3 { font-size: 17px; margin-bottom: 8px; color: var(--text-main); }
+        .card h3 { font-size: 16px; margin-bottom: 6px; color: var(--text-main); }
         .card p { font-size: 13px; color: var(--text-muted); }
         .card .badge { display: inline-block; padding: 2px 8px; background: var(--primary-light); color: var(--primary-color); font-size: 12px; border-radius: 4px; margin-top: 10px; font-weight: 500; }
 
-        /* 页面显示切换控制 */
+        /* 视图页面控制 */
         .view-page { display: none; }
         .view-page.active { display: block; }
 
-        /* 详情页排版 */
+        /* 详情页 */
         .detail-view { background: #fff; padding: 32px; border-radius: 16px; border: 1px solid var(--border-color); }
-        .detail-header { background: var(--primary-color); color: #fff; padding: 20px 24px; border-radius: 12px; margin-bottom: 24px; }
-        .edit-btn { float: right; background: rgba(255,255,255,0.2); border: none; color: white; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+        .detail-header { background: var(--primary-color); color: #fff; padding: 20px 24px; border-radius: 12px; margin-bottom: 24px; position: relative; }
+        .edit-btn { position: absolute; right: 20px; top: 20px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
         .note-body { font-size: 15px; line-height: 1.8; color: #334155; }
-        .box-yellow { background: var(--accent-yellow); border: 1px solid var(--accent-border); border-radius: 8px; padding: 14px; margin-top: 12px; font-size: 14px; }
+        .box-yellow { background: var(--accent-yellow); border: 1px solid var(--accent-border); border-radius: 8px; padding: 14px; margin: 12px 0; font-size: 14px; }
 
-        /* 弹窗样式 */
+        /* 弹窗 */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); justify-content: center; align-items: center; z-index: 200; }
-        .modal-content { background: white; padding: 24px; border-radius: 12px; width: 90%; max-width: 500px; }
+        .modal-content { background: white; padding: 24px; border-radius: 12px; width: 90%; max-width: 520px; }
         .modal-content input, .modal-content textarea, .modal-content select { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 6px; }
         .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
         .modal-actions button { padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; }
@@ -68,65 +71,78 @@
 
     <header>
         <div class="nav-container">
-            <div class="logo" onclick="showMainPage()">🔬 理科知识库</div>
-            <button class="add-btn" onclick="openAddModal()">+ 新增子卡片</button>
+            <div class="logo" onclick="navTo('level-1')">🔬 理科知识库</div>
+            <button class="add-btn" onclick="openAddModal()">+ 新建知识点小节</button>
         </div>
     </header>
 
     <main>
 
-        <!-- 第一层：顶级主题卡片页面 -->
-        <div id="page-main" class="view-page active">
-            <h2 style="margin-bottom: 16px;">选择学科主题</h2>
+        <!-- 第 1 层：学科选择 (首页) -->
+        <div id="level-1" class="view-page active">
+            <h2 style="margin-bottom: 16px;">选择学科</h2>
             <div class="card-grid">
-                <div class="card" onclick="openSubPage('math')">
+                <div class="card" onclick="openSubject('physics')">
+                    <h3>⚡ 物理 (高中全套)</h3>
+                    <p>必修一至选择性必修 · 共30章结构</p>
+                    <span class="badge" id="badge-physics">加载中...</span>
+                </div>
+                <div class="card" onclick="openSubject('math')">
                     <h3>📐 高级数学</h3>
-                    <p>微积分、线性代数、概率论等专题</p>
-                    <span class="badge" id="count-math">0 篇卡片</span>
+                    <p>微积分、线性代数等</p>
+                    <span class="badge" id="badge-math">建设中</span>
                 </div>
-                <div class="card" onclick="openSubPage('physics')">
-                    <h3>⚡ 物理</h3>
-                    <p>力学、电磁学、热学、量子力学</p>
-                    <span class="badge" id="count-physics">0 篇卡片</span>
-                </div>
-                <div class="card" onclick="openSubPage('chemistry')">
+                <div class="card" onclick="openSubject('chemistry')">
                     <h3>🧪 化学</h3>
-                    <p>无机化学、有机化学、物理化学</p>
-                    <span class="badge" id="count-chemistry">0 篇卡片</span>
+                    <p>无机、有机与物理化学</p>
+                    <span class="badge" id="badge-chemistry">建设中</span>
                 </div>
-                <div class="card" onclick="openSubPage('biology')">
+                <div class="card" onclick="openSubject('biology')">
                     <h3>🧬 生物</h3>
-                    <p>细胞生物学、遗传学、分子生物学</p>
-                    <span class="badge" id="count-biology">0 篇卡片</span>
+                    <p>分子、细胞与遗传学</p>
+                    <span class="badge" id="badge-biology">建设中</span>
                 </div>
             </div>
         </div>
 
-        <!-- 第二层：跳转后的子卡片列表页面 -->
-        <div id="page-sub" class="view-page">
+        <!-- 第 2 层：章节列表页 (例如：物理的 30 个大章) -->
+        <div id="level-2" class="view-page">
             <div class="breadcrumb-bar">
-                <span class="back-link" onclick="showMainPage()">← 返回主题列表</span>
+                <span class="back-link" onclick="navTo('level-1')">首页</span>
                 <span>/</span>
-                <span id="sub-page-title" style="font-weight: 600;">专栏卡片列表</span>
+                <span id="nav-subject-name" style="font-weight: 600;">物理</span>
             </div>
-            
-            <div class="card-grid" id="sub-card-grid">
-                <!-- 这里将动态填充子卡牌 -->
-            </div>
+            <h2 style="margin-bottom: 16px;" id="subject-title">章节目录</h2>
+            <div class="card-grid" id="chapters-grid"></div>
         </div>
 
-        <!-- 第三层：卡片详情（笔记正文）界面 -->
-        <div id="page-detail" class="view-page">
+        <!-- 第 3 层：小节卡片列表页 (例如：第一章内的 7-8 个小节) -->
+        <div id="level-3" class="view-page">
             <div class="breadcrumb-bar">
-                <span class="back-link" onclick="backToSubPage()">← 返回卡片列表</span>
+                <span class="back-link" onclick="navTo('level-1')">首页</span>
                 <span>/</span>
-                <span id="detail-subject-name">专栏</span>
+                <span class="back-link" onclick="navTo('level-2')" id="nav-chapter-subject">物理</span>
+                <span>/</span>
+                <span id="nav-chapter-name" style="font-weight: 600;">第一章</span>
+            </div>
+            <h2 style="margin-bottom: 16px;" id="chapter-title">小节列表</h2>
+            <div class="card-grid" id="sections-grid"></div>
+        </div>
+
+        <!-- 第 4 层：笔记正文详情页 -->
+        <div id="level-4" class="view-page">
+            <div class="breadcrumb-bar">
+                <span class="back-link" onclick="navTo('level-1')">首页</span>
+                <span>/</span>
+                <span class="back-link" onclick="navTo('level-2')">章节</span>
+                <span>/</span>
+                <span class="back-link" onclick="navTo('level-3')" id="nav-section-chapter">小节列表</span>
             </div>
 
             <div class="detail-view">
                 <div class="detail-header">
-                    <button class="edit-btn" onclick="openEditModal()">✏️ 编辑卡片</button>
-                    <h2 id="detail-title">卡片标题</h2>
+                    <button class="edit-btn" onclick="openEditModal()">✏️ 编辑本节笔记</button>
+                    <h2 id="detail-title">小节标题</h2>
                 </div>
                 <div id="detail-content" class="note-body"></div>
             </div>
@@ -134,110 +150,179 @@
 
     </main>
 
-    <!-- 弹窗 -->
+    <!-- 编辑/新建弹窗 -->
     <div id="modal" class="modal">
         <div class="modal-content">
-            <h3 id="modal-heading">添加卡片</h3>
-            <select id="modal-cat">
-                <option value="math">高级数学</option>
-                <option value="physics">物理</option>
-                <option value="chemistry">化学</option>
-                <option value="biology">生物</option>
-            </select>
-            <input type="text" id="modal-title" placeholder="卡片标题 (如: 导数与微分)">
-            <input type="text" id="modal-desc" placeholder="简短描述...">
-            <textarea id="modal-content" rows="6" placeholder="详细内容..."></textarea>
+            <h3 id="modal-heading">新增/编辑小节笔记</h3>
+            <select id="modal-chapter-select"></select>
+            <input type="text" id="modal-title" placeholder="小节标题 (例: 1.1 质点 参考系)">
+            <input type="text" id="modal-desc" placeholder="简短摘要 (例: 质点条件与参考系选择)">
+            <textarea id="modal-content" rows="8" placeholder="笔记正文 (支持 HTML & LaTeX 公式，如 $F=ma$)"></textarea>
             
             <div class="modal-actions">
                 <button onclick="closeModal()">取消</button>
-                <button style="background: var(--primary-color); color: white;" onclick="saveNote()">保存</button>
+                <button style="background: var(--primary-color); color: white;" onclick="saveSectionNote()">保存</button>
             </div>
         </div>
     </div>
 
     <script>
-        // 初始化数据示例
-        const defaultNotes = [
-            { id: '1', cat: 'math', title: '微积分 - 极限', desc: '等价无穷小与洛必达法则', content: '<p>这里是微积分极限部分的内容...</p><div class="box-yellow">重点公式：1 - cos(x) ~ 1/2 * x²</div>' },
-            { id: '2', cat: 'math', title: '线性代数 - 矩阵', desc: '逆矩阵与特征值求解', content: '<p>这里是矩阵运算内容...</p>' },
-            { id: '3', cat: 'physics', title: '电磁学 - 麦克斯韦方程', desc: '经典电磁学四大方程', content: '<p>电磁感应与电磁波基础知识...</p>' }
+        // 1. 预置物理 30 章框架数据 (可根据实际教材调整)
+        const physicsChapters = [
+            { id: 'p-ch1', title: '第一章 运动的描述', desc: '质点、位移、速度与加速度基础概念' },
+            { id: 'p-ch2', title: '第二章 匀变速直线运动', desc: '速度与时间、位移与时间的关系及自由落体' },
+            { id: 'p-ch3', title: '第三章 相互作用——力', desc: '重力、弹力、摩擦力及力的合成与分解' },
+            { id: 'p-ch4', title: '第四章 牛顿运动定律', desc: '牛顿第一、二、三定律及其综合应用' },
+            { id: 'p-ch5', title: '第五章 抛体运动', desc: '曲线运动、运动的合成与分解、平抛运动' },
+            { id: 'p-ch6', title: '第六章 圆周运动', desc: '线速度、角速度、向心加速度与向心力' },
+            { id: 'p-ch7', title: '第七章 万有引力与宇宙航行', desc: '开普勒定律、万有引力定律与卫星运动' },
+            { id: 'p-ch8', title: '第八章 机械能守恒定律', desc: '功、功率、动能定理与机械能守恒' }
+            // 可随时增加至 30 章...
         ];
 
-        let notes = JSON.parse(localStorage.getItem('nested_cards_data')) || defaultNotes;
-        let currentSubject = ''; // 当前处于哪个大类
-        let currentCardId = '';   // 当前查看的卡片ID
+        // 2. 小节示例数据（对应第四层具体笔记）
+        const defaultSections = [
+            {
+                id: 'sec-101',
+                chapterId: 'p-ch1',
+                title: '1.1 质点 参考系',
+                desc: '理解理想化模型与参考系的相对性',
+                content: `
+                    <h3>一、质点 (Particle)</h3>
+                    <p>用来代替物体的有质量的点。质点是一种<b>理想化物理模型</b>。</p>
+                    <div class="box-yellow">
+                        <strong>物体可看作质点的条件：</strong><br>
+                        物体的形状和大小对所研究的问题没有影响，或影响可以忽略不计时。
+                    </div>
+                    <h3>二、参考系 (Reference Frame)</h3>
+                    <p>为了研究物体的运动而假定不动的物体。运动和静止都是相对参考系而言的。</p>
+                `
+            },
+            {
+                id: 'sec-102',
+                chapterId: 'p-ch4',
+                title: '4.2 牛顿第二定律',
+                desc: '加速度与力、质量的定量关系',
+                content: `
+                    <h3>一、牛顿第二定律内容</h3>
+                    <p>物体的加速度 $a$ 与所受合外力 $F$ 成正比，与物体的质量 $m$ 成反比。</p>
+                    <div class="box-yellow">
+                        <strong>核心公式：</strong><br>
+                        $$F_{合} = m \cdot a$$
+                    </div>
+                `
+            }
+        ];
 
-        const subjectNames = { math: '高级数学', physics: '物理', chemistry: '化学', biology: '生物' };
+        // 本地数据加载
+        let sections = JSON.parse(localStorage.getItem('physics_sections')) || defaultSections;
+        let currentSubject = 'physics';
+        let currentChapterId = '';
+        let currentSectionId = '';
 
-        // 切换页面显示函数
-        function showPage(pageId) {
+        // 页面跳转控制器
+        function navTo(levelId) {
             document.querySelectorAll('.view-page').forEach(el => el.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
+            document.getElementById(levelId).classList.add('active');
         }
 
-        // 更新首页统计角标
-        function updateCounts() {
-            ['math', 'physics', 'chemistry', 'biology'].forEach(cat => {
-                const count = notes.filter(n => n.cat === cat).length;
-                document.getElementById(`count-${cat}`).innerText = `${count} 篇卡片`;
-            });
-            localStorage.setItem('nested_cards_data', JSON.stringify(notes));
+        // 状态更新
+        function updateMainBadges() {
+            const pCount = sections.length;
+            document.getElementById('badge-physics').innerText = `${physicsChapters.length} 章 /已存 ${pCount} 节`;
         }
 
-        // 第一层 -> 第二层：点击主题卡片后跳转
-        function openSubPage(cat) {
-            currentSubject = cat;
-            document.getElementById('sub-page-title').innerText = subjectNames[cat] + ' · 内部卡片';
+        // 第一层 -> 第二层 (进入物理章节列表)
+        function openSubject(sub) {
+            currentSubject = sub;
+            if(sub !== 'physics') {
+                alert('该学科框架建设中，请先体验物理专栏！');
+                return;
+            }
             
-            const grid = document.getElementById('sub-card-grid');
+            document.getElementById('nav-subject-name').innerText = '物理';
+            document.getElementById('subject-title').innerText = '物理 · 章节目录 (共 30 章)';
+            
+            const grid = document.getElementById('chapters-grid');
             grid.innerHTML = '';
-            
-            const subNotes = notes.filter(n => n.cat === cat);
 
-            if(subNotes.length === 0) {
-                grid.innerHTML = `<p style="color:var(--text-muted); grid-column: 1/-1;">当前学科还没有卡片，请点击右上角新增卡片！</p>`;
+            physicsChapters.forEach(ch => {
+                const count = sections.filter(s => s.chapterId === ch.id).length;
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => openChapter(ch.id);
+                card.innerHTML = `
+                    <h3>${ch.title}</h3>
+                    <p>${ch.desc}</p>
+                    <span class="badge">${count} 个已写小节</span>
+                `;
+                grid.appendChild(card);
+            });
+
+            navTo('level-2');
+        }
+
+        // 第二层 -> 第三层 (进入具体章节的小节列表)
+        function openChapter(chId) {
+            currentChapterId = chId;
+            const chapter = physicsChapters.find(c => c.id === chId);
+            
+            document.getElementById('nav-chapter-name').innerText = chapter.title;
+            document.getElementById('chapter-title').innerText = chapter.title + ' · 小节卡片';
+
+            renderSectionsGrid();
+            navTo('level-3');
+        }
+
+        function renderSectionsGrid() {
+            const grid = document.getElementById('sections-grid');
+            grid.innerHTML = '';
+
+            const subSections = sections.filter(s => s.chapterId === currentChapterId);
+
+            if(subSections.length === 0) {
+                grid.innerHTML = `<p style="color:var(--text-muted); grid-column:1/-1;">本章暂无小节笔记，请点击右上角“+ 新建知识点小节”添加！</p>`;
             } else {
-                subNotes.forEach(note => {
+                subSections.forEach(sec => {
                     const card = document.createElement('div');
                     card.className = 'card';
-                    card.onclick = () => openDetailPage(note.id);
-                    card.innerHTML = `<h3>${note.title}</h3><p>${note.desc || '点击查看详情...'}</p>`;
+                    card.onclick = () => openSectionDetail(sec.id);
+                    card.innerHTML = `<h3>${sec.title}</h3><p>${sec.desc || '点击查看完整笔记...'}</p>`;
                     grid.appendChild(card);
                 });
             }
-
-            showPage('page-sub');
         }
 
-        // 返回第一层主页
-        function showMainPage() {
-            updateCounts();
-            showPage('page-main');
+        // 第三层 -> 第四层 (进入正文)
+        function openSectionDetail(secId) {
+            currentSectionId = secId;
+            const sec = sections.find(s => s.id === secId);
+            if(!sec) return;
+
+            document.getElementById('detail-title').innerText = sec.title;
+            document.getElementById('detail-content').innerHTML = sec.content;
+
+            navTo('level-4');
+
+            // 触发公式渲染
+            if (window.renderMathInElement) {
+                renderMathInElement(document.getElementById('detail-content'));
+            }
         }
 
-        // 第二层 -> 第三层：点击子卡片进入详情页
-        function openDetailPage(id) {
-            currentCardId = id;
-            const note = notes.find(n => n.id === id);
-            if (!note) return;
-
-            document.getElementById('detail-subject-name').innerText = subjectNames[note.cat];
-            document.getElementById('detail-title').innerText = note.title;
-            document.getElementById('detail-content').innerHTML = note.content;
-
-            showPage('page-detail');
-        }
-
-        // 从详情页退回第二层卡片页
-        function backToSubPage() {
-            openSubPage(currentSubject);
-        }
-
-        // 弹窗与新增修改功能
+        // 弹窗逻辑
         function openAddModal() {
-            currentCardId = null;
-            document.getElementById('modal-heading').innerText = '新建卡片';
-            if(currentSubject) document.getElementById('modal-cat').value = currentSubject;
+            currentSectionId = null;
+            document.getElementById('modal-heading').innerText = '新建小节笔记';
+            
+            // 动态填充章节下拉框
+            const select = document.getElementById('modal-chapter-select');
+            select.innerHTML = '';
+            physicsChapters.forEach(ch => {
+                select.innerHTML += `<option value="${ch.id}">${ch.title}</option>`;
+            });
+            if(currentChapterId) select.value = currentChapterId;
+
             document.getElementById('modal-title').value = '';
             document.getElementById('modal-desc').value = '';
             document.getElementById('modal-content').value = '';
@@ -245,13 +330,21 @@
         }
 
         function openEditModal() {
-            const note = notes.find(n => n.id === currentCardId);
-            if(!note) return;
-            document.getElementById('modal-heading').innerText = '编辑卡片';
-            document.getElementById('modal-cat').value = note.cat;
-            document.getElementById('modal-title').value = note.title;
-            document.getElementById('modal-desc').value = note.desc;
-            document.getElementById('modal-content').value = note.content;
+            const sec = sections.find(s => s.id === currentSectionId);
+            if(!sec) return;
+
+            document.getElementById('modal-heading').innerText = '编辑小节笔记';
+            
+            const select = document.getElementById('modal-chapter-select');
+            select.innerHTML = '';
+            physicsChapters.forEach(ch => {
+                select.innerHTML += `<option value="${ch.id}">${ch.title}</option>`;
+            });
+            select.value = sec.chapterId;
+
+            document.getElementById('modal-title').value = sec.title;
+            document.getElementById('modal-desc').value = sec.desc;
+            document.getElementById('modal-content').value = sec.content;
             document.getElementById('modal').style.display = 'flex';
         }
 
@@ -259,30 +352,38 @@
             document.getElementById('modal').style.display = 'none';
         }
 
-        function saveNote() {
-            const cat = document.getElementById('modal-cat').value;
+        function saveSectionNote() {
+            const chapterId = document.getElementById('modal-chapter-select').value;
             const title = document.getElementById('modal-title').value;
             const desc = document.getElementById('modal-desc').value;
             const content = document.getElementById('modal-content').value;
 
-            if (!title) { alert('标题不能为空！'); return; }
+            if(!title) { alert('小节标题不能为空！'); return; }
 
-            if (currentCardId) {
-                const note = notes.find(n => n.id === currentCardId);
-                note.cat = cat; note.title = title; note.desc = desc; note.content = content;
-                openDetailPage(currentCardId);
+            if(currentSectionId) {
+                const sec = sections.find(s => s.id === currentSectionId);
+                sec.chapterId = chapterId;
+                sec.title = title;
+                sec.desc = desc;
+                sec.content = content;
+                openSectionDetail(currentSectionId);
             } else {
-                const newNote = { id: 'card-' + Date.now(), cat, title, desc, content };
-                notes.unshift(newNote);
-                openSubPage(cat);
+                const newSec = {
+                    id: 'sec-' + Date.now(),
+                    chapterId, title, desc, content
+                };
+                sections.unshift(newSec);
+                currentChapterId = chapterId;
+                openChapter(chapterId);
             }
 
+            localStorage.setItem('physics_sections', JSON.stringify(sections));
             closeModal();
-            updateCounts();
+            updateMainBadges();
         }
 
         // 初始化页面
-        updateCounts();
+        updateMainBadges();
     </script>
 </body>
 </html>
