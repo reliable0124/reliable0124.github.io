@@ -283,4 +283,76 @@ content: `
     <strong>力是改变物体运动状态的原因。</strong><br>
     </div>`
 },
+{
+    id: 'sec-701',
+    chapterId: 'p-ch7',
+    title: '7.1 功和功率',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-701',
+    chapterId: 'p-ch7',
+    title: '7.1 功和功率',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-701',
+    chapterId: 'p-ch7',
+    title: '7.1 功和功率',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-702',
+    chapterId: 'p-ch7',
+    title: '7.2 恒力与变力的功',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-703',
+    chapterId: 'p-ch7',
+    title: '7.3 动能',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-704',
+    chapterId: 'p-ch7',
+    title: '7.4 势能',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-705',
+    chapterId: 'p-ch7',
+    title: '7.5 机械能守恒定律',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-706',
+    chapterId: 'p-ch7',
+    title: '7.6 质量与能量',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
 ];
