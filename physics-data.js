@@ -184,4 +184,31 @@ content: `
     <strong>力是改变物体运动状态的原因。</strong><br>
     </div>`
 },
+{
+    id: 'sec-501',
+    chapterId: 'p-ch5',
+    title: '5.1 共点力作用下物体的平衡',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-502',
+    chapterId: 'p-ch5',
+    title: '5.2 力矩的平衡 平面力系的平衡',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
+{
+    id: 'sec-503',
+    chapterId: 'p-ch5',
+    title: '5.3 力矩的平衡 平行力系',
+    desc: '-',
+    content: `<div class="box-yellow">
+    <strong>力是改变物体运动状态的原因。</strong><br>
+    </div>`
+},
 ];
