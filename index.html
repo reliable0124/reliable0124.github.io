@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>理科全科知识库</title>
+    <title>理科全科知识库 - 四科联动平台</title>
     <!-- 引入 KaTeX 用于渲染数学与物理公式 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <!-- 引入 KaTeX 自动渲染脚本并配置识别单 $ 符号 -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" 
             onload="renderMathInElement(document.body, {
                 delimiters: [
@@ -48,7 +47,7 @@
 
         /* 顶部导航条 */
         header { 
-            background: rgba(255, 255, 255, 0.85); 
+            background: rgba(255, 255, 255, 0.9); 
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color); 
@@ -58,59 +57,59 @@
             box-shadow: var(--shadow-sm);
         }
         .nav-container { 
-            max-width: 1080px; 
+            max-width: 1100px; 
             margin: 0 auto; 
             display: flex; 
             align-items: center; 
             justify-content: space-between; 
-            padding: 0 24px; 
+            padding: 0 20px; 
             height: 68px; 
+            gap: 16px;
         }
         
-        .logo-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
-        }
+        .logo-group { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
         .logo { 
-            font-size: 20px; 
+            font-size: 19px; 
             font-weight: 800; 
             color: var(--primary-color); 
             cursor: pointer; 
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: opacity 0.2s;
             white-space: nowrap;
         }
-        .logo:hover { opacity: 0.85; }
 
-        /* 标语文字 */
-        .logo-tagline {
+        /* 全局搜索框 */
+        .search-box {
+            flex: 1;
+            max-width: 320px;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            padding: 8px 14px 8px 36px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background: #f8fafc;
             font-size: 13px;
-            font-weight: 500;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            padding-left: 12px;
-            border-left: 2px solid var(--border-color);
-            line-height: 1.2;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .search-input:focus {
+            background: #ffffff;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 13px;
+            color: var(--text-muted);
         }
 
-        /* 右侧区域容器 */
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        /* 署名字体样式 */
+        .nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
         .author-credit {
             font-size: 12px;
             color: var(--text-muted);
-            font-weight: 500;
             background: #f8fafc;
             border: 1px solid var(--border-color);
             padding: 4px 10px;
@@ -128,174 +127,93 @@
             cursor: pointer; 
             font-weight: 600; 
             box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
-            transition: all 0.2s ease;
+            transition: all 0.2s;
             white-space: nowrap;
         }
-        .add-btn:hover { 
-            background: var(--primary-hover); 
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+        .add-btn:hover { background: var(--primary-hover); }
+
+        main { max-width: 1100px; margin: 28px auto; padding: 0 20px; }
+
+        /* 复习进度看板 */
+        .progress-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 18px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+        .progress-bar-bg {
+            flex: 1;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            width: 0%;
+            transition: width 0.4s ease;
         }
 
-        main { max-width: 1080px; margin: 32px auto; padding: 0 24px; }
-
-        /* 面包屑导航 */
-        .breadcrumb-bar { 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            margin-bottom: 24px; 
-            font-size: 14px; 
-            color: var(--text-muted); 
-            flex-wrap: wrap; 
-        }
-        .back-link { 
-            color: var(--primary-color); 
-            font-weight: 600; 
-            cursor: pointer; 
-            text-decoration: none; 
-            transition: color 0.2s;
-        }
-        .back-link:hover { text-decoration: underline; color: var(--primary-hover); }
-
-        /* 册别选项卡 (Tabs) 样式 */
-        .volume-tabs { 
-            display: flex; 
-            gap: 8px; 
-            margin-bottom: 24px; 
-            border-bottom: 2px solid var(--border-color); 
-            padding-bottom: 2px; 
-            overflow-x: auto;
-        }
-        .tab-btn { 
-            background: none; 
-            border: none; 
-            padding: 10px 18px; 
-            font-size: 14px; 
-            font-weight: 600; 
-            color: var(--text-muted); 
-            cursor: pointer; 
-            border-radius: var(--radius-md) var(--radius-md) 0 0; 
-            transition: all 0.2s; 
-            white-space: nowrap;
-        }
-        .tab-btn:hover { color: var(--primary-color); background: var(--primary-light); }
+        /* 选项卡 & 网格 */
+        .volume-tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 2px; }
+        .tab-btn { background: none; border: none; padding: 8px 16px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 8px 8px 0 0; }
         .tab-btn.active { color: var(--primary-color); border-bottom: 3px solid var(--primary-color); background: #ffffff; }
 
-        /* 卡片网格布局 */
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
         .card { 
             background: var(--card-bg); 
-            padding: 24px; 
+            padding: 20px; 
             border-radius: var(--radius-lg); 
             border: 1px solid var(--border-color); 
             cursor: pointer; 
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+            transition: all 0.2s; 
             position: relative; 
-            box-shadow: var(--shadow-sm);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            display: flex; flex-direction: column; justify-content: space-between;
         }
-        .card:hover { 
-            transform: translateY(-4px); 
-            box-shadow: var(--shadow-lg); 
-            border-color: #93c5fd; 
-        }
-        .card h3 { font-size: 17px; margin-bottom: 8px; color: var(--text-main); font-weight: 700; line-height: 1.4; }
-        .card p { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
-        .card .badge { 
-            display: inline-block; 
-            align-self: flex-start;
-            padding: 4px 10px; 
-            background: var(--primary-light); 
-            color: var(--primary-color); 
-            font-size: 12px; 
-            border-radius: 6px; 
-            font-weight: 600; 
-        }
-        .card .vol-tag { 
-            position: absolute; 
-            top: 20px; 
-            right: 20px; 
-            font-size: 11px; 
-            padding: 3px 8px; 
-            border-radius: 6px; 
-            background: #f1f5f9; 
-            color: var(--text-muted); 
-            font-weight: 600; 
-        }
+        .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: #93c5fd; }
+        .card h3 { font-size: 16px; margin-bottom: 6px; color: var(--text-main); font-weight: 700; }
+        .card p { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; }
 
-        /* 视图页面控制 */
+        /* 视图切换 */
         .view-page { display: none; }
-        .view-page.active { 
-            display: block; 
-            animation: fadeIn 0.3s ease-out;
-        }
+        .view-page.active { display: block; animation: fadeIn 0.25s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* 详情页 & 题目样式 */
+        .detail-view { background: #fff; padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); }
+        .detail-header { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; padding: 24px; border-radius: var(--radius-md); margin-bottom: 28px; position: relative; }
+        .edit-btn { position: absolute; right: 20px; top: 20px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; }
+        
+        /* 掌握度切换器 */
+        .status-picker { display: flex; align-items: center; gap: 10px; background: #f8fafc; padding: 12px 18px; border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 24px; }
+        .status-btn { border: none; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; opacity: 0.5; transition: all 0.2s; }
+        .status-btn.active { opacity: 1; transform: scale(1.05); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
 
-        /* 详情页 */
-        .detail-view { background: #fff; padding: 36px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-md); }
-        .detail-header { 
-            background: linear-gradient(135deg, #2563eb, #1d4ed8); 
-            color: #fff; 
-            padding: 28px 32px; 
-            border-radius: var(--radius-md); 
-            margin-bottom: 32px; 
-            position: relative; 
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
-        }
-        .edit-btn { 
-            position: absolute; 
-            right: 24px; 
-            top: 24px; 
-            background: rgba(255,255,255,0.2); 
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255,255,255,0.3); 
-            color: white; 
-            padding: 8px 16px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-size: 13px; 
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        .edit-btn:hover { background: rgba(255,255,255,0.3); }
-        .note-body { font-size: 16px; line-height: 1.8; color: #334155; }
-        .box-yellow { background: var(--accent-yellow); border: 1px solid var(--accent-border); border-radius: 8px; padding: 16px; margin: 16px 0; font-size: 14px; }
+        /* 互动题目卡片 */
+        .quiz-section { margin-top: 36px; border-top: 2px dashed var(--border-color); padding-top: 28px; }
+        .quiz-card { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-top: 16px; }
+        .quiz-option { background: #ffffff; border: 1px solid var(--border-color); padding: 10px 16px; border-radius: 8px; margin-top: 8px; cursor: pointer; transition: all 0.2s; font-size: 14px; }
+        .quiz-option:hover { border-color: var(--primary-color); background: var(--primary-light); }
+        .quiz-option.correct { background: #dcfce7; border-color: #22c55e; color: #15803d; font-weight: 600; }
+        .quiz-option.wrong { background: #fee2e2; border-color: #ef4444; color: #b91c1c; }
+        .quiz-explanation { display: none; margin-top: 14px; padding: 12px; background: #eff6ff; border-radius: 8px; font-size: 13px; color: #1e40af; border-left: 4px solid #3b82f6; }
 
         /* 弹窗 */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 200; }
-        .modal-content { background: white; padding: 32px; border-radius: var(--radius-lg); width: 90%; max-width: 560px; box-shadow: var(--shadow-lg); }
-        .modal-content h3 { margin-bottom: 20px; font-size: 18px; color: var(--text-main); }
-        .modal-content input, .modal-content textarea, .modal-content select { 
-            width: 100%; 
-            padding: 12px; 
-            margin-bottom: 16px; 
-            border: 1px solid var(--border-color); 
-            border-radius: 8px; 
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .modal-content input:focus, .modal-content textarea:focus, .modal-content select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 8px; }
-        .modal-actions button { padding: 9px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .modal-content { background: white; padding: 28px; border-radius: var(--radius-lg); width: 90%; max-width: 540px; }
+        .modal-content input, .modal-content textarea, .modal-content select { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; }
 
-        /* 📱 响应式调整（针对手机屏幕） */
         @media (max-width: 640px) {
-            .logo-tagline { display: none; }
-            .nav-container { padding: 0 12px; }
-            .author-credit { display: none; } /* 手机端隐藏导航栏署名，保证放得下新建按钮 */
-            main { padding: 0 16px; margin: 20px auto; }
-            .detail-view { padding: 20px; }
+            .search-box { max-width: 140px; }
+            .author-credit { display: none; }
+            .progress-card { flex-direction: column; align-items: flex-start; gap: 8px; }
         }
     </style>
 </head>
@@ -305,12 +223,17 @@
         <div class="nav-container">
             <div class="logo-group">
                 <div class="logo" onclick="navTo('level-1')">🔬 理科知识库</div>
-                <div class="logo-tagline">探索自然科学的终极秩序</div>
+            </div>
+
+            <!-- 全局搜索框 -->
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="global-search" placeholder="跨学科搜索知识点/公式..." oninput="handleSearch(this.value)">
             </div>
 
             <div class="nav-right">
                 <span class="author-credit">育青中学2026年高一理制作</span>
-                <button class="add-btn" onclick="openAddModal()">+ 新建知识点小节</button>
+                <button class="add-btn" onclick="openAddModal()">+ 新建小节</button>
             </div>
         </div>
     </header>
@@ -319,55 +242,74 @@
 
         <!-- 第 1 层：学科选择 (首页) -->
         <div id="level-1" class="view-page active">
-            <h2 style="margin-bottom: 20px; font-weight: 800; font-size: 22px;">选择学科专栏</h2>
+            
+            <!-- 整体复习进度看板 -->
+            <div class="progress-card">
+                <div>
+                    <h4 style="font-size: 15px;">📊 全科复习完成度</h4>
+                    <p style="font-size: 12px; color: var(--text-muted);" id="progress-text">已掌握 0 节 / 共 0 节小节</p>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+                <span style="font-weight: 800; font-size: 16px; color: #10b981;" id="progress-percent">0%</span>
+            </div>
+
+            <h2 style="margin-bottom: 18px; font-weight: 800; font-size: 20px;">选择学科专栏</h2>
             <div class="card-grid">
                 <div class="card" onclick="openSubject('math')">
                     <div>
                         <h3>📐 高级数学</h3>
-                        <p>涵盖高等微积分、线性代数与概率论体系</p>
+                        <p>函数、三角函数、数列、向量、导数与微积分体系</p>
                     </div>
-                    <span class="badge" id="badge-math">建设中</span>
+                    <span class="badge" id="badge-math" style="background:#eff6ff; color:#2563eb;">已开启 · 0 节</span>
                 </div>
                 <div class="card" onclick="openSubject('physics')">
                     <div>
                         <h3>⚡ 物理</h3>
                         <p>上册、中册、下册 · 共 27 章核心知识</p>
                     </div>
-                    <span class="badge" id="badge-physics">27 章 / 已存 0 节</span>
+                    <span class="badge" id="badge-physics" style="background:#eff6ff; color:#2563eb;">27 章 / 加载中...</span>
                 </div>
                 <div class="card" onclick="openSubject('chemistry')">
                     <div>
                         <h3>🧪 化学</h3>
-                        <p>无机化学、有机结构与化学反应动力学</p>
+                        <p>无机化学、物质结构、化学反应原理与有机化学</p>
                     </div>
-                    <span class="badge" id="badge-chemistry">建设中</span>
+                    <span class="badge" id="badge-chemistry" style="background:#eff6ff; color:#2563eb;">已开启 · 0 节</span>
                 </div>
                 <div class="card" onclick="openSubject('biology')">
                     <div>
                         <h3>🧬 生物</h3>
-                        <p>分子生物学、遗传学与生态演化系统</p>
+                        <p>分子与细胞、遗传与进化、稳态与环境、生物技术</p>
                     </div>
-                    <span class="badge" id="badge-biology">建设中</span>
+                    <span class="badge" id="badge-biology" style="background:#eff6ff; color:#2563eb;">已开启 · 0 节</span>
                 </div>
             </div>
         </div>
 
-        <!-- 第 2 层：章节列表页 (物理 27 章，包含上中下册卡片过滤) -->
+        <!-- 搜索结果列表页 -->
+        <div id="level-search" class="view-page">
+            <h2 style="margin-bottom: 16px; font-size: 20px;" id="search-title">搜索结果</h2>
+            <div class="card-grid" id="search-grid"></div>
+        </div>
+
+        <!-- 第 2 层：章节列表页 -->
         <div id="level-2" class="view-page">
-            <div class="breadcrumb-bar">
-                <span class="back-link" onclick="navTo('level-1')">首页</span>
+            <div class="breadcrumb-bar" style="margin-bottom: 16px;">
+                <span class="back-link" onclick="navTo('level-1')" style="color:var(--primary-color); cursor:pointer;">首页</span>
                 <span>/</span>
-                <span id="nav-subject-name" style="font-weight: 600; color: var(--text-main);">物理</span>
+                <span id="nav-subject-name" style="font-weight:600;">物理</span>
             </div>
             
-            <h2 style="margin-bottom: 16px; font-weight: 800; font-size: 22px;" id="subject-title">章节目录</h2>
+            <h2 style="margin-bottom: 16px; font-size: 20px;" id="subject-title">章节目录</h2>
 
-            <!-- 上册、中册、下册 分类选项卡 -->
-            <div class="volume-tabs">
+            <!-- 物理分册卡片 (物理专用) -->
+            <div class="volume-tabs" id="physics-vol-tabs">
                 <button class="tab-btn active" onclick="filterVolume('all', this)">全部 (27章)</button>
-                <button class="tab-btn" onclick="filterVolume('upper', this)">上册 (第1-11章)</button>
-                <button class="tab-btn" onclick="filterVolume('middle', this)">中册 (第12-20章)</button>
-                <button class="tab-btn" onclick="filterVolume('lower', this)">下册 (第21-27章)</button>
+                <button class="tab-btn" onclick="filterVolume('upper', this)">上册 (1-11章)</button>
+                <button class="tab-btn" onclick="filterVolume('middle', this)">中册 (12-20章)</button>
+                <button class="tab-btn" onclick="filterVolume('lower', this)">下册 (21-27章)</button>
             </div>
 
             <div class="card-grid" id="chapters-grid"></div>
@@ -375,62 +317,107 @@
 
         <!-- 第 3 层：小节卡片列表页 -->
         <div id="level-3" class="view-page">
-            <div class="breadcrumb-bar">
-                <span class="back-link" onclick="navTo('level-1')">首页</span>
-                <span>/</span>
-                <span class="back-link" onclick="navTo('level-2')" id="nav-chapter-subject">物理</span>
-                <span>/</span>
-                <span id="nav-chapter-name" style="font-weight: 600; color: var(--text-main);">第一章</span>
+            <div class="breadcrumb-bar" style="margin-bottom: 16px;">
+                <span class="back-link" onclick="navTo('level-1')" style="color:var(--primary-color); cursor:pointer;">首页</span> /
+                <span class="back-link" onclick="navTo('level-2')" id="nav-subject-link" style="color:var(--primary-color); cursor:pointer;">物理</span> /
+                <span id="nav-chapter-name" style="font-weight:600;">第一章</span>
             </div>
-            <h2 style="margin-bottom: 20px; font-weight: 800; font-size: 22px;" id="chapter-title">小节列表</h2>
+            <h2 style="margin-bottom: 18px; font-size: 20px;" id="chapter-title">小节列表</h2>
             <div class="card-grid" id="sections-grid"></div>
         </div>
 
         <!-- 第 4 层：笔记正文详情页 -->
         <div id="level-4" class="view-page">
-            <div class="breadcrumb-bar">
-                <span class="back-link" onclick="navTo('level-1')">首页</span>
-                <span>/</span>
-                <span class="back-link" onclick="navTo('level-2')">章节</span>
-                <span>/</span>
-                <span class="back-link" onclick="navTo('level-3')" id="nav-section-chapter">小节列表</span>
+            <div class="breadcrumb-bar" style="margin-bottom: 16px;">
+                <span class="back-link" onclick="navTo('level-1')" style="color:var(--primary-color); cursor:pointer;">首页</span> /
+                <span class="back-link" onclick="navTo('level-2')" style="color:var(--primary-color); cursor:pointer;">章节</span> /
+                <span class="back-link" onclick="navTo('level-3')" style="color:var(--primary-color); cursor:pointer;">小节列表</span>
             </div>
 
             <div class="detail-view">
                 <div class="detail-header">
-                    <button class="edit-btn" onclick="openEditModal()">✏️ 编辑本节笔记</button>
-                    <h2 id="detail-title" style="font-size: 24px; font-weight: 800;">小节标题</h2>
+                    <button class="edit-btn" onclick="openEditModal()">✏️ 编辑笔记</button>
+                    <h2 id="detail-title" style="font-size: 22px;">小节标题</h2>
                 </div>
-                <div id="detail-content" class="note-body"></div>
+
+                <!-- 复习掌握度切换 -->
+                <div class="status-picker">
+                    <span style="font-size:13px; font-weight:600; color:var(--text-muted);">标记复习状态：</span>
+                    <button class="status-btn" id="btn-status-green" style="background:#dcfce7; color:#15803d;" onclick="setSectionStatus('green')">🟢 已掌握</button>
+                    <button class="status-btn" id="btn-status-yellow" style="background:#fefce8; color:#a16207;" onclick="setSectionStatus('yellow')">🟡 需复习</button>
+                    <button class="status-btn" id="btn-status-red" style="background:#fee2e2; color:#b91c1c;" onclick="setSectionStatus('red')">🔴 困难</button>
+                </div>
+
+                <!-- 笔记正文 -->
+                <div id="detail-content" style="font-size: 15px; line-height: 1.8;"></div>
+
+                <!-- 🎯 随堂练习与测试区 -->
+                <div class="quiz-section">
+                    <h3 style="font-size: 17px; margin-bottom: 12px;">🎯 随堂思考与练习题</h3>
+                    <div id="quiz-container"></div>
+                </div>
             </div>
         </div>
 
     </main>
 
-    <!-- 编辑/新建弹窗 -->
+    <!-- 弹窗 -->
     <div id="modal" class="modal">
         <div class="modal-content">
-            <h3 id="modal-heading">新增/编辑小节笔记</h3>
+            <h3 id="modal-heading" style="margin-bottom:14px;">新增/编辑小节笔记</h3>
             <select id="modal-chapter-select"></select>
             <input type="text" id="modal-title" placeholder="小节标题">
             <input type="text" id="modal-desc" placeholder="简短摘要">
-            <textarea id="modal-content" rows="8" placeholder="笔记正文 (支持 HTML & LaTeX 公式)"></textarea>
+            <textarea id="modal-content" rows="6" placeholder="笔记正文 (支持 HTML & LaTeX 公式)"></textarea>
             
-            <div class="modal-actions">
-                <button onclick="closeModal()" style="background: #f1f5f9; color: var(--text-muted);">取消</button>
-                <button style="background: var(--primary-color); color: white;" onclick="saveSectionNote()">保存</button>
+            <div style="display:flex; justify-content:flex-end; gap:10px;">
+                <button onclick="closeModal()" style="padding:8px 16px; border:none; border-radius:6px; cursor:pointer;">取消</button>
+                <button style="padding:8px 16px; background:var(--primary-color); color:white; border:none; border-radius:6px; cursor:pointer;" onclick="saveSectionNote()">保存</button>
             </div>
         </div>
     </div>
 
-    <!-- 引入数据文件 -->
+    <!-- 引入物理数据 ( physicsChapters ) -->
     <script src="physics-data.js"></script>
     
     <script>
-        // 安全获取本地数据
+        // 1. 数学、化学、生物的核心章节数据库
+        const mathChapters = [
+            { id: 'm-ch1', title: '第一章 集合与常用逻辑用语', desc: '集合概念、基本关系、充分条件与必要条件' },
+            { id: 'm-ch2', title: '第二章 一元二次函数、方程与不等式', desc: '基本不等式、二次函数性质与图像' },
+            { id: 'm-ch3', title: '第三章 函数的概念与性质', desc: '函数的单调性、奇偶性、奇偶性与周期性' },
+            { id: 'm-ch4', title: '第四章 指数函数与对数函数', desc: '运算性质、图像特点与对数方程' },
+            { id: 'm-ch5', title: '第五章 三角函数', desc: '弧度制、同角三角关系、诱导公式与图像' },
+            { id: 'm-ch6', title: '第六章 平面向量与复数', desc: '向量加减法、数量积与复数代数形式' },
+            { id: 'm-ch7', title: '第七章 立体几何初步', desc: '空间点线面关系、表面积与体积计算' },
+            { id: 'm-ch8', title: '第八章 解析几何与圆锥曲线', desc: '直线、圆、椭圆、双曲线与抛物线方程' },
+            { id: 'm-ch9', title: '第九章 导数及其应用', desc: '导数的几何意义、单调性讨论与极值最值' }
+        ];
+
+        const chemChapters = [
+            { id: 'c-ch1', title: '第一章 物质及其变化', desc: '物质分类、离子反应与氧化还原反应' },
+            { id: 'c-ch2', title: '第二章 海水中的重要元素——钠和氯', desc: '钠和氯及其化合物的性质与实验' },
+            { id: 'c-ch3', title: '第三章 铁 金属材料', desc: '铁合金、铝合金及其变价化合物性质' },
+            { id: 'c-ch4', title: '第四章 物质结构 元素周期律', desc: '原子结构、元素周期表与化学键' },
+            { id: 'c-ch5', title: '第五章 化工样例与化学反应速率', desc: '可逆反应、化学平衡与速率影响因素' },
+            { id: 'c-ch6', title: '第六章 反应热与电化学', desc: '原电池、电解池原理及其工业应用' },
+            { id: 'c-ch7', title: '第七章 有机化合物基础', desc: '烷烃、烯烃、苯、乙醇、乙酸与高分子材料' }
+        ];
+
+        const bioChapters = [
+            { id: 'b-ch1', title: '第一章 走近细胞与组成细胞的分子', desc: '显微镜使用、蛋白质、核酸、糖类与脂质' },
+            { id: 'b-ch2', title: '第二章 细胞的结构与物质输入输出', desc: '细胞器分工、细胞膜与渗透作用' },
+            { id: 'b-ch3', title: '第三章 细胞的能量供应和利用', desc: '酶的特性、ATP、光合作用与呼吸作用' },
+            { id: 'b-ch4', title: '第四章 细胞的生命历程', desc: '有丝分裂、减数分裂、细胞分化与衰老' },
+            { id: 'b-ch5', title: '第五章 遗传因子的发现', desc: '孟德尔单因子与双因子杂交实验定律' },
+            { id: 'b-ch6', title: '第六章 基因的本质与表达', desc: 'DNA复制、转录、翻译与基因表达调控' },
+            { id: 'b-ch7', title: '第七章 植物激素调节与神经体液调节', desc: '生长素、内环境稳态、兴奋传导与免疫' }
+        ];
+
+        // 2. 本地存储读取（多学科通用）
         let sections = [];
         try {
-            sections = JSON.parse(localStorage.getItem('physics_sections')) || (typeof defaultSections !== 'undefined' ? defaultSections : []);
+            sections = JSON.parse(localStorage.getItem('all_subjects_sections')) || (typeof defaultSections !== 'undefined' ? defaultSections : []);
         } catch(e) {
             sections = typeof defaultSections !== 'undefined' ? defaultSections : [];
         }
@@ -440,103 +427,55 @@
         let currentChapterId = '';
         let currentSectionId = '';
 
-        // 页面跳转控制器
         function navTo(levelId) {
             document.querySelectorAll('.view-page').forEach(el => el.classList.remove('active'));
             document.getElementById(levelId).classList.add('active');
         }
 
-        // 状态更新函数
+        // 3. 统计全科进度
         function updateMainBadges() {
-            const pCount = Array.isArray(sections) ? sections.length : 0;
-            const physicsBadge = document.getElementById('badge-physics');
-            if (physicsBadge) {
-                physicsBadge.innerText = `27 章 / 已存 ${pCount} 节`;
-            }
+            const pCount = sections.length;
+            const greenCount = sections.filter(s => s.status === 'green').length;
+            const percent = pCount > 0 ? Math.round((greenCount / pCount) * 100) : 0;
 
-            const statCap = document.getElementById('stat-chapters');
-            if (statCap) statCap.innerText = (typeof physicsChapters !== 'undefined') ? physicsChapters.length : 27;
-            
-            const statSec = document.getElementById('stat-sections');
-            if (statSec) statSec.innerText = pCount;
+            const pBadge = document.getElementById('badge-physics');
+            if (pBadge) pBadge.innerText = `27 章 / 已存 ${sections.filter(s => s.subject === 'physics' || !s.subject).length} 节`;
+
+            ['math', 'chemistry', 'biology'].forEach(sub => {
+                const badge = document.getElementById(`badge-${sub}`);
+                if (badge) {
+                    const count = sections.filter(s => s.subject === sub).length;
+                    badge.innerText = `已开启 · ${count} 节`;
+                }
+            });
+
+            document.getElementById('progress-text').innerText = `已掌握 ${greenCount} 节 / 共 ${pCount} 节小节`;
+            document.getElementById('progress-fill').style.width = percent + '%';
+            document.getElementById('progress-percent').innerText = percent + '%';
         }
 
-        // 页面 DOM 完全加载后再触发更新（解决“加载中”卡住问题）
-        window.addEventListener('DOMContentLoaded', () => {
-            updateMainBadges();
-        });
-
-        // 第一层 -> 第二层
-        function openSubject(sub) {
-            currentSubject = sub;
-            if(sub !== 'physics') {
-                alert('该学科框架建设中，请先体验物理专栏！');
+        // 4. 跨学科全局搜索
+        function handleSearch(keyword) {
+            if (!keyword.trim()) {
+                if (currentChapterId) navTo('level-3');
+                else navTo('level-1');
                 return;
             }
-            
-            document.getElementById('nav-subject-name').innerText = '物理';
-            renderChaptersGrid();
-            navTo('level-2');
-        }
 
-        // 筛选选项卡切换
-        function filterVolume(vol, btnEl) {
-            currentVolumeFilter = vol;
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btnEl.classList.add('active');
-            renderChaptersGrid();
-        }
-
-        // 渲染章节列表卡片
-        function renderChaptersGrid() {
-            const grid = document.getElementById('chapters-grid');
+            const grid = document.getElementById('search-grid');
             grid.innerHTML = '';
+            document.getElementById('search-title').innerText = `搜寻 "${keyword}" 的结果：`;
 
-            if (typeof physicsChapters === 'undefined') return;
+            const results = sections.filter(s => 
+                s.title.toLowerCase().includes(keyword.toLowerCase()) || 
+                (s.desc && s.desc.toLowerCase().includes(keyword.toLowerCase())) ||
+                (s.content && s.content.toLowerCase().includes(keyword.toLowerCase()))
+            );
 
-            const filteredChapters = currentVolumeFilter === 'all' 
-                ? physicsChapters 
-                : physicsChapters.filter(ch => ch.volume === currentVolumeFilter || ch.vol === currentVolumeFilter);
-
-            filteredChapters.forEach(ch => {
-                const count = sections.filter(s => s.chapterId === ch.id).length;
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.onclick = () => openChapter(ch.id);
-                card.innerHTML = `
-                    <span class="vol-tag">${ch.volName || '物理'}</span>
-                    <div>
-                        <h3>${ch.title}</h3>
-                        <p>${ch.desc || ''}</p>
-                    </div>
-                    <span class="badge">${count} 个已写小节</span>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        // 第二层 -> 第三层 (进入具体章节的小节列表)
-        function openChapter(chId) {
-            currentChapterId = chId;
-            const chapter = physicsChapters.find(c => c.id === chId);
-            
-            document.getElementById('nav-chapter-name').innerText = chapter.title;
-            document.getElementById('chapter-title').innerText = `${chapter.volName || ''} · ${chapter.title}`;
-
-            renderSectionsGrid();
-            navTo('level-3');
-        }
-
-        function renderSectionsGrid() {
-            const grid = document.getElementById('sections-grid');
-            grid.innerHTML = '';
-
-            const subSections = sections.filter(s => s.chapterId === currentChapterId);
-
-            if(subSections.length === 0) {
-                grid.innerHTML = `<p style="color:var(--text-muted); grid-column:1/-1;">本章暂无小节笔记，请点击右上角“+ 新建知识点小节”添加！</p>`;
+            if (results.length === 0) {
+                grid.innerHTML = `<p style="color:var(--text-muted); grid-column:1/-1;">未找到匹配知识点笔记...</p>`;
             } else {
-                subSections.forEach(sec => {
+                results.forEach(sec => {
                     const card = document.createElement('div');
                     card.className = 'card';
                     card.onclick = () => openSectionDetail(sec.id);
@@ -544,9 +483,106 @@
                     grid.appendChild(card);
                 });
             }
+            navTo('level-search');
         }
 
-        // 第三层 -> 第四层 (进入正文)
+        // 5. 打开对应学科
+        function openSubject(sub) {
+            currentSubject = sub;
+            const subNames = { physics: '物理', math: '高级数学', chemistry: '化学', biology: '生物' };
+            
+            document.getElementById('nav-subject-name').innerText = subNames[sub];
+            document.getElementById('nav-subject-link').innerText = subNames[sub];
+            document.getElementById('subject-title').innerText = `${subNames[sub]} · 章节目录`;
+
+            // 只有物理显示“上中下册”筛选框，其他学科隐藏
+            const volTabs = document.getElementById('physics-vol-tabs');
+            if (volTabs) volTabs.style.display = (sub === 'physics') ? 'flex' : 'none';
+
+            renderChaptersGrid();
+            navTo('level-2');
+        }
+
+        function filterVolume(vol, btnEl) {
+            currentVolumeFilter = vol;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btnEl.classList.add('active');
+            renderChaptersGrid();
+        }
+
+        function getSubjectChapters(sub) {
+            if (sub === 'physics') return (typeof physicsChapters !== 'undefined') ? physicsChapters : [];
+            if (sub === 'math') return mathChapters;
+            if (sub === 'chemistry') return chemChapters;
+            if (sub === 'biology') return bioChapters;
+            return [];
+        }
+
+        function renderChaptersGrid() {
+            const grid = document.getElementById('chapters-grid');
+            grid.innerHTML = '';
+            const chapters = getSubjectChapters(currentSubject);
+
+            let filtered = chapters;
+            if (currentSubject === 'physics' && currentVolumeFilter !== 'all') {
+                filtered = chapters.filter(ch => ch.volume === currentVolumeFilter || ch.vol === currentVolumeFilter);
+            }
+
+            filtered.forEach(ch => {
+                const count = sections.filter(s => s.chapterId === ch.id).length;
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => openChapter(ch.id);
+                card.innerHTML = `
+                    <div>
+                        <h3>${ch.title}</h3>
+                        <p>${ch.desc || ''}</p>
+                    </div>
+                    <span class="badge" style="background:#eff6ff; color:#2563eb;">${count} 个已写小节</span>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openChapter(chId) {
+            currentChapterId = chId;
+            const chapters = getSubjectChapters(currentSubject);
+            const chapter = chapters.find(c => c.id === chId);
+            
+            document.getElementById('nav-chapter-name').innerText = chapter.title;
+            document.getElementById('chapter-title').innerText = chapter.title;
+            renderSectionsGrid();
+            navTo('level-3');
+        }
+
+        function renderSectionsGrid() {
+            const grid = document.getElementById('sections-grid');
+            grid.innerHTML = '';
+            const subSections = sections.filter(s => s.chapterId === currentChapterId);
+
+            if(subSections.length === 0) {
+                grid.innerHTML = `<p style="color:var(--text-muted); grid-column:1/-1;">本章暂无小节，请点击右上角“+ 新建小节”添加！</p>`;
+            } else {
+                subSections.forEach(sec => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.onclick = () => openSectionDetail(sec.id);
+
+                    let statusDot = '⚪';
+                    if (sec.status === 'green') statusDot = '🟢';
+                    if (sec.status === 'yellow') statusDot = '🟡';
+                    if (sec.status === 'red') statusDot = '🔴';
+
+                    card.innerHTML = `
+                        <h3>${statusDot} ${sec.title}</h3>
+                        <p>${sec.desc || '点击查看完整笔记...'}</p>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        // 6. 详情页与题目渲染
         function openSectionDetail(secId) {
             currentSectionId = secId;
             const sec = sections.find(s => s.id === secId);
@@ -554,35 +590,75 @@
         
             document.getElementById('detail-title').innerText = sec.title;
             document.getElementById('detail-content').innerHTML = sec.content;
-        
-            // 1. 切换到第 4 层详情页
+
+            document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
+            if (sec.status) {
+                const activeBtn = document.getElementById(`btn-status-${sec.status}`);
+                if (activeBtn) activeBtn.classList.add('active');
+            }
+
+            renderQuizContainer(sec);
             navTo('level-4');
         
-            // 2. 调用 KaTeX 渲染（支持单 $ 和双 $$ 符号）
             if (window.renderMathInElement) {
                 renderMathInElement(document.getElementById('detail-content'), {
-                    delimiters: [
-                        {left: '$$', right: '$$', display: true},
-                        {left: '$', right: '$', display: false}
-                    ],
+                    delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}],
+                    throwOnError: false
+                });
+                renderMathInElement(document.getElementById('quiz-container'), {
+                    delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}],
                     throwOnError: false
                 });
             }
         }
 
-        // 弹窗逻辑
+        function setSectionStatus(status) {
+            const sec = sections.find(s => s.id === currentSectionId);
+            if (sec) {
+                sec.status = status;
+                localStorage.setItem('all_subjects_sections', JSON.stringify(sections));
+                
+                document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById(`btn-status-${status}`).classList.add('active');
+                updateMainBadges();
+            }
+        }
+
+        function renderQuizContainer(sec) {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = `
+                <div class="quiz-card">
+                    <p style="font-weight:600; font-size:14px; margin-bottom:8px;">[概念检验] 关于本节核心知识点，下列说法正确的是：</p>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">A. 选项概念描述不严谨，忽略了关键适用条件。</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true)">B. 严格遵循公式及定理适用边界，结论正确。</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">C. 混淆了基本物理/数学量与推导量。</div>
+                    <div class="quiz-explanation">
+                        <strong>💡 正确答案：B</strong><br>
+                        解析：理科知识推导需特别注意公式的成立前提条件与量纲单位统一。
+                    </div>
+                </div>
+            `;
+        }
+
+        function checkAnswer(optEl, isCorrect) {
+            const card = optEl.closest('.quiz-card');
+            card.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('correct', 'wrong'));
+            if (isCorrect) optEl.classList.add('correct');
+            else optEl.classList.add('wrong');
+            card.querySelector('.quiz-explanation').style.display = 'block';
+        }
+
+        // 7. 弹窗新建与修改
         function openAddModal() {
             currentSectionId = null;
             document.getElementById('modal-heading').innerText = '新建小节笔记';
-            
             const select = document.getElementById('modal-chapter-select');
             select.innerHTML = '';
-            if (typeof physicsChapters !== 'undefined') {
-                physicsChapters.forEach(ch => {
-                    select.innerHTML += `<option value="${ch.id}">[${ch.volName || '物理'}] ${ch.title}</option>`;
-                });
-            }
-            if(currentChapterId) select.value = currentChapterId;
+            
+            const chapters = getSubjectChapters(currentSubject);
+            chapters.forEach(ch => {
+                select.innerHTML += `<option value="${ch.id}">${ch.title}</option>`;
+            });
 
             document.getElementById('modal-title').value = '';
             document.getElementById('modal-desc').value = '';
@@ -593,27 +669,21 @@
         function openEditModal() {
             const sec = sections.find(s => s.id === currentSectionId);
             if(!sec) return;
-
             document.getElementById('modal-heading').innerText = '编辑小节笔记';
-            
             const select = document.getElementById('modal-chapter-select');
             select.innerHTML = '';
-            if (typeof physicsChapters !== 'undefined') {
-                physicsChapters.forEach(ch => {
-                    select.innerHTML += `<option value="${ch.id}">[${ch.volName || '物理'}] ${ch.title}</option>`;
-                });
-            }
-            select.value = sec.chapterId;
 
+            const chapters = getSubjectChapters(sec.subject || currentSubject);
+            chapters.forEach(ch => select.innerHTML += `<option value="${ch.id}">${ch.title}</option>`);
+
+            select.value = sec.chapterId;
             document.getElementById('modal-title').value = sec.title;
             document.getElementById('modal-desc').value = sec.desc;
             document.getElementById('modal-content').value = sec.content;
             document.getElementById('modal').style.display = 'flex';
         }
 
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
         function saveSectionNote() {
             const chapterId = document.getElementById('modal-chapter-select').value;
@@ -621,29 +691,31 @@
             const desc = document.getElementById('modal-desc').value;
             const content = document.getElementById('modal-content').value;
 
-            if(!title) { alert('小节标题不能为空！'); return; }
+            if(!title) { alert('标题不能为空！'); return; }
 
             if(currentSectionId) {
                 const sec = sections.find(s => s.id === currentSectionId);
-                sec.chapterId = chapterId;
-                sec.title = title;
-                sec.desc = desc;
-                sec.content = content;
+                sec.chapterId = chapterId; sec.title = title; sec.desc = desc; sec.content = content;
                 openSectionDetail(currentSectionId);
             } else {
-                const newSec = {
-                    id: 'sec-' + Date.now(),
-                    chapterId, title, desc, content
+                const newSec = { 
+                    id: 'sec-' + Date.now(), 
+                    subject: currentSubject,
+                    chapterId, title, desc, content, status: 'red' 
                 };
                 sections.unshift(newSec);
                 currentChapterId = chapterId;
                 openChapter(chapterId);
             }
 
-            localStorage.setItem('physics_sections', JSON.stringify(sections));
+            localStorage.setItem('all_subjects_sections', JSON.stringify(sections));
             closeModal();
             updateMainBadges();
         }
+
+        window.addEventListener('DOMContentLoaded', () => { updateMainBadges(); });
     </script>
+</body>
+</html>
 </body>
 </html>
