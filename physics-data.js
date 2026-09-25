@@ -55,6 +55,7 @@ content: `
 },
 {
     id: 'sec-301',
+    subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.1 机械运动',
     desc: '-',
@@ -62,6 +63,7 @@ content: `
 },
 {
     id: 'sec-302',
+    subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.2 参照物、坐标系和参照系',
     desc: '-',
@@ -69,6 +71,7 @@ content: `
 },
 {
     id: 'sec-303',
+    subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.3 路程与位移',
     desc: '-',
@@ -76,6 +79,7 @@ content: `
 },
 {
     id: 'sec-304',
+    subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.4 匀速直线运动 速度和速率',
     desc: '-',
@@ -83,6 +87,7 @@ content: `
 },
 {
     id: 'sec-305',
+    subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.5 匀速直线运动图像',
     desc: '-',
@@ -90,6 +95,7 @@ content: `
 },
 {
     id: 'sec-306',
+    subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.6 变速直线运动 平均速度和瞬时速度',
     desc: '-',
@@ -97,6 +103,7 @@ content: `
 },
 {
     id: 'sec-307',
+    subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.7 变速直线运动的加速度',
     desc: '-',
@@ -104,6 +111,7 @@ content: `
 },
 {
     id: 'sec-308',
+    subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.8 匀加速直线运动',
     desc: '-',
@@ -111,6 +119,7 @@ content: `
 },
 {
     id: 'sec-401',
+    subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.1 力与运动',
     desc: '-',
@@ -122,6 +131,7 @@ content: `
 },
 {
     id: 'sec-402',
+    subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.2 力的种类',
     desc: '力的基本概念与常见的三种力',
@@ -191,6 +201,7 @@ content: `
 },
 {
     id: 'sec-403',
+    subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.3 力的合成与分解',
     desc: '合力与分力概念、平行四边形定则及矢量与标量区别',
@@ -284,6 +295,7 @@ content: `
 },
 {
     id: 'sec-404',
+    subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.4 牛顿第一运动定律',
     desc: '-',
@@ -293,6 +305,7 @@ content: `
 },
 {
     id: 'sec-405',
+    subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.5 牛顿第一运动定律',
     desc: '-',
@@ -302,6 +315,7 @@ content: `
 },
 {
     id: 'sec-406',
+    subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.6 动量',
     desc: '-',
@@ -311,6 +325,7 @@ content: `
 },
 {
     id: 'sec-407',
+    subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.7 牛顿第二运动定律',
     desc: '-',
@@ -320,6 +335,7 @@ content: `
 },
 {
     id: 'sec-408',
+    subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.8 牛顿第三运动定律',
     desc: '-',
@@ -329,6 +345,7 @@ content: `
 },
 {
     id: 'sec-501',
+    subject: 'physics',
     chapterId: 'p-ch5',
     title: '5.1 共点力作用下物体的平衡',
     desc: '-',
@@ -338,6 +355,7 @@ content: `
 },
 {
     id: 'sec-502',
+    subject: 'physics',
     chapterId: 'p-ch5',
     title: '5.2 力矩的平衡 平面力系的平衡',
     desc: '-',
@@ -347,6 +365,7 @@ content: `
 },
 {
     id: 'sec-503',
+    subject: 'physics',
     chapterId: 'p-ch5',
     title: '5.3 力矩的平衡 平行力系',
     desc: '-',
@@ -356,6 +375,7 @@ content: `
 },
 {
     id: 'sec-601',
+    subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.1 曲线运动',
     desc: '-',
@@ -365,6 +385,7 @@ content: `
 },
 {
     id: 'sec-602',
+    subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.2 抛射体运动',
     desc: '-',
@@ -374,6 +395,7 @@ content: `
 },
 {
     id: 'sec-603',
+    subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.3 匀速圆周运动',
     desc: '-',
@@ -383,6 +405,7 @@ content: `
 },
 {
     id: 'sec-604',
+    subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.4 向心力',
     desc: '-',
@@ -392,6 +415,7 @@ content: `
 },
 {
     id: 'sec-605',
+    subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.5 离心运动及其应用',
     desc: '-',
@@ -401,6 +425,7 @@ content: `
 },
 {
     id: 'sec-606',
+    subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.6 竖直平面上的圆周运动',
     desc: '-',
@@ -410,6 +435,7 @@ content: `
 },
 {
     id: 'sec-607',
+    subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.7 行星的运动及开普勒定律',
     desc: '-',
@@ -419,6 +445,7 @@ content: `
 },
 {
     id: 'sec-608',
+    subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.8 万有引力定律',
     desc: '-',
@@ -428,6 +455,7 @@ content: `
 },
 {
     id: 'sec-701',
+    subject: 'physics',
     chapterId: 'p-ch7',
     title: '7.1 功和功率',
     desc: '-',
@@ -437,6 +465,7 @@ content: `
 },
 {
     id: 'sec-702',
+    subject: 'physics',
     chapterId: 'p-ch7',
     title: '7.2 恒力与变力的功',
     desc: '-',
@@ -446,6 +475,7 @@ content: `
 },
 {
     id: 'sec-703',
+    subject: 'physics',
     chapterId: 'p-ch7',
     title: '7.3 动能',
     desc: '-',
@@ -455,6 +485,7 @@ content: `
 },
 {
     id: 'sec-704',
+    subject: 'physics',
     chapterId: 'p-ch7',
     title: '7.4 势能',
     desc: '-',
@@ -464,6 +495,7 @@ content: `
 },
 {
     id: 'sec-705',
+    subject: 'physics',
     chapterId: 'p-ch7',
     title: '7.5 机械能守恒定律',
     desc: '-',
@@ -473,6 +505,7 @@ content: `
 },
 {
     id: 'sec-706',
+    subject: 'physics',
     chapterId: 'p-ch7',
     title: '7.6 质量与能量',
     desc: '-',
@@ -482,6 +515,7 @@ content: `
 },
 {
     id: 'sec-801',
+    subject: 'physics',
     chapterId: 'p-ch8',
     title: '8.1 冲量与动量的关系',
     desc: '-',
@@ -491,6 +525,7 @@ content: `
 },
 {
     id: 'sec-802',
+    subject: 'physics',
     chapterId: 'p-ch8',
     title: '8.2 动量守恒定律',
     desc: '-',
@@ -500,6 +535,7 @@ content: `
 },
 {
     id: 'sec-803',
+    subject: 'physics',
     chapterId: 'p-ch8',
     title: '8.3 反冲作用',
     desc: '-',
@@ -509,6 +545,7 @@ content: `
 },
 {
     id: 'sec-804',
+    subject: 'physics',
     chapterId: 'p-ch8',
     title: '8.4 碰撞',
     desc: '-',
@@ -518,6 +555,7 @@ content: `
 },
 {
     id: 'sec-901',
+    subject: 'physics',
     chapterId: 'p-ch9',
     title: '9.1 刚体及其转动',
     desc: '-',
@@ -527,6 +565,7 @@ content: `
 },
 {
     id: 'sec-902',
+    subject: 'physics',
     chapterId: 'p-ch9',
     title: '9.2 刚体的转动惯量',
     desc: '-',
@@ -536,6 +575,7 @@ content: `
 },
 {
     id: 'sec-903',
+    subject: 'physics',
     chapterId: 'p-ch9',
     title: '9.3 刚体滚动时的动能',
     desc: '-',
@@ -545,6 +585,7 @@ content: `
 },
 {
     id: 'sec-904',
+    subject: 'physics',
     chapterId: 'p-ch9',
     title: '9.4 刚体的转动定律',
     desc: '-',
@@ -554,6 +595,7 @@ content: `
 },
 {
     id: 'sec-905',
+    subject: 'physics',
     chapterId: 'p-ch9',
     title: '9.5 角动量',
     desc: '-',
@@ -563,6 +605,7 @@ content: `
 },
 {
     id: 'sec-906',
+    subject: 'physics',
     chapterId: 'p-ch9',
     title: '9.6 角动量守恒定律',
     desc: '-',
@@ -572,6 +615,7 @@ content: `
 },
 {
     id: 'sec-1001',
+    subject: 'physics',
     chapterId: 'p-ch10',
     title: '10.1 振动现象',
     desc: '-',
@@ -581,6 +625,7 @@ content: `
 },
 {
     id: 'sec-1002',
+    subject: 'physics',
     chapterId: 'p-ch10',
     title: '10.2 简谐运动',
     desc: '-',
@@ -590,6 +635,7 @@ content: `
 },
 {
     id: 'sec-1003',
+    subject: 'physics',
     chapterId: 'p-ch10',
     title: '10.3 简谐运动方程',
     desc: '-',
@@ -599,6 +645,7 @@ content: `
 },
 {
     id: 'sec-1004',
+    subject: 'physics',
     chapterId: 'p-ch10',
     title: '10.4 简谐运动的图像',
     desc: '-',
@@ -608,6 +655,7 @@ content: `
 },
 {
     id: 'sec-1005',
+    subject: 'physics',
     chapterId: 'p-ch10',
     title: '10.5 简谐运动的能量',
     desc: '-',
@@ -617,6 +665,7 @@ content: `
 },
 {
     id: 'sec-1006',
+    subject: 'physics',
     chapterId: 'p-ch10',
     title: '10.6 受迫振动 共振',
     desc: '-',
@@ -626,6 +675,7 @@ content: `
 },
 {
     id: 'sec-1101',
+    subject: 'physics',
     chapterId: 'p-ch11',
     title: '11.1 流体的性质',
     desc: '-',
@@ -635,6 +685,7 @@ content: `
 },
 {
     id: 'sec-1102',
+    subject: 'physics',
     chapterId: 'p-ch11',
     title: '11.2 液体的压强',
     desc: '-',
@@ -644,6 +695,7 @@ content: `
 },
 {
     id: 'sec-1103',
+    subject: 'physics',
     chapterId: 'p-ch11',
     title: '11.3 阿基米德原理',
     desc: '-',
@@ -653,6 +705,7 @@ content: `
 },
 {
     id: 'sec-1104',
+    subject: 'physics',
     chapterId: 'p-ch11',
     title: '11.4 大气压强',
     desc: '-',
@@ -662,6 +715,7 @@ content: `
 },
 {
     id: 'sec-1105',
+    subject: 'physics',
     chapterId: 'p-ch11',
     title: '11.5 稳定流动和连续性方程式',
     desc: '-',
@@ -671,6 +725,7 @@ content: `
 },
 {
     id: 'sec-1106',
+    subject: 'physics',
     chapterId: 'p-ch11',
     title: '11.6 伯努利方程式',
     desc: '-',
@@ -680,6 +735,7 @@ content: `
 },
 {
     id: 'sec-1107',
+    subject: 'physics',
     chapterId: 'p-ch11',
     title: '11.7 伯努利方程式的应用',
     desc: '-',
@@ -689,6 +745,7 @@ content: `
 },
 {
     id: 'sec-1108',
+    subject: 'physics',
     chapterId: 'p-ch11',
     title: '11.8 物体在真实流体中的运动',
     desc: '-',
