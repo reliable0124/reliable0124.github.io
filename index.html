@@ -436,9 +436,25 @@
 
         // 状态更新
         function updateMainBadges() {
-            const pCount = sections.length;
-            document.getElementById('badge-physics').innerText = `${physicsChapters.length} 章 / 已存 ${pCount} 节`;
+            // 1. 获取已存笔记的卡片总数量
+            const pCount = sections ? sections.length : 0;
+    
+            // 2. 找到 HTML 里的 badge-physics 元素并替换文本
+            const physicsBadge = document.getElementById('badge-physics');
+            if (physicsBadge) {
+                physicsBadge.innerText = `27 章 / 已存 ${pCount} 节`;
+            }
+
+            // 3. 安全更新顶部统计看板（如果存在的话）
+            const statCap = document.getElementById('stat-chapters');
+            if (statCap) statCap.innerText = (typeof physicsChapters !== 'undefined') ? physicsChapters.length : 27;
+            
+            const statSec = document.getElementById('stat-sections');
+            if (statSec) statSec.innerText = pCount;
         }
+        
+        // 确保页面刚加载时立即调用一次
+        updateMainBadges();
 
         // 第一层 -> 第二层
         function openSubject(sub) {
