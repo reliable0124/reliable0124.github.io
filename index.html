@@ -425,11 +425,27 @@
         ];
 
         // 2. 本地存储读取（多学科通用）
+        // 初始化小节数据
         let sections = [];
         try {
-            sections = JSON.parse(localStorage.getItem('all_subjects_sections')) || (typeof defaultSections !== 'undefined' ? defaultSections : []);
-        } catch(e) {
-            sections = typeof defaultSections !== 'undefined' ? defaultSections : [];
+            const newStorage = localStorage.getItem('all_subjects_sections');
+            const oldStorage = localStorage.getItem('physics_sections');
+
+            if (newStorage && JSON.parse(newStorage).length > 0) {
+                // 1. 优先读取新版缓存
+                sections = JSON.parse(newStorage);
+            } else if (oldStorage && JSON.parse(oldStorage).length > 0) {
+                // 2. 读取旧版缓存并平滑迁移
+                sections = JSON.parse(oldStorage);
+                localStorage.setItem('all_subjects_sections', JSON.stringify(sections));
+            } else {
+                // 3. 如果本地没有缓存或缓存为空，使用 physics-data.js 中的 defaultSections
+                sections = (typeof defaultSections !== 'undefined') ? defaultSections : [];
+                localStorage.setItem('all_subjects_sections', JSON.stringify(sections));
+            }
+        } catch (e) {
+            console.error("数据解析失败，重置为默认数据", e);
+            sections = (typeof defaultSections !== 'undefined') ? defaultSections : [];
         }
 
         let currentSubject = 'physics';
