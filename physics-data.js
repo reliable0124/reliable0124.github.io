@@ -223,6 +223,50 @@ content: `
             <br><i>（这是解决复杂受力分析与多力平衡问题最常用、最不易出错的方法）</i>
         </div>
 
+        <!-- 矢量图组件：力的正交分解示意图 -->
+        <div style="text-align: center; margin: 20px 0; background: #fafafa; padding: 16px; border-radius: 12px; border: 1px solid var(--border-color);">
+            <svg width="280" height="220" viewBox="0 0 280 220" style="max-width: 100%; height: auto;">
+                <!-- 坐标轴 -->
+                <defs>
+                    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+                    </marker>
+                    <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb"/>
+                    </marker>
+                    <marker id="arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626"/>
+                    </marker>
+                </defs>
+                
+                <!-- x, y 轴 -->
+                <line x1="30" y1="180" x2="250" y2="180" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+                <line x1="40" y1="190" x2="40" y2="20" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)" />
+                <text x="255" y="185" font-size="14" fill="#64748b" font-weight="bold">x</text>
+                <text x="35" y="15" font-size="14" fill="#64748b" font-weight="bold">y</text>
+                <text x="25" y="195" font-size="13" fill="#64748b">O</text>
+
+                <!-- 虚线投影 -->
+                <line x1="200" y1="60" x2="200" y2="180" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4" />
+                <line x1="200" y1="60" x2="40" y2="60" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4" />
+
+                <!-- 分力 Fx, Fy -->
+                <line x1="40" y1="180" x2="195" y2="180" stroke="#2563eb" stroke-width="3" marker-end="url(#arrow-blue)" />
+                <line x1="40" y1="180" x2="40" y2="65" stroke="#2563eb" stroke-width="3" marker-end="url(#arrow-blue)" />
+                <text x="110" y="200" font-size="14" fill="#2563eb" font-weight="bold">Fx = F·cosθ</text>
+                <text x="48" y="120" font-size="14" fill="#2563eb" font-weight="bold">Fy = F·sinθ</text>
+
+                <!-- 合力 F -->
+                <line x1="40" y1="180" x2="196" y2="63" stroke="#dc2626" stroke-width="3.5" marker-end="url(#arrow-red)" />
+                <text x="120" y="105" font-size="16" fill="#dc2626" font-weight="bold">F</text>
+
+                <!-- 夹角 θ -->
+                <path d="M 80 180 A 40 40 0 0 0 74 155" fill="none" stroke="#dc2626" stroke-width="1.5" />
+                <text x="88" y="172" font-size="13" fill="#dc2626">θ</text>
+            </svg>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">力的正交分解几何图示</p>
+        </div>
+
         <h3>三、 矢量与标量 (Vectors & Scalars)</h3>
         <ul>
             <li>
