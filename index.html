@@ -71,6 +71,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-shrink: 0;
         }
         .logo { 
             font-size: 20px; 
@@ -82,10 +83,11 @@
             align-items: center;
             gap: 6px;
             transition: opacity 0.2s;
+            white-space: nowrap;
         }
         .logo:hover { opacity: 0.85; }
 
-        /* 右侧新增标语/文字 */
+        /* 标语文字 */
         .logo-tagline {
             font-size: 13px;
             font-weight: 500;
@@ -96,36 +98,38 @@
             border-left: 2px solid var(--border-color);
             line-height: 1.2;
         }
-        /* 右侧区域容器，保持两端/居中对齐 */
+
+        /* 右侧区域容器 */
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
         /* 署名字体样式 */
         .author-credit {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
             font-weight: 500;
             background: #f8fafc;
             border: 1px solid var(--border-color);
-            padding: 4px 12px;
+            padding: 4px 10px;
             border-radius: 20px;
-            letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
         .add-btn { 
             background: var(--primary-color); 
             color: white; 
             border: none; 
-            padding: 9px 20px; 
+            padding: 8px 16px; 
             border-radius: 20px; 
-            font-size: 14px; 
+            font-size: 13px; 
             cursor: pointer; 
             font-weight: 600; 
             box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
         .add-btn:hover { 
             background: var(--primary-hover); 
@@ -179,7 +183,7 @@
         .tab-btn.active { color: var(--primary-color); border-bottom: 3px solid var(--primary-color); background: #ffffff; }
 
         /* 卡片网格布局 */
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
         .card { 
             background: var(--card-bg); 
             padding: 24px; 
@@ -235,7 +239,7 @@
         }
 
         /* 详情页 */
-        .detail-view { background: #fff; padding: 40px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-md); }
+        .detail-view { background: #fff; padding: 36px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-md); }
         .detail-header { 
             background: linear-gradient(135deg, #2563eb, #1d4ed8); 
             color: #fff; 
@@ -285,10 +289,11 @@
         .modal-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 8px; }
         .modal-actions button { padding: 9px 20px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; font-weight: 600; }
 
-        /* 响应式调整 */
+        /* 📱 响应式调整（针对手机屏幕） */
         @media (max-width: 640px) {
             .logo-tagline { display: none; }
-            .nav-container { padding: 0 16px; }
+            .nav-container { padding: 0 12px; }
+            .author-credit { display: none; } /* 手机端隐藏导航栏署名，保证放得下新建按钮 */
             main { padding: 0 16px; margin: 20px auto; }
             .detail-view { padding: 20px; }
         }
@@ -328,7 +333,7 @@
                         <h3>⚡ 物理</h3>
                         <p>上册、中册、下册 · 共 27 章核心知识</p>
                     </div>
-                    <span class="badge" id="badge-physics">加载中...</span>
+                    <span class="badge" id="badge-physics">27 章 / 已存 0 节</span>
                 </div>
                 <div class="card" onclick="openSubject('chemistry')">
                     <div>
@@ -418,11 +423,18 @@
         </div>
     </div>
 
+    <!-- 引入数据文件 -->
     <script src="physics-data.js"></script>
     
     <script>
-        // 本地数据加载
-        let sections = JSON.parse(localStorage.getItem('physics_sections')) || defaultSections;
+        // 安全获取本地数据
+        let sections = [];
+        try {
+            sections = JSON.parse(localStorage.getItem('physics_sections')) || (typeof defaultSections !== 'undefined' ? defaultSections : []);
+        } catch(e) {
+            sections = typeof defaultSections !== 'undefined' ? defaultSections : [];
+        }
+
         let currentSubject = 'physics';
         let currentVolumeFilter = 'all';
         let currentChapterId = '';
@@ -434,27 +446,25 @@
             document.getElementById(levelId).classList.add('active');
         }
 
-        // 状态更新
+        // 状态更新函数
         function updateMainBadges() {
-            // 1. 获取已存笔记的卡片总数量
-            const pCount = sections ? sections.length : 0;
-    
-            // 2. 找到 HTML 里的 badge-physics 元素并替换文本
+            const pCount = Array.isArray(sections) ? sections.length : 0;
             const physicsBadge = document.getElementById('badge-physics');
             if (physicsBadge) {
                 physicsBadge.innerText = `27 章 / 已存 ${pCount} 节`;
             }
 
-            // 3. 安全更新顶部统计看板（如果存在的话）
             const statCap = document.getElementById('stat-chapters');
             if (statCap) statCap.innerText = (typeof physicsChapters !== 'undefined') ? physicsChapters.length : 27;
             
             const statSec = document.getElementById('stat-sections');
             if (statSec) statSec.innerText = pCount;
         }
-        
-        // 确保页面刚加载时立即调用一次
-        updateMainBadges();
+
+        // 页面 DOM 完全加载后再触发更新（解决“加载中”卡住问题）
+        window.addEventListener('DOMContentLoaded', () => {
+            updateMainBadges();
+        });
 
         // 第一层 -> 第二层
         function openSubject(sub) {
@@ -482,9 +492,11 @@
             const grid = document.getElementById('chapters-grid');
             grid.innerHTML = '';
 
+            if (typeof physicsChapters === 'undefined') return;
+
             const filteredChapters = currentVolumeFilter === 'all' 
                 ? physicsChapters 
-                : physicsChapters.filter(ch => ch.volume === currentVolumeFilter);
+                : physicsChapters.filter(ch => ch.volume === currentVolumeFilter || ch.vol === currentVolumeFilter);
 
             filteredChapters.forEach(ch => {
                 const count = sections.filter(s => s.chapterId === ch.id).length;
@@ -492,10 +504,10 @@
                 card.className = 'card';
                 card.onclick = () => openChapter(ch.id);
                 card.innerHTML = `
-                    <span class="vol-tag">${ch.volName}</span>
+                    <span class="vol-tag">${ch.volName || '物理'}</span>
                     <div>
                         <h3>${ch.title}</h3>
-                        <p>${ch.desc}</p>
+                        <p>${ch.desc || ''}</p>
                     </div>
                     <span class="badge">${count} 个已写小节</span>
                 `;
@@ -509,7 +521,7 @@
             const chapter = physicsChapters.find(c => c.id === chId);
             
             document.getElementById('nav-chapter-name').innerText = chapter.title;
-            document.getElementById('chapter-title').innerText = `${chapter.volName} · ${chapter.title}`;
+            document.getElementById('chapter-title').innerText = `${chapter.volName || ''} · ${chapter.title}`;
 
             renderSectionsGrid();
             navTo('level-3');
@@ -563,12 +575,13 @@
             currentSectionId = null;
             document.getElementById('modal-heading').innerText = '新建小节笔记';
             
-            // 动态填充章节下拉框，带上分册提示
             const select = document.getElementById('modal-chapter-select');
             select.innerHTML = '';
-            physicsChapters.forEach(ch => {
-                select.innerHTML += `<option value="${ch.id}">[${ch.volName}] ${ch.title}</option>`;
-            });
+            if (typeof physicsChapters !== 'undefined') {
+                physicsChapters.forEach(ch => {
+                    select.innerHTML += `<option value="${ch.id}">[${ch.volName || '物理'}] ${ch.title}</option>`;
+                });
+            }
             if(currentChapterId) select.value = currentChapterId;
 
             document.getElementById('modal-title').value = '';
@@ -585,9 +598,11 @@
             
             const select = document.getElementById('modal-chapter-select');
             select.innerHTML = '';
-            physicsChapters.forEach(ch => {
-                select.innerHTML += `<option value="${ch.id}">[${ch.volName}] ${ch.title}</option>`;
-            });
+            if (typeof physicsChapters !== 'undefined') {
+                physicsChapters.forEach(ch => {
+                    select.innerHTML += `<option value="${ch.id}">[${ch.volName || '物理'}] ${ch.title}</option>`;
+                });
+            }
             select.value = sec.chapterId;
 
             document.getElementById('modal-title').value = sec.title;
@@ -629,9 +644,6 @@
             closeModal();
             updateMainBadges();
         }
-
-        // 初始化页面
-        updateMainBadges();
     </script>
 </body>
 </html>
