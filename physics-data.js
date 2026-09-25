@@ -134,7 +134,7 @@ content: `
     subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.2 力的种类',
-    desc: '力的基本概念与常见的三种力',
+    desc: '重力、弹力与摩擦力的概念、方向判断及计算公式',
     content: `
         <h3>一、 力的基本概念</h3>
         <ul>
