@@ -368,10 +368,33 @@ content: `
     subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.6 动量',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '动量定义式 p=mv、矢量性与单位',
+    content: `
+        <h3>一、 动量的基本概念</h3>
+        <p>物体的<b>质量 $m$</b> 和<b>速度 $v$</b> 的乘积叫作动量，它反映了<b>物体运动状态的强弱（或运动效应）</b>。</p>
+        
+        <div class="box-yellow">
+            <strong>定义式：</strong><br>
+            $$p = mv$$
+        </div>
+        
+        <h3>二、 动量的三要素</h3>
+        <ul>
+            <li><b>1. 大小：</b> $p = mv$，由物体的质量和速度共同决定。</li>
+            <li>
+                <b>2. 矢量性：</b><br>
+                动量是<b>矢量</b>，其方向与<b>速度 $v$ 的方向相同</b>。
+            </li>
+            <li>
+                <b>3. 单位：</b><br>
+                国际单位制中，动量的单位是<b>千克·米每秒</b>，符号为 <b>$\\text{kg}\\cdot\\text{m}\\cdot\\text{s}^{-1}$</b>（或 $\\text{kg}\\cdot\\text{m/s}$）。
+                <br><i>注：根据动量定理，动量的单位在数量上与冲量单位等价，即 $1\\text{ kg}\\cdot\\text{m/s} = 1\\text{ N}\\cdot\\text{s}$。</i>
+            </li>
+        </ul>
+        
+        <h3>三、 状态量特征</h3>
+        <p>动量是描述物体<b>某一时刻（或某一位置）</b>运动状态的<b>状态量</b>。由于速度 $v$ 具有相对性，动量 $p$ 也具有相对性，通常以地面为参考系。</p>
+     `
 },
 {
     id: 'sec-407',
