@@ -448,10 +448,57 @@ content: `
     subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.8 牛顿第三运动定律',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '作用力与反作用力的性质及与平衡力的区别',
+    content: `
+        <h3>一、 牛顿第三运动定律</h3>
+        
+        <div class="box-yellow">
+            <strong>定律内容：</strong><br>
+            两个物体之间的<b>作用力</b>与<b>反作用力</b>总是大小相等，方向相反，作用在同一条直线上。
+        </div>
+        
+        <h3>二、 作用力与反作用力的性质</h3>
+        <p>物体间相互作用的这一对力，具有<b>互相依存、共同存在</b>的特点：</p>
+        <ul>
+            <li><b>1. 同大小、反方向、共线：</b> 总是成对出现，且大小完全相等，方向相反。</li>
+            <li><b>2. 异体性：</b> 作用力和反作用力分别作用在<b>两个不同的物体</b>上（因此<b>不能合成</b>，也不能相互抵消）。</li>
+            <li><b>3. 同性质：</b> 作用力是弹力，反作用力就一定是弹力；作用力是引力，反作用力就一定是引力。</li>
+            <li><b>4. 同存亡：</b> 同时产生、同时变化、同时消失。</li>
+        </ul>
+        
+        <h3>三、 易错辨析：作用力与反作用力 vs 一对平衡力</h3>
+        <table border="1" style="width:100%; border-collapse:collapse; margin-top:10px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>对比维度</th>
+                    <th>一对作用力与反作用力</th>
+                    <th>一对平衡力</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>作用对象</b></td>
+                    <td>作用在<b>两个不同物体</b>上</td>
+                    <td>作用在<b>同一物体</b>上</td>
+                </tr>
+                <tr>
+                    <td><b>力的性质</b></td>
+                    <td><b>必须相同</b>（同为弹力、摩擦力等）</td>
+                    <td><b>不一定相同</b></td>
+                </tr>
+                <tr>
+                    <td><b>时间关系</b></td>
+                    <td><b>同时产生、变化、消失</b></td>
+                    <td>不一定同时存在或消失</td>
+                </tr>
+                <tr>
+                    <td><b>作用效果</b></td>
+                    <td>产生各自的加速度（不能抵消）</td>
+                    <td>使物体保持静止或匀速（效果抵消）</td>
+                </tr>
+            </tbody>
+        </table>
+    `
 },
 {
     id: 'sec-501',
