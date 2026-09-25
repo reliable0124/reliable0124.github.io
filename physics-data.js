@@ -122,7 +122,7 @@ content: `
     id: 'sec-402',
     chapterId: 'p-ch4',
     title: '4.2 力的种类',
-    desc: '力的三要素、力的图示、力的种类',
+    desc: '力的基本概念、常见的力的种类',
     content: `<h3>一、 力的基本概念</h3>
     <ul>
         <li><b>力的三要素：</b>大小、方向、作用点</li>
@@ -184,14 +184,14 @@ content: `
             <i>（其中 $\mu_s$ 为静摩擦因数，通常略大于动摩擦因数 $\mu_k$）</i>
         </li>
     </ul>
-    },
+},
 {
     id: 'sec-403',
     chapterId: 'p-ch4',
     title: '4.3 力的合成与分解',
     desc: '-',
     content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
+        <strong>力是改变物体运动状态的原因。</strong><br>
     </div>`
 },
 {
