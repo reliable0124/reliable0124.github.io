@@ -455,19 +455,29 @@
         ];
 
         // 统一小节数据初始化（支持旧缓存平滑过渡）
+        // 统一小节数据初始化（按 id 合并 defaultSections 与 localStorage）
         try {
-            const newStorage = localStorage.getItem('all_subjects_sections');
-            const oldStorage = localStorage.getItem('physics_sections');
+            const stored = localStorage.getItem('all_subjects_sections');
+            const storedSections = stored ? JSON.parse(stored) : [];
+            const base = (typeof defaultSections !== 'undefined') ? defaultSections : [];
 
-            if (newStorage && JSON.parse(newStorage).length > 0) {
-                sections = JSON.parse(newStorage);
-            } else if (oldStorage && JSON.parse(oldStorage).length > 0) {
-                sections = JSON.parse(oldStorage);
-                localStorage.setItem('all_subjects_sections', JSON.stringify(sections));
-            } else {
-                sections = (typeof defaultSections !== 'undefined') ? defaultSections : [];
-                localStorage.setItem('all_subjects_sections', JSON.stringify(sections));
-            }
+            // 用 Map 做合并：defaultSections 的内容(标题/正文)始终覆盖旧缓存，
+            // 但保留用户在网页里设置的 status；
+            // 缓存里存在、但 defaultSections 里没有的（用户在网页新建的小节）原样保留。
+            const merged = new Map();
+
+            storedSections.forEach(s => merged.set(s.id, s));
+
+            base.forEach(defSec => {
+                const old = merged.get(defSec.id);
+                merged.set(defSec.id, {
+                    ...defSec,
+                    status: old ? old.status : undefined
+                });
+            });
+
+            sections = Array.from(merged.values());
+            localStorage.setItem('all_subjects_sections', JSON.stringify(sections));
         } catch (e) {
             console.error("数据解析失败，重置为默认数据", e);
             sections = (typeof defaultSections !== 'undefined') ? defaultSections : [];
