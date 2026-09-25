@@ -86,7 +86,7 @@ content: `
     subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.1 力与运动',
-    desc: '-',
+    desc: '力是改变物体运动状态的原因。',
     content: `
         <div class="box-yellow">
         <strong>力是改变物体运动状态的原因。</strong><br>
@@ -262,7 +262,7 @@ content: `
     subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.4 牛顿第一运动定律',
-    desc: '-',
+    desc: '一切物体总保持<b>匀速直线运动状态或静止状态，直到有外力迫使它改变这种状态为止',
     content: `
         <h3>一、 牛顿第一运动定律（惯性定律）</h3>
         
