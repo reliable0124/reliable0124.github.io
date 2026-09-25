@@ -522,16 +522,23 @@
         function openSectionDetail(secId) {
             currentSectionId = secId;
             const sec = sections.find(s => s.id === secId);
-            if(!sec) return;
-
+            if (!sec) return;
+        
             document.getElementById('detail-title').innerText = sec.title;
             document.getElementById('detail-content').innerHTML = sec.content;
-
+        
+            // 1. 切换到第 4 层详情页
             navTo('level-4');
-
-            // 触发公式渲染
+        
+            // 2. 调用 KaTeX 渲染（支持单 $ 和双 $$ 符号）
             if (window.renderMathInElement) {
-                renderMathInElement(document.getElementById('detail-content'));
+                renderMathInElement(document.getElementById('detail-content'), {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false}
+                    ],
+                    throwOnError: false
+                });
             }
         }
 
