@@ -2,6 +2,7 @@
 const defaultSections = [
 {
 id: 'sec-101',
+subject: 'physics',
 chapterId: 'p-ch1',
 title: '1.1 质点 参考系',
 desc: '理解理想化模型与参考系的相对性',
