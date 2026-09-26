@@ -378,8 +378,96 @@ const defaultSections = [
     subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.7 变速直线运动的加速度',
-    desc: '-',
-    content: `<p>笔记正文...</p>`
+    desc: '加速度定义式 a=Δv/Δt、方向判定及平均与瞬时加速度',
+    content: `
+        <h3>一、 加速度 (Acceleration)</h3>
+        
+        <p><b>定义：</b>描述<b>速度变化的快慢</b>，是<b>速度的变化量与时间的比值</b>。</p>
+        
+        <div class="box-yellow">
+            <strong>定义式与单位：</strong>
+            $$a = \\frac{\\Delta v}{\\Delta t}$$
+            <ul>
+                <li><b>矢量性：</b>加速度是<b>矢量</b>，方向与速度变化量 $\\Delta v$ 的方向一致。</li>
+                <li><b>单位：</b>国际单位制中为<b>米每二次方秒 ($\\,\\text{m/s}^2$ 或 $\\text{m}\\cdot\\text{s}^{-2}$)</b>。</li>
+            </ul>
+        </div>
+        
+        <h3>二、 速度增减与方向关系（核心判定）</h3>
+        
+        <div class="box-blue">
+            <ul>
+                <li><b>速度增大 $\\rightarrow$ 加速度与速度方向相同</b> ($a \\cdot v > 0$)</li>
+                <li><b>速度减小 $\\rightarrow$ 加速度与速度方向相反</b> ($a \\cdot v < 0$)</li>
+            </ul>
+        </div>
+        
+        <h3>三、 平均加速度与瞬时加速度</h3>
+        
+        <ul>
+            <li><b>平均加速度：</b><b>一段时间内</b>速度改变的平均快慢程度。</li>
+            <li><b>瞬时加速度：</b>物体在<b>任一时刻（或任一位置）</b>的速度变化的快慢程度。</li>
+        </ul>
+        
+        <p>在 $v$-$t$ 图像中，割线的斜率代表平均加速度，而<b>切线的斜率代表瞬时加速度</b>：</p>
+        
+        <div style="text-align: center; margin: 15px 0;">
+            <svg viewBox="0 0 320 160" style="max-width: 360px; width: 100%; height: auto; border: 1px solid #ccc; border-radius: 6px; background: #fafafa;">
+                <!-- 坐标轴 -->
+                <line x1="30" y1="130" x2="300" y2="130" stroke="#000" stroke-width="2"/>
+                <line x1="30" y1="130" x2="30" y2="15" stroke="#000" stroke-width="2"/>
+                <text x="290" y="145" font-size="11">t</text>
+                <text x="15" y="25" font-size="11">v</text>
+                
+                <!-- 曲线 v(t) -->
+                <path d="M 40 120 Q 150 110 270 30" fill="none" stroke="#007bff" stroke-width="2"/>
+                
+                <!-- 割线 Δt 较大 -->
+                <line x1="100" y1="102" x2="240" y2="48" stroke="#6c757d" stroke-dasharray="3" stroke-width="1.5"/>
+                <circle cx="100" cy="102" r="3" fill="#6c757d"/>
+                <circle cx="240" cy="48" r="3" fill="#6c757d"/>
+                <text x="180" y="90" font-size="10" fill="#6c757d">割线斜率 = 平均加速度 (Δv/Δt)</text>
+                
+                <!-- 切线 Δt -> 0 -->
+                <line x1="120" y1="112" x2="270" y2="28" stroke="#dc3545" stroke-width="2"/>
+                <circle cx="190" cy="62" r="4" fill="#dc3545"/>
+                <text x="130" y="45" font-size="10" fill="#dc3545" font-weight="bold">切线斜率 = 瞬时加速度 a</text>
+            </svg>
+        </div>
+        
+        <h3>四、 三概念对比（避坑指南）</h3>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-top:10px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>物理量</th>
+                    <th>物理意义</th>
+                    <th>表达式/符号</th>
+                    <th>关键区别</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>速度 $v$</b></td>
+                    <td>位置变化的快慢</td>
+                    <td>$v = \\frac{\\Delta x}{\\Delta t}$</td>
+                    <td>$v$ 大，$a$ 不一定大（如高速匀速飞行的飞机，$a=0$）</td>
+                </tr>
+                <tr>
+                    <td><b>速度变化量 $\\Delta v$</b></td>
+                    <td>速度改变的多少</td>
+                    <td>$\\Delta v = v_t - v_0$</td>
+                    <td>$\\Delta v$ 大，$a$ 不一定大（还取决于所用时间 $\\Delta t$）</td>
+                </tr>
+                <tr>
+                    <td><b>加速度 $a$</b></td>
+                    <td>速度变化的快慢</td>
+                    <td>$a = \\frac{\\Delta v}{\\Delta t}$</td>
+                    <td>$a$ 是 $\\Delta v$ 的变化率（反映速度变化的急剧程度）</td>
+                </tr>
+            </tbody>
+        </table>
+     `
 },
 {
     id: 'sec-308',
