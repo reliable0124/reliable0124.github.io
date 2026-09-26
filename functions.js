@@ -92,7 +92,7 @@ function updateMainBadges() {
     if (pBadge) pBadge.innerText = `27 章 · 已存 ${sections.filter(s => s.subject === 'physics' || !s.subject).length} 节`;
 
     ['math', 'chemistry', 'biology'].forEach(sub => {
-        const badge = document.getElementById(badge-${sub});
+        const badge = document.getElementById(`badge-${sub}`);
         if (badge) {
             const count = sections.filter(s => s.subject === sub).length;
             badge.innerText = 已开启 · ${count} 节;
