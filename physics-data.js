@@ -1749,7 +1749,7 @@ const defaultSections = [
                 </tr>
             </tbody>
         </table>
-        `
+     `
 },
 {
     id: 'sec-701',
