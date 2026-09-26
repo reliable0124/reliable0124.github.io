@@ -75,6 +75,8 @@ async function initAndListen() {
     }, err => console.error('Firestore 同步失败：', err));
 }
 
+initAndListen();
+
 function getOrderedChapterSections(chapterId) {
     return sections
         .filter(s => s.chapterId === chapterId)
