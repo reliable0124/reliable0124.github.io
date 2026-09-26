@@ -50,31 +50,30 @@ function updateEditableUI() {
 
 /* ========== 2. Firestore 实时数据同步 ========== */
 
-db.collection('sections').onSnapshot(snapshot => {
-    sections = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    seedMissingDefaults();
+async function initAndListen() {
+    try {
+        // 强制从服务器查一次，跳过本地缓存，避免因缓存不完整而误判"缺失"
+        const snap = await db.collection('sections').get({ source: 'server' });
+        const existingIds = new Set(snap.docs.map(d => d.id));
 
-    if (typeof updateMainBadges === 'function') updateMainBadges();
-    if (document.getElementById('level-2').classList.contains('active')) renderChaptersGrid();
-    if (document.getElementById('level-3').classList.contains('active')) renderSectionsGrid();
-}, err => {
-    console.error('Firestore 同步失败：', err);
-});
-
-// 把 physics-data.js 里新增、云端还没有的小节补种进 Firestore；已存在的条目不覆盖
-async function seedMissingDefaults() {
-    if (typeof defaultSections === 'undefined') return;
-    const existingIds = new Set(sections.map(s => s.id));
-    const missing = defaultSections.filter(s => !existingIds.has(s.id));
-    for (const sec of missing) {
-        try {
-            await db.collection('sections').doc(sec.id).set(sec);
-        } catch (e) {
-            console.error('补种失败：', sec.id, e);
+        if (typeof defaultSections !== 'undefined') {
+            const missing = defaultSections.filter(s => !existingIds.has(s.id));
+            for (const sec of missing) {
+                await db.collection('sections').doc(sec.id).set(sec);
+            }
         }
+    } catch (e) {
+        console.error('初始播种检查失败：', e);
     }
-}
 
+    // 播种确认完成后，才开始正常的实时监听（不再重复播种）
+    db.collection('sections').onSnapshot(snapshot => {
+        sections = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        if (typeof updateMainBadges === 'function') updateMainBadges();
+        if (document.getElementById('level-2').classList.contains('active')) renderChaptersGrid();
+        if (document.getElementById('level-3').classList.contains('active')) renderSectionsGrid();
+    }, err => console.error('Firestore 同步失败：', err));
+}
 function getOrderedChapterSections(chapterId) {
     return sections
         .filter(s => s.chapterId === chapterId)
