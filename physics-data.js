@@ -1196,80 +1196,560 @@ const defaultSections = [
     subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.1 曲线运动',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '曲线运动的速度方向（切线方向）及合力产生条件与轨迹弯曲规律',
+    content: `
+        <h3>一、 曲线运动及其性质 (Curvilinear Motion)</h3>
+        
+        <div class="box-yellow">
+            <strong>定义与本质：</strong><br>
+            运动路径为<b>曲线</b>的运动。
+            <ul>
+                <li><b>速度方向：</b>质点在某一点（或某一时刻）的<b>速度方向，沿曲线在这一点的切线方向</b>。</li>
+                <li><b>运动性质：</b>由于速度的方向时刻在改变，因此曲线运动<b>必然是变速运动</b>（必定具有加速度 $a \\neq 0$）。</li>
+            </ul>
+        </div>
+        
+        <h3>二、 曲线运动的直观矢量图解</h3>
+        
+        <div style="text-align: center; margin: 15px 0;">
+            <svg viewBox="0 0 340 170" style="max-width: 380px; width: 100%; height: auto; border: 1px solid #ccc; border-radius: 6px; background: #fafafa;">
+                <!-- 曲线轨迹 -->
+                <path d="M 30 140 Q 150 20 310 120" fill="none" stroke="#007bff" stroke-width="3"/>
+                
+                <!-- P 点标记 -->
+                <circle cx="150" cy="53" r="4" fill="#dc3545"/>
+                <text x="145" y="40" font-size="12" font-weight="bold" fill="#dc3545">P (质点)</text>
+                
+                <!-- 速度矢量 v (切线) -->
+                <line x1="150" y1="53" x2="230" y2="28" stroke="#28a745" stroke-width="2.5" marker-end="url(#arrow-green)"/>
+                <text x="210" y="20" font-size="11" font-weight="bold" fill="#28a745">速度 v (切线方向)</text>
+                
+                <!-- 合力矢量 F (指向曲线凹侧) -->
+                <line x1="150" y1="53" x2="190" y2="105" stroke="#dc3545" stroke-width="2.5" marker-end="url(#arrow-red)"/>
+                <text x="195" y="100" font-size="11" font-weight="bold" fill="#dc3545">合力 F (指向凹侧)</text>
+                
+                <!-- 轨迹弯曲趋势标注 -->
+                <text x="50" y="155" font-size="10" fill="#6c757d">轨迹向合力 F 的方向弯曲</text>
+        
+                <!-- 箭头定义 -->
+                <defs>
+                    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#28a745"/>
+                    </marker>
+                    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc3545"/>
+                    </marker>
+                </defs>
+            </svg>
+        </div>
+        
+        <h3>三、 曲线运动的产生条件</h3>
+        
+        <div class="box-blue">
+            <strong>核心条件：</strong><br>
+            物体所受<b>合外力 $F_{\\text{合}}$ 的方向（或加速度 $a$ 的方向）与速度 $v$ 的方向不在同一条直线上</b>。
+        </div>
+        
+        <h3>四、 轨迹与合力的几何判定法则</h3>
+        
+        <ul>
+            <li><b>弯曲偏转规律：</b>运动轨迹总是向<b>合外力所指的一侧（曲线的凹侧）弯曲</b>。</li>
+            <li><b>速率增减法则：</b>
+                <ul>
+                    <li>若合力 $F_{\\text{合}}$ 与速度 $v$ 夹角为<b>锐角</b> $\\rightarrow$ 速率<b>增大</b>；</li>
+                    <li>若合力 $F_{\\text{合}}$ 与速度 $v$ 夹角为<b>钝角</b> $\\rightarrow$ 速率<b>减小</b>；</li>
+                    <li>若合力 $F_{\\text{合}}$ 与速度 $v$ <b>垂直</b>（如匀速圆周运动） $\\rightarrow$ 速率<b>不变</b>，仅改变方向。</li>
+                </ul>
+            </li>
+        </ul>
+    `
 },
 {
     id: 'sec-602',
     subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.2 抛射体运动',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '运动的合成与分解、平抛与斜抛运动的规律及射程公式',
+    content: `
+        <h3>一、 抛射体运动与运动的合成与分解</h3>
+        
+        <div class="box-yellow">
+            <strong>基本概念：</strong>
+            <ul>
+                <li><b>抛射体运动：</b>以一定的<b>初速度</b>将物体抛出，且仅在重力作用下（忽略空气阻力）所做的运动。</li>
+                <li><b>初速度 ($v_0$)：</b>抛射体开始运动时的速度。</li>
+                <li><b>运动的合成与分解：</b>根据<b>矢量运算的平行四边形定则</b>，物体的实际运动（合运动）可以分解为几个独立的并发运动（分运动），合运动的速度/位移即为各分运动速度/位移的矢量和。</li>
+            </ul>
+        </div>
+        
+        <h3>二、 平抛运动 (Horizontal Projectile Motion)</h3>
+        <p><b>特点：</b>初速度水平（$v_0 \neq 0$），只受重力作用，轨迹为<b>抛物线</b>。</p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>运动维度</th>
+                    <th>运动性质</th>
+                    <th>速度公式</th>
+                    <th>位移公式</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>水平方向</b></td>
+                    <td>匀速直线运动</td>
+                    <td>$v_x = v_0$</td>
+                    <td>$x = v_0 t$</td>
+                </tr>
+                <tr>
+                    <td><b>竖直方向</b></td>
+                    <td>自由落体运动（匀加速直线运动，$v_{0y}=0$）</td>
+                    <td>$v_y = gt$</td>
+                    <td>$y = \\frac{1}{2}gt^2$</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>三、 斜抛运动 (Oblique Projectile Motion)</h3>
+        <p><b>特点：</b>初速度与水平方向成 $\\theta$ 角斜向上（或斜向下）抛出，轨迹为开口向下的<b>抛物线</b>。</p>
+        
+        <p><b>1. 分运动规律（以斜向上抛为例，设初速度与水平方向夹角为 $\\theta$）：</b></p>
+        <ul>
+            <li>
+                <b>水平方向（匀速直线运动）：</b>
+                <ul>
+                    <li>初速度分量：$$v_x = v_0 \\cos\\theta$$</li>
+                    <li>水平位移：$$x = (v_0 \\cos\\theta) t$$</li>
+                </ul>
+            </li>
+            <li>
+                <b>竖直方向（匀变速直线运动，取向上为正方向）：</b>
+                <ul>
+                    <li>速度公式：$$v_y = v_0 \\sin\\theta - gt$$</li>
+                    <li>竖直位移：$$y = (v_0 \\sin\\theta) t - \\frac{1}{2}gt^2$$</li>
+                </ul>
+            </li>
+        </ul>
+        
+        <p><b>2. 射程公式与抛射角关系：</b></p>
+        <p>消除时间 $t$ 可推导出斜抛运动落地时的水平最大距离（<b>射程 $x$</b>）：</p>
+        
+        <div class="box-blue">
+            $$x = \\frac{v_0^2 \\sin(2\\theta)}{g}$$
+            <ul>
+                <li>当 $\\theta < 45^\\circ$ 时：抛射角 $\\theta$ 越大，射程 $x$ 越大；</li>
+                <li>当 $\\theta > 45^\\circ$ 时：抛射角 $\\theta$ 越大，射程 $x$ 越小；</li>
+                <li>当 <b>$\\theta = 45^\\circ$</b> 时：$\\sin(2\\theta) = \\sin 90^\\circ = 1$，<b>射程达到最大值</b> $x_{\\text{max}} = \\frac{v_0^2}{g}$。</li>
+            </ul>
+        </div>
+     `
 },
 {
     id: 'sec-603',
     subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.3 匀速圆周运动',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '线速率、角速率、周期与频率的定义及公式关系',
+    content: `
+        <h3>一、 匀速率圆周运动 (Uniform Circular Motion)</h3>
+        
+        <div class="box-yellow">
+            <strong>定义与运动性质：</strong><br>
+            物体做圆周运动时，在<b>相等的时间内通过的弧长相等</b>。
+            <ul>
+                <li><b>运动性质：</b>属于<b>变速运动</b>。虽然运动的<i>速率</i>保持不变，但速度的<i>方向时刻在改变</i>（沿轨迹切线方向）。</li>
+            </ul>
+        </div>
+        
+        <h3>二、 核心描述物理量</h3>
+        
+        <p><b>1. 线速率 (Linear Speed, $v$)：</b></p>
+        <ul>
+            <li><b>定义：</b>描述物体沿圆周运动快慢的物理量，等于通过的<b>弧长 $\\Delta s$ 与所用时间 $\\Delta t$ 的比值</b>。</li>
+            <li><b>公式：</b>$$v = \\frac{\\Delta s}{\\Delta t}$$</li>
+        </ul>
+        
+        <p><b>2. 角速率 (Angular Speed, $\\omega$)：</b></p>
+        <ul>
+            <li><b>定义：</b>描述物体绕圆心转动快慢的物理量，等于半径转过的<b>角度 $\\Delta \\theta$ 与转过该角度所用时间 $\\Delta t$ 的比值</b>。</li>
+            <li><b>公式：</b>$$\\omega = \\frac{\\Delta \\theta}{\\Delta t}$$</li>
+            <li><b>特点：</b>在匀速圆周运动中，<b>角速率 $\\omega$ 保持恒定不变</b>。</li>
+        </ul>
+        
+        <p><b>3. 周期 ($T$) 与 频率 ($f$)：</b></p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>物理量</th>
+                    <th>物理意义</th>
+                    <th>单位</th>
+                    <th>相互关系</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>周期 (Period, $T$)</b></td>
+                    <td>物体做圆周运动<b>运动一周</b>所用的时间</td>
+                    <td>秒 ($\\,\\text{s}$)</td>
+                    <td rowspan="2" style="vertical-align:middle;">
+                        $$f = \\frac{1}{T} \\quad \\text{或} \\quad T = \\frac{1}{f}$$
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>频率 (Frequency, $f$)</b></td>
+                    <td>物体在<b>单位时间内转过的圈数</b></td>
+                    <td>赫兹 ($\\,\\text{Hz}$)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>三、 各物理量之间的关系（核心推论）</h3>
+        
+        <p>在半径为 $r$ 的圆周运动中：</p>
+        
+        <div class="box-blue">
+            $$v = \\omega r$$
+            $$v = \\frac{2\\pi r}{T} = 2\\pi r f \\quad , \\quad \\omega = \\frac{2\\pi}{T} = 2\\pi f$$
+            <ul>
+                <li><b>线速率与角速率关系：</b>在半径 $r$ 确定的圆周运动中，<b>线速率 $v$ 与角速率 $\\omega$ 成正比</b>。</li>
+                <li><b>同轴转动模型：</b>同轴转动的各点<b>角速率 $\\omega$ 相同</b>，线速率 $v$ 与半径 $r$ 成正比。</li>
+                <li><b>皮带/齿轮传动模型：</b>不打滑的边缘各点<b>线速率 $v$ 相同</b>，角速率 $\\omega$ 与半径 $r$ 成反比。</li>
+            </ul>
+        </div>
+    `
 },
 {
     id: 'sec-604',
     subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.4 向心力',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '向心加速度/向心力的大小、方向及其效果力属性',
+    content: `
+        <h3>一、 向心加速度 (Centripetal Acceleration, $a_C$)</h3>
+        
+        <div class="box-yellow">
+            <strong>定义与方向：</strong><br>
+            做匀速圆周运动的物体所具有的加速度。
+            <ul>
+                <li><b>方向：</b>在任意时刻都<b>沿着半径指向圆心</b>（方向时刻在改变）。</li>
+                <li><b>运动性质：</b>匀速圆周运动是<b>加速度大小不变、方向时刻改变的变加速曲线运动</b>。</li>
+            </ul>
+        </div>
+        
+        <p><b>1. 公式表达：</b></p>
+        <p>向心加速度的大小可以用线速率 $v$、角速率 $\\omega$、周期 $T$ 和半径 $r$ 表示：</p>
+        
+        $$a_C = \\frac{v^2}{r} = \\omega^2 r = \\left(\\frac{2\\pi}{T}\\right)^2 r = 4\\pi^2 f^2 r$$
+        
+        <h3>二、 向心力 (Centripetal Force, $F_C$)</h3>
+        
+        <p><b>1. 定义与方向：</b>产生向心加速度的力，方向<b>始终指向圆心</b>（与瞬时速度方向垂直，故<b>向心力不做功</b>）。</p>
+        
+        <p><b>2. 公式表达：</b></p>
+        
+        <div class="box-blue">
+            $$F_C = m a_C = m \\frac{v^2}{r} = m \\omega^2 r = m \\frac{4\\pi^2}{T^2} r$$
+        </div>
+        
+        <p><b>3. 关键理解（力学属性）：</b></p>
+        <ul>
+            <li><b>向心力不是一种特殊的力：</b>它不是像重力、弹力、摩擦力那样按性质命名的力，而是<b>根据作用效果命名的“效果力”</b>。</li>
+            <li><b>来源：</b>向心力可以由某个具体的力提供（如万有引力提供行星公转向心力），也可以由几个力的合力或某个力的分力提供。</li>
+        </ul>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-top:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>常见运动模型</th>
+                    <th>向心力的来源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>太阳系行星公转 / 卫星绕地</b></td>
+                    <td>万有引力提供向心力</td>
+                </tr>
+                <tr>
+                    <td><b>汽车在水平路面转弯</b></td>
+                    <td>地面对轮胎的静态摩擦力提供向心力</td>
+                </tr>
+                <tr>
+                    <td><b>绳子拴小球在水平面旋转</b></td>
+                    <td>绳子的拉力提供向心力</td>
+                </tr>
+            </tbody>
+        </table>
+    `
 },
 {
     id: 'sec-605',
     subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.5 离心运动及其应用',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '离心运动定义、产生条件及生活中的应用与防范',
+    content: `
+        <h3>一、 离心运动 (Centrifugal Motion)</h3>
+        
+        <div class="box-yellow">
+            <strong>定义：</strong><br>
+            做圆周运动的物体，在<b>合外力突然消失</b>或<b>合外力不足以提供所需的向心力</b>时，物体所做的逐渐<b>远离圆心</b>的运动。
+        </div>
+        
+        <h3>二、 离心运动的受力与运动条件</h3>
+        
+        <p>设物体做圆周运动时所需的向心力为 $F_{\\text{需}} = m \\frac{v^2}{r} = m \\omega^2 r$，实际受到的合外力为 $F_{\\text{合}}$：</p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>受力关系</th>
+                    <th>运动状态</th>
+                    <th>轨迹特征</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>$F_{\\text{合}} = F_{\\text{需}}$</td>
+                    <td>做圆周运动</td>
+                    <td>保持原圆周轨道运行</td>
+                </tr>
+                <tr>
+                    <td>$F_{\\text{合}} = 0$</td>
+                    <td><b>离心运动</b>（完全离心）</td>
+                    <td>沿受力消失时刻的<b>切线方向做匀速直线运动</b></td>
+                </tr>
+                <tr>
+                    <td>$F_{\\text{合}} < F_{\\text{需}}$</td>
+                    <td><b>离心运动</b>（部分离心）</td>
+                    <td>沿<b>切线与原圆周之间的抛物线/曲线</b>逐渐远离圆心</td>
+                </tr>
+                <tr>
+                    <td>$F_{\\text{合}} > F_{\\text{需}}$</td>
+                    <td><b>向心运动</b>（近心运动）</td>
+                    <td>逐渐向圆心靠拢</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="box-blue">
+            <strong>⚠️ 关键概念澄清：离心力存在吗？</strong><br>
+            <ul>
+                <li>离心运动<b>并不是物体受到所谓的“离心力”作用</b>，而是由于物体自身的<b>惯性</b>（物体倾向于保持切线方向的直线运动状态）。</li>
+                <li>离心运动的本质是<b>提供的合外力“拉不住”物体</b>了。</li>
+            </ul>
+        </div>
+        
+        <h3>三、 生活中的应用与防范</h3>
+        
+        <ul>
+            <li>
+                <b>离心运动的应用：</b>
+                <ul>
+                    <li><b>洗衣机甩干桶：</b>利用离心运动使水滴穿过小孔飞出；</li>
+                    <li><b>离心沉淀机/棉花糖机：</b>利用离心运动将不同密度的物质分离或甩出糖丝。</li>
+                </ul>
+            </li>
+            <li>
+                <b>离心运动的防范：</b>
+                <ul>
+                    <li><b>汽车转弯限制车速：</b>速度 $v$ 过快会导致所需的 $m\\frac{v^2}{r}$ 超过最大静摩擦力，从而发生离心侧滑；</li>
+                    <li><b>高速公路转弯处建造成外高内低：</b>利用重力和支持力的合力提供部分向心力，防止离心事故。</li>
+                </ul>
+            </li>
+        </ul>
+    `
 },
 {
     id: 'sec-606',
     subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.6 竖直平面上的圆周运动',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '顶点与底部的受力分析、向心力表达及临界速度',
+    content: `
+        <h3>一、 竖直平面内圆周运动的受力分析</h3>
+        
+        <p>物体在竖直平面内做圆周运动时，在<b>最高点（顶点）</b>和<b>最低点（底部）</b>，合外力完全沿半径方向，充当向心力 $F_C$（设重力为 $W = mg$，轨道支持力或绳子拉力为 $F_N$）。</p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>位置</th>
+                    <th>受力方向分析</th>
+                    <th>向心力公式 ($F_C$)</th>
+                    <th>超/失重状态</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>圆周顶点（最高点）</b></td>
+                    <td>重力 $W$ 向下，若支持力 $F_N$ 向上：<br>合力 $F_C = W - F_N$</td>
+                    <td>$$F_C = W - F_N = m\\frac{v_{\\text{顶}}^2}{r}$$<br>（此时 $W > F_N$）</td>
+                    <td><b>失重状态</b><br>（支持力/压力小于重力）</td>
+                </tr>
+                <tr>
+                    <td><b>圆周底部（最低点）</b></td>
+                    <td>支持力/拉力 $F_N$ 向上，重力 $W$ 向下：<br>合力 $F_C = F_N - W$</td>
+                    <td>$$F_C = F_N - W = m\\frac{v_{\\text{底}}^2}{r}$$<br>（此时 $F_N > W$）</td>
+                    <td><b>超重状态</b><br>（支持力/拉力大于重力）</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>二、 两种典型模型的临界条件对比</h3>
+        
+        <div class="box-yellow">
+            <strong>1. 绳/单侧轨道模型（只能提供拉力/支撑力向下）：</strong>
+            <ul>
+                <li><b>最高点临界条件：</b>当弹力 $F_N = 0$ 时，仅由重力提供向心力 $W = m\\frac{v^2}{r}$。</li>
+                <li><b>最小过顶速度：</b>$$v_{\\text{临界}} = \\sqrt{gr}$$</li>
+                <li>若 $v < \\sqrt{gr}$，物体将无法到达最高点，提前脱离轨道或掉落。</li>
+            </ul>
+        </div>
+        
+        <div class="box-blue">
+            <strong>2. 轻杆/双侧管道模型（既能提供拉力，也能提供支持力向上）：</strong>
+            <ul>
+                <li><b>最高点临界条件：</b>杆对物体的支持力等于重力 $F_N = W$，此时向心力 $F_C = 0$。</li>
+                <li><b>最小过顶速度：</b>$$v_{\\text{临界}} = 0$$</li>
+                <li>当 $v > \\sqrt{gr}$ 时，杆表现为<b>拉力</b>；当 $v < \\sqrt{gr}$ 时，杆表现为<b>支持力</b>。</li>
+            </ul>
+        </div>
+    `
 },
 {
     id: 'sec-607',
     subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.7 行星的运动及开普勒定律',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '开普勒三大定律内容、公式表达及近日点/远日点速度关系',
+    content: `
+        <h3>一、 开普勒行星运动定律 (Kepler's Laws of Planetary Motion)</h3>
+        
+        <p>开普勒三大定律揭示了太阳系内行星绕太阳运行的运动规律，是天体物理学的基石。</p>
+        
+        <div class="box-yellow">
+            <strong>1. 开普勒第一定律（轨道定律）：</strong><br>
+            所有行星绕太阳运动的轨道都是<b>椭圆</b>，太阳处在椭圆的<b>一个焦点</b>上。
+        </div>
+        
+        <div class="box-blue">
+            <strong>2. 开普勒第二定律（面积定律）：</strong><br>
+            对每个行星而言，太阳与行星的连线在<b>相等的时间内扫过的面积相等</b>。
+            <ul>
+                <li><b>推论：</b>行星在距离太阳较近的<b>近日点</b>时运行速度较<b>快</b>；在距离太阳较远的<b>远日点</b>时运行速度较<b>慢</b>。</li>
+            </ul>
+        </div>
+        
+        <div class="box-yellow">
+            <strong>3. 开普勒第三定律（周期定律）：</strong><br>
+            绕太阳运行的所有行星的<b>半长轴的立方与其公转周期的平方成正比</b>。
+            <p>数学表达式：</p>
+            $$\\frac{a^3}{T^2} = k$$
+            <ul>
+                <li>$a$：椭圆轨道的半长轴（若近似看作圆轨道，则为圆轨道半径 $r$）；</li>
+                <li>$T$：行星绕太阳公转的周期；</li>
+                <li>$k$：比例常数。<b>常数 $k$ 的大小只与中心天体（太阳）的质量有关</b>，与围绕其运行的行星无关。</li>
+            </ul>
+        </div>
+        
+        <h3>二、 简化计算：圆轨道模型</h3>
+        
+        <p>在中学物理的大多数天体计算中，常将行星绕太阳的椭圆轨道<b>近似看作匀速圆周运动</b>：</p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-top:10px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>椭圆轨道概念</th>
+                    <th>近似圆轨道概念</th>
+                    <th>开普勒第三定律近似形式</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>半长轴 $a$</td>
+                    <td>圆轨道半径 $r$</td>
+                    <td rowspan="2" style="vertical-align:middle;">
+                        $$\\frac{R^3}{T^2} = k$$
+                    </td>
+                </tr>
+                <tr>
+                    <td>焦点位置（太阳）</td>
+                    <td>圆心位置（太阳）</td>
+                </tr>
+            </tbody>
+        </table>
+    `
 },
 {
     id: 'sec-608',
     subject: 'physics',
     chapterId: 'p-ch6',
     title: '6.8 万有引力定律',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '万有引力定律、引力常量G、黄金代换式及三大宇宙速度',
+    content: `
+        <h3>一、 万有引力定律 (Law of Universal Gravitation)</h3>
+        
+        <div class="box-yellow">
+            <strong>内容与公式：</strong><br>
+            自然界中任何两个物体都相互吸引，引力 $F$ 的大小与这两个物体的质量 $m_1$ 和 $m_2$ 的乘积成正比，与它们之间距离 $r$ 的平方成反比。
+            $$F = G \\frac{m_1 m_2}{r^2}$$
+            <ul>
+                <li><b>单位规范：</b>质量 $m$ 的单位为千克 ($\\,\\text{kg}$)，距离 $r$ 的单位为米 ($\\,\\text{m}$)。</li>
+                <li><b>引力常量 ($G$)：</b>由卡文迪什通过扭秤实验测定，$G \\approx 6.674 \\times 10^{-11} \\,\\text{N}\\cdot\\text{m}^2/\\text{kg}^2$。</li>
+                <li><b>适用特征：</b>一般物体间的引力极小，通常可忽略不计；仅在天体间或微观巨大质量物体间效果显著。</li>
+            </ul>
+        </div>
+        
+        <h3>二、 万有引力与重力的关系（黄金代换）</h3>
+        
+        <p>在地面附近，忽略地球自转影响时，质量为 $m$ 的物体所受的<b>重力等于地球对它的万有引力</b>（设地球质量为 $M$，半径为 $R$）：</p>
+        
+        $$m g = G \\frac{m M}{R^2}$$
+        
+        <div class="box-blue">
+            <strong>核心推论（黄金代换式）：</strong>
+            $$g R^2 = G M \\quad \\implies \\quad M = \\frac{g R^2}{G}$$
+            利用此式可以在未知地球质量 $M$ 的情况下，用地面重力加速度 $g$ 和半径 $R$ 进行等效替换。
+        </div>
+        
+        <h3>三、 天体运行与向心力推导</h3>
+        
+        <p>天体做圆周运动时，<b>万有引力充当向心力</b>：</p>
+        
+        $$G \\frac{m M}{r^2} = F_C = m a_C = m \\frac{v^2}{r} = m \\omega^2 r = m \\frac{4\\pi^2}{T^2} r$$
+        
+        <p>推导出线速度与轨道半径的关系：$$v = \\sqrt{\\frac{GM}{r}}$$</p>
+        
+        <h3>四、 三大宇宙速度</h3>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-top:10px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>宇宙速度</th>
+                    <th>数值大小</th>
+                    <th>物理意义与轨迹特征</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>第一宇宙速度</b><br>(环绕速度)</td>
+                    <td>$$\\,v_1 = 7.9\\text{ km/s}$$</td>
+                    <td>航天器近地沿<b>圆形轨道</b>绕地球运行的线速度。<br>（既是<b>最小发射速度</b>，也是<b>最大环绕速度</b>）</td>
+                </tr>
+                <tr>
+                    <td><b>第二宇宙速度</b><br>(脱离速度)</td>
+                    <td>$$\\,v_2 = 11.2\\text{ km/s}$$</td>
+                    <td>航天器<b>脱离地球引力</b>束缚、成为绕太阳运行的人造行星所需的最小发射速度。</td>
+                </tr>
+                <tr>
+                    <td><b>第三宇宙速度</b><br>(逃逸速度)</td>
+                    <td>$$\\,v_3 = 16.7\\text{ km/s}$$</td>
+                    <td>航天器<b>脱离太阳引力</b>束缚、飞出太阳系所需的最小发射速度。</td>
+                </tr>
+            </tbody>
+        </table>
+        `
 },
 {
     id: 'sec-701',
