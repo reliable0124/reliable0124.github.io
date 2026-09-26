@@ -342,8 +342,53 @@ content: `
     subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.6 变速直线运动 平均速度和瞬时速度',
-    desc: '-',
-    content: `<p>笔记正文...</p>`
+    desc: '变速运动特征、平均速度（过程量）与瞬时速度（状态量）',
+    content: `
+        <h3>一、 变速直线运动 (Variable Linear Motion)</h3>
+        <p>物体在<b>相等的时间内发生的位移不相等</b>的直线运动，称为变速直线运动（其速度的大小或方向随时间变化）。</p>
+        
+        <h3>二、 平均速度与瞬时速度</h3>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>对比维度</th>
+                    <th>平均速度 (Average Velocity)</th>
+                    <th>瞬时速度 (Instantaneous Velocity)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>物理意义</b></td>
+                    <td>粗略描述物体在<b>某一段时间或某一段位移</b>内的平均运动快慢</td>
+                    <td>精确描述物体在<b>某一时刻或某一位置</b>的运动快慢和方向</td>
+                </tr>
+                <tr>
+                    <td><b>物理属性</b></td>
+                    <td><b>过程量</b>（必须指明是哪段时间或哪段位移）</td>
+                    <td><b>状态量</b>（必须指明是哪一时刻或哪一位置）</td>
+                </tr>
+                <tr>
+                    <td><b>定义式</b></td>
+                    <td>$$\\bar{v} = \\frac{\\Delta x}{\\Delta t}$$</td>
+                    <td>$$v = \\lim_{\\Delta t \\to 0} \\frac{\\Delta x}{\\Delta t}$$</td>
+                </tr>
+                <tr>
+                    <td><b>方向判断</b></td>
+                    <td>与该段时间内的<b>位移 $\\Delta x$ 方向相同</b></td>
+                    <td>与该时刻或位置的<b>运动方向相同</b>（轨迹切线方向）</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="box-yellow">
+            <strong>⚠️ 解题易错点：</strong><br>
+            <ul>
+                <li><b>全程平均速度 $\\neq$ 平均速度的代数平均：</b>全程平均速度必须严格用<b>总位移比上总时间</b>计算（$\\bar{v} = \\frac{x_{\\text{总}}}{t_{\\text{总}}}$），绝不能简单将各段速度相加求平均。</li>
+                <li><b>瞬时速度的大小叫瞬时速率：</b>汽车仪表盘（速度计）上显示的值即为物体的<b>瞬时速率</b>。</li>
+            </ul>
+        </div>
+    `
 },
 {
     id: 'sec-307',
