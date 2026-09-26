@@ -173,8 +173,71 @@ content: `
     subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.4 匀速直线运动 速度和速率',
-    desc: '-',
-    content: `<p>笔记正文...</p>`
+    desc: '时刻与时间的区别、速度定义式及与速率的对比',
+    content: `
+        <h3>一、 时刻与时间 (Time Interval & Instant)</h3>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>概念</th>
+                    <th>物理意义</th>
+                    <th>在时间轴上的表示</th>
+                    <th>常见表述示例</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>时刻 (Instant)</b></td>
+                    <td>表示某一<b>瞬间</b></td>
+                    <td>时间轴上的<b>一个点</b></td>
+                    <td>“8点30分上课”、“第 $3\\text{s}$ 末”</td>
+                </tr>
+                <tr>
+                    <td><b>时间/时间间隔 (Time Interval, $\\Delta t$)</b></td>
+                    <td>表示两个时刻之间的<b>间隔/过程</b></td>
+                    <td>时间轴上两点间的<b>一段线段</b></td>
+                    <td>“一节课 45 分钟”、“前 $3\\text{s}$ 内”</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>二、 速度 (Velocity)</h3>
+        
+        <p><b>1. 定义：</b>衡量物体运动<b>快慢和方向</b>的物理量，由<b>位移与发生该位移所用时间的比值</b>定义。</p>
+        
+        <div class="box-yellow">
+            <strong>定义式与属性：</strong>
+            $$v = \\frac{\\Delta x}{\\Delta t}$$
+            <ul>
+                <li><b>矢量性：</b>速度是<b>矢量</b>，方向与位移 $\\Delta x$ 的方向相同。</li>
+                <li><b>单位：</b>国际单位制中为<b>米每秒 ($\\,\\text{m/s}$ 或 $\\text{m}\\cdot\\text{s}^{-1}$)</b>。</li>
+            </ul>
+        </div>
+        
+        <p><b>2. 匀速直线运动 (Uniform Linear Motion)：</b></p>
+        <ul>
+            <li><b>特征：</b>物体在<b>任意相等的时间内发生的位移都相等</b>。</li>
+            <li><b>本质：</b>速度 $v$ 的<b>大小和方向都保持不变</b>的运动。</li>
+        </ul>
+        
+        <h3>三、 速率 (Speed)</h3>
+        
+        <p><b>1. 定义：</b>物体的<b>路程与通过该路程所需时间的比值</b>。</p>
+        
+        <ul>
+            <li><b>属性：</b><b>标量</b>，只有大小，没有方向。</li>
+            <li><b>匀速率运动：</b>物体在<b>任意相等时间内通过的路程都相等</b>（例如：匀速圆周运动是匀速率运动，但因方向改变，不是匀速运动）。</li>
+        </ul>
+        
+        <div class="box-blue">
+            <strong>易混淆辨析：速度大小 vs 速率</strong><br>
+            <ul>
+                <li><b>平均速度的大小 $\\neq$ 平均速率：</b>平均速度大小为 $\\frac{|\\Delta x|}{\\Delta t}$（位移/时间），而平均速率为 $\\frac{s}{\\Delta t}$（路程/时间）。只有在<b>单向直线运动</b>中两者才相等。</li>
+                <li><b>瞬时速度的大小 $=$ 瞬时速率：</b>当 $\\Delta t \\to 0$ 时，无限短时间内的位移大小等于路程，因此瞬时速度的大小严格等于瞬时速率。</li>
+            </ul>
+        </div>
+     `
 },
 {
     id: 'sec-305',
