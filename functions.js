@@ -1,4 +1,4 @@
-let currentSubject = 'physics';
+et currentSubject = 'physics';
 let currentVolumeFilter = 'all';
 let currentChapterId = '';
 let currentSectionId = '';
@@ -115,7 +115,7 @@ function handleSearch(keyword) {
 
     const grid = document.getElementById('search-grid');
     grid.innerHTML = '';
-    document.getElementById('search-title').innerText = `搜寻 "${keyword}" 的结果`：;
+    document.getElementById('search-title').innerText = `搜寻 "${keyword}" 的结果：`;
 
     const results = sections.filter(s =>
         (s.title || '').toLowerCase().includes(keyword.toLowerCase()) ||
@@ -130,7 +130,7 @@ function handleSearch(keyword) {
             const card = document.createElement('div');
             card.className = 'card';
             card.onclick = () => openSectionDetail(sec.id);
-            card.innerHTML = <h3>${sec.title}</h3><p>${sec.desc || '点击查看完整笔记...'}</p>;
+            card.innerHTML = `<h3>${sec.title}</h3><p>${sec.desc || '点击查看完整笔记...'}</p>`;
             grid.appendChild(card);
         });
     }
@@ -377,7 +377,7 @@ function checkAnswer(optEl, selectedIndex) {
         optEl.classList.add('correct');
     } else {
         optEl.classList.add('wrong');
-        const correctEl = card.querySelector(`.quiz-option[data-index="${q.answerIndex}"`]);
+        const correctEl = card.querySelector(`.quiz-option[data-index="${q.answerIndex}"]`);
         if (correctEl) correctEl.classList.add('correct');
     }
     card.querySelector('.quiz-explanation').style.display = 'block';
