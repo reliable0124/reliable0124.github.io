@@ -268,50 +268,74 @@ content: `
                     <td>表示<b>加速度 $a$</b> ($k = \\frac{\\Delta v}{\\Delta t}$)</td>
                 </tr>
                 <tr>
-                    <td><b>图线与时间轴包围的“面积”</b></td>
+                    <td><b>图线包围“面积”</b></td>
                     <td><b>无物理意义</b></td>
-                    <td>表示<b>位移 $\\Delta x$</b><br>（时间轴上方为正位移，下方为负位移）</td>
+                    <td>表示<b>位移 $\\Delta x$</b><br>（轴上方正位移，下方负位移）</td>
                 </tr>
                 <tr>
                     <td><b>两图线交点</b></td>
-                    <td>表示两物体在同一时刻<b>相遇（同一位置）</b></td>
-                    <td>表示两物体在同一时刻<b>速度相等</b>（并不代表相遇）</td>
+                    <td>表示两物体<b>同一时刻相遇</b></td>
+                    <td>表示两物体<b>同一时刻速度相等</b></td>
                 </tr>
             </tbody>
         </table>
         
-        <h3>二、 位置-时间图像 ($x$-$t$ 图像) 详解</h3>
-        <ul>
-            <li><b>平行于时间轴的倾斜直线（斜率 $k = 0$）：</b> 表示物体<b>处于静止状态</b>。</li>
-            <li><b>倾斜的直线（斜率 $k \neq 0$ 且恒定）：</b> 表示物体做<b>匀速直线运动</b>。
-                <ul>
-                    <li>斜率 $k > 0$（向上倾斜）：沿正方向运动。</li>
-                    <li>斜率 $k < 0$（向下倾斜）：沿负方向运动。</li>
-                </ul>
-            </li>
-            <li><b>曲线：</b> 表示物体做<b>变速运动</b>。曲线上某点的切线斜率即为该时刻的<b>瞬时速度</b>。</li>
-        </ul>
+        <h3>二、 直观图解与关键特征</h3>
         
-        <h3>三、 速度-时间图像 ($v$-$t$ 图像) 详解</h3>
-        <ul>
-            <li><b>平行于时间轴的直线（斜率 $k = 0$）：</b> 表示物体做<b>匀速直线运动</b>（加速度 $a = 0$）。</li>
-            <li><b>倾斜的直线（斜率 $k \neq 0$ 且恒定）：</b> 表示物体做<b>匀变速直线运动</b>。
-                <ul>
-                    <li>斜率与速度同号 $\\rightarrow$ <b>加速运动</b>；</li>
-                    <li>斜率与速度异号 $\\rightarrow$ <b>减速运动</b>。</li>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px;">
+            <!-- x-t 图像示意 -->
+            <div style="flex: 1; min-width: 260px; border: 1px solid #ccc; padding: 10px; border-radius: 6px; background: #fafafa;">
+                <h4 style="margin-top:0; text-align:center;">x-t 图像特征</h4>
+                <svg viewBox="0 0 200 120" style="width:100%; height:auto;">
+                    <!-- 坐标轴 -->
+                    <line x1="20" y1="100" x2="190" y2="100" stroke="#000" stroke-width="2"/>
+                    <line x1="20" y1="100" x2="20" y2="10" stroke="#000" stroke-width="2"/>
+                    <text x="180" y="115" font-size="10">t</text>
+                    <text x="5" y="20" font-size="10">x</text>
+                    <!-- 图线 -->
+                    <line x1="20" y1="80" x2="160" y2="20" stroke="#007bff" stroke-width="2"/> <!-- 匀速直线 -->
+                    <line x1="20" y1="40" x2="180" y2="40" stroke="#28a745" stroke-width="2" stroke-dasharray="4"/> <!-- 静止 -->
+                    <path d="M 20 100 Q 80 90 150 30" fill="none" stroke="#dc3545" stroke-width="2"/> <!-- 加速曲线 -->
+                </svg>
+                <ul style="font-size: 0.85em; padding-left: 15px; margin-bottom: 0;">
+                    <li><span style="color:#007bff;">■</span> 倾斜直线：匀速直线运动（斜率 = $v$）</li>
+                    <li><span style="color:#28a745;">■</span> 水平直线：静止（$v = 0$）</li>
+                    <li><span style="color:#dc3545;">■</span> 曲线：变速运动（切线斜率 = 瞬时速度）</li>
                 </ul>
-            </li>
-            <li><b>曲线：</b> 表示物体做<b>变加速度运动</b>。曲线上某点的切线斜率即为该时刻的<b>瞬时加速度</b>。</li>
-        </ul>
+            </div>
+        
+            <!-- v-t 图像示意 -->
+            <div style="flex: 1; min-width: 260px; border: 1px solid #ccc; padding: 10px; border-radius: 6px; background: #fafafa;">
+                <h4 style="margin-top:0; text-align:center;">v-t 图像特征</h4>
+                <svg viewBox="0 0 200 120" style="width:100%; height:auto;">
+                    <!-- 阴影面积 -->
+                    <polygon points="20,100 120,40 120,100" fill="rgba(255, 193, 7, 0.4)" />
+                    <!-- 坐标轴 -->
+                    <line x1="20" y1="100" x2="190" y2="100" stroke="#000" stroke-width="2"/>
+                    <line x1="20" y1="100" x2="20" y2="10" stroke="#000" stroke-width="2"/>
+                    <text x="180" y="115" font-size="10">t</text>
+                    <text x="5" y="20" font-size="10">v</text>
+                    <!-- 图线 -->
+                    <line x1="20" y1="100" x2="150" y2="22" stroke="#007bff" stroke-width="2"/>
+                    <!-- 面积标注线 -->
+                    <line x1="120" y1="40" x2="120" y2="100" stroke="#6c757d" stroke-dasharray="2"/>
+                    <text x="50" y="85" font-size="10" fill="#856404">面积 = 位移 Δx</text>
+                </svg>
+                <ul style="font-size: 0.85em; padding-left: 15px; margin-bottom: 0;">
+                    <li><span style="color:#007bff;">■</span> 斜率：加速度 $a$ （倾斜直线的倾角）</li>
+                    <li><span style="color:#856404;">■</span> 包围面积：位移 $\\Delta x$ （轴上方正，下方负）</li>
+                </ul>
+            </div>
+        </div>
         
         <div class="box-yellow">
             <strong>⚠️ 易错提醒：</strong><br>
             <ul>
-                <li>$x$-$t$ 图像和 $v$-$t$ 图像都只能用来描述<b>直线运动</b>，图像上的曲线<b>绝不代表物体的运动轨迹</b>！</li>
-                <li>在 $v$-$t$ 图像中计算“路程”时，需将时间轴上方的面积与下方的面积<b>取绝对值相加</b>；计算“位移”时则直接做<b>代数相加</b>（上正下负）。</li>
+                <li>图像上的任何曲线<b>绝不代表物体的运动轨迹</b>，仅代表数值随时间的变化关系。</li>
+                <li>计算 $v$-$t$ 图像的“路程”时，将各部分面积<b>绝对值相加</b>；计算“位移”时进行<b>代数相加</b>（上正下负）。</li>
             </ul>
         </div>
-    `
+     `
 },
 {
     id: 'sec-306',
