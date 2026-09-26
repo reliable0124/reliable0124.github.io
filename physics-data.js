@@ -110,8 +110,63 @@ content: `
     subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.3 路程与位移',
-    desc: '-',
-    content: `<p>笔记正文...</p>`
+    desc: '标量/矢量运算法则及路程与位移的对比',
+    content: `
+        <h3>一、 标量与矢量 (Scalar & Vector)</h3>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>物理量类型</th>
+                    <th>核心特征</th>
+                    <th>运算法则</th>
+                    <th>常见实例</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>标量 (Scalar)</b></td>
+                    <td>只有大小，<b>没有方向</b></td>
+                    <td>遵从<b>算术/代数相加法则</b></td>
+                    <td>路程、质量、时间、温度、功</td>
+                </tr>
+                <tr>
+                    <td><b>矢量 (Vector)</b></td>
+                    <td><b>既有大小，又有方向</b></td>
+                    <td><b>不遵循代数法则</b><br>遵从<b>平行四边形定则</b>（或三角形定则）</td>
+                    <td>位移、速度、加速度、力、动量</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>二、 路程与位移 (Path Length & Displacement)</h3>
+        
+        <p><b>1. 路程 (Path Length / Distance, $s$)：</b></p>
+        <ul>
+            <li><b>定义：</b>物体运动<b>实际轨迹的长度</b>。</li>
+            <li><b>属性：</b><b>标量</b>，只有大小，没有方向，永远非负 ($s \\ge 0$)。</li>
+        </ul>
+        
+        <p><b>2. 位移 (Displacement, $\\vec{s}$ 或 $\\Delta x$)：</b></p>
+        <ul>
+            <li><b>定义：</b>表示物体（质点）<b>位置的变化</b>。由初位置指向末位置的有向线段。</li>
+            <li><b>属性：</b><b>矢量</b>：
+                <ul>
+                    <li><b>大小：</b>初位置到末位置的直线距离；</li>
+                    <li><b>方向：</b>从<b>初位置指向末位置</b>。</li>
+                </ul>
+            </li>
+        </ul>
+        
+        <div class="box-yellow">
+            <strong>核心对比与联系：</strong><br>
+            <ul>
+                <li><b>大小关系：</b>通常情况下，路程 $\\ge$ 位移的大小（即 $s \\ge |\\Delta x|$）。</li>
+                <li><b>等号成立条件：</b>只有当物体做<b>单向直线运动</b>时，路程才等于位移的大小。</li>
+                <li><b>闭合轨迹：</b>若物体回到起点（如绕操场跑一圈），其<b>位移为 0</b>，但<b>路程不为 0</b>。</li>
+            </ul>
+        </div>
+     `
 },
 {
     id: 'sec-304',
