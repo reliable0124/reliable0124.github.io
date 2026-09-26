@@ -474,6 +474,72 @@ const defaultSections = [
     subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.8 匀加速直线运动',
+    desc: '匀加速/匀减速定义、三大核心公式及其矢量正方向法则',
+    content: `
+        <h3>一、 匀变速直线运动 (Uniformly Accelerated Linear Motion)</h3>
+        
+        <div class="box-yellow">
+            <strong>定义与分类：</strong><br>
+            沿着直线运动且加速度 $a$ 保持不变的运动。
+            <ul>
+                <li><b>匀加速直线运动：</b>在相等的时间内<b>速度的增加量相等</b>（$a$ 与 $v_0$ 同向）。</li>
+                <li><b>匀减速直线运动：</b>在相等的时间内<b>速度的减少量相等</b>（$a$ 与 $v_0$ 反向）。</li>
+            </ul>
+        </div>
+        
+        <h3>二、 三大核心基本公式</h3>
+        
+        <p>设初速度为 $v_0$，末速度为 $v$，加速度为 $a$，时间为 $t$，位移为 $s$（或 $\\Delta x$）：</p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>公式名称</th>
+                    <th>数学表达式</th>
+                    <th>公式特点与适用场景</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>① 速度-时间公式</b></td>
+                    <td>$$v = v_0 + at$$</td>
+                    <td>不含位移 $s$，用于已知时间求速度</td>
+                </tr>
+                <tr>
+                    <td><b>② 位移-时间公式</b></td>
+                    <td>$$s = v_0 t + \\frac{1}{2}at^2$$</td>
+                    <td>不含末速度 $v$，用于已知时间求位移</td>
+                </tr>
+                <tr>
+                    <td><b>③ 速度-位移公式</b></td>
+                    <td>$$v^2 - v_0^2 = 2as$$</td>
+                    <td><b>不含时间 $t$</b>，用于不涉及时间的计算</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>三、 辅助计算公式（平均速度法）</h3>
+        <p>对于匀变速直线运动，在时间 $t$ 内的<b>平均速度</b>等于初速度与末速度的算术平均值：</p>
+        
+        <div class="box-blue">
+            $$v_{\\text{平}} = \\frac{v_0 + v}{2}$$
+            $$\\text{故位移公式也可写作：} \\quad s = v_{\\text{平}} \\cdot t = \\frac{v_0 + v}{2} \\cdot t$$
+        </div>
+        
+        <h3>四、 矢量性与正方向规定（解题关键）</h3>
+        <p>公式中的 $v_0$、$v$、$a$、$s$ 均为<b>矢量</b>，求解前必须指定正方向（通常规定以初速度 $v_0$ 的方向为正方向）：</p>
+        <ul>
+            <li>若物体做<b>匀加速运动</b>：加速度 $a > 0$（带正值代入）；</li>
+            <li>若物体做<b>匀减速运动</b>：加速度 $a < 0$（<b>必须带负号代入计算</b>）；</li>
+            <li>若位移或末速度方向与正方向相反，则 $s$ 或 $v$ 也应取负值。</li>
+        </ul>
+    `
+},
+{
+    id: 'sec-309',
+    subject: 'physics',
+    chapterId: 'p-ch3',
+    title: '3.9 匀加速直线运动',
     desc: '-',
     content: `<p>笔记正文...</p>`
 },
