@@ -979,10 +979,10 @@ const defaultSections = [
     subject: 'physics',
     chapterId: 'p-ch4',
     title: '4.8 牛顿第三运动定律',
-    desc: '作用力与反作用力的性质及与平衡力的区别',
+    desc: '作用力与反作用力性质、平衡力对比及升降机视重分析',
     content: `
         <h3>一、 牛顿第三运动定律</h3>
-        
+
         <div class="box-yellow">
             <strong>定律内容：</strong><br>
             两个物体之间的<b>作用力</b>与<b>反作用力</b>总是大小相等，方向相反，作用在同一条直线上。
@@ -998,7 +998,7 @@ const defaultSections = [
         </ul>
         
         <h3>三、 易错辨析：作用力与反作用力 vs 一对平衡力</h3>
-        <table border="1" style="width:100%; border-collapse:collapse; margin-top:10px; text-align:center;">
+        <table border="1" style="width:100%; border-collapse:collapse; margin-top:10px; margin-bottom:15px; text-align:center;">
             <thead>
                 <tr style="background-color: #f2f2f2;">
                     <th>对比维度</th>
@@ -1029,6 +1029,67 @@ const defaultSections = [
                 </tr>
             </tbody>
         </table>
+        
+        <h3>四、 升降机问题：超重与失重状态（视重分析）</h3>
+        
+        <p>当人或物体站在升降机内的体重计上时，<b>体重计的示数（视重）反映的是人对底板的压力 $F_N'$</b>。根据牛顿第三定律，底板对人的支持力 $F_N = F_N'$。</p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>状态</th>
+                    <th>加速度 $a$ 方向</th>
+                    <th>运动情况示例</th>
+                    <th>支持力/压力公式 ($F_N$)</th>
+                    <th>现象与视重关系</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>超重</b><br>(Overweight)</td>
+                    <td><b>竖直向上</b> $(\\uparrow)$</td>
+                    <td>
+                        • 升降机<b>加速上升</b><br>
+                        • 升降机<b>减速下降</b>
+                    </td>
+                    <td>
+                        $$F_N - mg = ma$$
+                        $$F_N = m(g + a)$$
+                    </td>
+                    <td><b>$F_N > mg$</b><br>视重大于实重（感觉变重）</td>
+                </tr>
+                <tr>
+                    <td><b>失重</b><br>(Weightlessness)</td>
+                    <td><b>竖直向下</b> $(\\downarrow)$</td>
+                    <td>
+                        • 升降机<b>减速上升</b><br>
+                        • 升降机<b>加速下降</b>
+                    </td>
+                    <td>
+                        $$mg - F_N = ma$$
+                        $$F_N = m(g - a)$$
+                    </td>
+                    <td><b>$F_N < mg$</b><br>视重小于实重（感觉变轻）</td>
+                </tr>
+                <tr>
+                    <td><b>完全失重</b></td>
+                    <td><b>竖直向下</b>，且 $a = g$</td>
+                    <td>升降机钢索断裂<b>自由下落</b></td>
+                    <td>
+                        $$F_N = m(g - g) = 0$$
+                    </td>
+                    <td><b>$F_N = 0$</b><br>压力完全消失</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="box-blue">
+            <strong>💡 避坑要点：</strong><br>
+            <ul>
+                <li>判断超重还是失重，<b>只取决于加速度 $a$ 的方向</b>，与物体的运动方向（速度 $v$ 的方向）无关：加速度向上即超重，加速度向下即失重。</li>
+                <li>无论是超重还是失重，<b>物体受到的真实重力 $G = mg$ 始终保持不变</b>，改变的只是支持力/压力（视重）。</li>
+            </ul>
+        </div>
     `
 },
 {
