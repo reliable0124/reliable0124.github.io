@@ -1,4 +1,4 @@
-et currentSubject = 'physics';
+let currentSubject = 'physics';
 let currentVolumeFilter = 'all';
 let currentChapterId = '';
 let currentSectionId = '';
