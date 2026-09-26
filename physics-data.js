@@ -1,23 +1,6 @@
 // physics-data.js
 const defaultSections = [
 {
-id: 'sec-101',
-subject: 'physics',
-chapterId: 'p-ch1',
-title: '1.1 质点 参考系',
-desc: '理解理想化模型与参考系的相对性',
-content: `
-<h3>一、质点 (Particle)</h3>
-<p>用来代替物体的有质量的点。质点是一种<b>理想化物理模型</b>。</p>
-<div class="box-yellow">
-<strong>物体可看作质点的条件：</strong><br>
-物体的形状和大小对所研究的问题没有影响，或影响可以忽略不计时。
-</div>
-<h3>二、参考系 (Reference Frame)</h3>
-<p>为了研究物体的运动而假定不动的物体。运动和静止都是相对参考系而言的。</p>
-`
-},
-{
     id: 'sec-301',
     subject: 'physics',
     chapterId: 'p-ch3',
