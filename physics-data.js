@@ -244,8 +244,74 @@ content: `
     subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.5 匀速直线运动图像',
-    desc: '-',
-    content: `<p>笔记正文...</p>`
+    desc: 'x-t 与 v-t 图像的斜率、截距及面积的物理意义',
+    content: `
+        <h3>一、 图像物理意义对比总览</h3>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>图像特征</th>
+                    <th>位置-时间图像 ($x$-$t$ 图像)</th>
+                    <th>速度-时间图像 ($v$-$t$ 图像)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>纵坐标 (Y轴)</b></td>
+                    <td>表示物体的<b>位置 $x$</b></td>
+                    <td>表示物体的<b>速度 $v$</b></td>
+                </tr>
+                <tr>
+                    <td><b>斜率 (Slope, $k$)</b></td>
+                    <td>表示<b>速度 $v$</b> ($k = \\frac{\\Delta x}{\\Delta t}$)</td>
+                    <td>表示<b>加速度 $a$</b> ($k = \\frac{\\Delta v}{\\Delta t}$)</td>
+                </tr>
+                <tr>
+                    <td><b>图线与时间轴包围的“面积”</b></td>
+                    <td><b>无物理意义</b></td>
+                    <td>表示<b>位移 $\\Delta x$</b><br>（时间轴上方为正位移，下方为负位移）</td>
+                </tr>
+                <tr>
+                    <td><b>两图线交点</b></td>
+                    <td>表示两物体在同一时刻<b>相遇（同一位置）</b></td>
+                    <td>表示两物体在同一时刻<b>速度相等</b>（并不代表相遇）</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>二、 位置-时间图像 ($x$-$t$ 图像) 详解</h3>
+        <ul>
+            <li><b>平行于时间轴的倾斜直线（斜率 $k = 0$）：</b> 表示物体<b>处于静止状态</b>。</li>
+            <li><b>倾斜的直线（斜率 $k \neq 0$ 且恒定）：</b> 表示物体做<b>匀速直线运动</b>。
+                <ul>
+                    <li>斜率 $k > 0$（向上倾斜）：沿正方向运动。</li>
+                    <li>斜率 $k < 0$（向下倾斜）：沿负方向运动。</li>
+                </ul>
+            </li>
+            <li><b>曲线：</b> 表示物体做<b>变速运动</b>。曲线上某点的切线斜率即为该时刻的<b>瞬时速度</b>。</li>
+        </ul>
+        
+        <h3>三、 速度-时间图像 ($v$-$t$ 图像) 详解</h3>
+        <ul>
+            <li><b>平行于时间轴的直线（斜率 $k = 0$）：</b> 表示物体做<b>匀速直线运动</b>（加速度 $a = 0$）。</li>
+            <li><b>倾斜的直线（斜率 $k \neq 0$ 且恒定）：</b> 表示物体做<b>匀变速直线运动</b>。
+                <ul>
+                    <li>斜率与速度同号 $\\rightarrow$ <b>加速运动</b>；</li>
+                    <li>斜率与速度异号 $\\rightarrow$ <b>减速运动</b>。</li>
+                </ul>
+            </li>
+            <li><b>曲线：</b> 表示物体做<b>变加速度运动</b>。曲线上某点的切线斜率即为该时刻的<b>瞬时加速度</b>。</li>
+        </ul>
+        
+        <div class="box-yellow">
+            <strong>⚠️ 易错提醒：</strong><br>
+            <ul>
+                <li>$x$-$t$ 图像和 $v$-$t$ 图像都只能用来描述<b>直线运动</b>，图像上的曲线<b>绝不代表物体的运动轨迹</b>！</li>
+                <li>在 $v$-$t$ 图像中计算“路程”时，需将时间轴上方的面积与下方的面积<b>取绝对值相加</b>；计算“位移”时则直接做<b>代数相加</b>（上正下负）。</li>
+            </ul>
+        </div>
+    `
 },
 {
     id: 'sec-306',
