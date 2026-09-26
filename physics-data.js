@@ -22,7 +22,7 @@ content: `
     subject: 'physics',
     chapterId: 'p-ch3',
     title: '3.1 机械运动',
-    desc: '-',
+    desc: '机械运动分类（平动与转动）及质点模型适用条件',
     content: `
         <h3>一、 机械运动 (Mechanical Motion)</h3>
         <p><b>1. 定义：</b>物体的<b>空间位置随时间变化</b>的运动，称为机械运动，是自然界中最基本、最普遍的运动形式。</p>
