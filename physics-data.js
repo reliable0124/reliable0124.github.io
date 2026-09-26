@@ -539,9 +539,78 @@ const defaultSections = [
     id: 'sec-309',
     subject: 'physics',
     chapterId: 'p-ch3',
-    title: '3.9 匀加速直线运动',
-    desc: '-',
-    content: `<p>笔记正文...</p>`
+    title: '3.9 自由落体运动',
+    desc: '自由落体条件、重力加速度g及相关运动学公式',
+    content: `
+        <h3>一、 自由落体运动 (Free-Fall Motion)</h3>
+        
+        <div class="box-yellow">
+            <strong>理想化模型与定义：</strong><br>
+            物体<b>只在重力作用下</b>由<b>静止开始</b>下落的运动。
+            <ul>
+                <li><b>初速度条件：</b>$v_0 = 0$</li>
+                <li><b>受力条件：</b>只受重力作用（若空气阻力可忽略不计，也可近似看作自由落体运动）。</li>
+                <li><b>运动性质：</b>初速度为零的<b>匀加速直线运动</b>。</li>
+            </ul>
+        </div>
+        
+        <h3>二、 重力加速度 (Gravitational Acceleration, $g$)</h3>
+        
+        <ul>
+            <li><b>定义：</b>自由落体运动的加速度，用符号 $g$ 表示，方向<b>总是竖直向下</b>。</li>
+            <li><b>大小标准值：</b>在地球表面附近，通常取 $g \\approx 9.8\\text{ m/s}^2$（粗略计算时可取 $10\\text{ m/s}^2$）。</li>
+            <li>
+                <b>分布规律：</b>
+                <ul>
+                    <li><b>纬度影响：</b>赤道处 $g$ 最小，两极处 $g$ 最大（随纬度升高而增大）。</li>
+                    <li><b>高度影响：</b>离地面越高，$g$ 越小（随海拔升高而减小）。</li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h3>三、 自由落体核心计算公式</h3>
+        
+        <p>自由落体运动是匀变速直线运动在 $v_0 = 0$、$a = g$、$s = h$ 时的特例：</p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>公式名称</th>
+                    <th>通用匀变速公式</th>
+                    <th>自由落体公式</th>
+                    <th>应用场景</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>速度-时间公式</b></td>
+                    <td>$v = v_0 + at$</td>
+                    <td>$$v = gt$$</td>
+                    <td>已知下落时间求瞬时速度</td>
+                </tr>
+                <tr>
+                    <td><b>位移-时间公式</b></td>
+                    <td>$s = v_0 t + \\frac{1}{2}at^2$</td>
+                    <td>$$h = \\frac{1}{2}gt^2$$</td>
+                    <td>已知下落时间求下落高度</td>
+                </tr>
+                <tr>
+                    <td><b>速度-位移公式</b></td>
+                    <td>$v^2 - v_0^2 = 2as$</td>
+                    <td>$$v^2 = 2gh$$</td>
+                    <td><b>不含时间 $t$</b>，已知高度求末速度</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="box-blue">
+            <strong>💡 实用推论：</strong><br>
+            <ul>
+                <li>由 $h = \\frac{1}{2}gt^2$ 可得下落时间：$$t = \\sqrt{\\frac{2h}{g}}$$</li>
+                <li>所有物体在同一地点做自由落体运动时，<b>下落快慢与物体的质量、形状无关</b>。</li>
+            </ul>
+        </div>
+    `
 },
 {
     id: 'sec-401',
