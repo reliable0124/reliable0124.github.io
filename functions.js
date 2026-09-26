@@ -74,6 +74,7 @@ async function initAndListen() {
         if (document.getElementById('level-3').classList.contains('active')) renderSectionsGrid();
     }, err => console.error('Firestore 同步失败：', err));
 }
+
 function getOrderedChapterSections(chapterId) {
     return sections
         .filter(s => s.chapterId === chapterId)
