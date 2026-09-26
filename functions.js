@@ -95,11 +95,11 @@ function updateMainBadges() {
         const badge = document.getElementById(`badge-${sub}`);
         if (badge) {
             const count = sections.filter(s => s.subject === sub).length;
-            badge.innerText = 已开启 · ${count} 节;
+            badge.innerText = `已开启 · ${count} 节`;
         }
     });
 
-    document.getElementById('progress-text').innerText = 已掌握 ${greenCount} 节 / 共 ${pCount} 节小节;
+    document.getElementById('progress-text').innerText = `已掌握 ${greenCount} 节 / 共 ${pCount} 节小节`;
     document.getElementById('progress-fill').style.width = percent + '%';
     document.getElementById('progress-percent').innerText = percent + '%';
 }
@@ -115,7 +115,7 @@ function handleSearch(keyword) {
 
     const grid = document.getElementById('search-grid');
     grid.innerHTML = '';
-    document.getElementById('search-title').innerText = 搜寻 "${keyword}" 的结果：;
+    document.getElementById('search-title').innerText = `搜寻 "${keyword}" 的结果`：;
 
     const results = sections.filter(s =>
         (s.title || '').toLowerCase().includes(keyword.toLowerCase()) ||
@@ -124,7 +124,7 @@ function handleSearch(keyword) {
     );
 
     if (results.length === 0) {
-        grid.innerHTML = <p style="color:var(--text-muted); grid-column:1/-1;">未找到匹配知识点笔记...</p>;
+        grid.innerHTML = `<p style="color:var(--text-muted); grid-column:1/-1;">未找到匹配知识点笔记...</p>`;
     } else {
         results.forEach(sec => {
             const card = document.createElement('div');
@@ -145,7 +145,7 @@ function openSubject(sub) {
 
     document.getElementById('nav-subject-name').innerText = subNames[sub];
     document.getElementById('nav-subject-link').innerText = subNames[sub];
-    document.getElementById('subject-title').innerText = ${subNames[sub]} · 章节目录;
+    document.getElementById('subject-title').innerText = `${subNames[sub]} · 章节目录`;
 
     const volTabs = document.getElementById('physics-vol-tabs');
     if (volTabs) volTabs.style.display = (sub === 'physics') ? 'flex' : 'none';
@@ -182,7 +182,7 @@ function renderChaptersGrid() {
     filtered.forEach(ch => {
         const count = sections.filter(s => s.chapterId === ch.id).length;
         const card = document.createElement('div');
-        card.className = card subj-${currentSubject === 'chemistry' ? 'chem' : currentSubject === 'biology' ? 'bio' : currentSubject};
+        card.className = `card subj-${currentSubject === 'chemistry' ? 'chem' : currentSubject === 'biology' ? 'bio' : currentSubject}`;
         card.onclick = () => openChapter(ch.id);
         card.innerHTML = `
             <div>
@@ -212,7 +212,7 @@ function renderSectionsGrid() {
     const subSections = getOrderedChapterSections(currentChapterId);
 
     if (subSections.length === 0) {
-        grid.innerHTML = <p style="color:var(--text-muted); grid-column:1/-1;">本章暂无小节，登录后点击右上角"+ 新建小节"添加！</p>;
+        grid.innerHTML = `<p style="color:var(--text-muted); grid-column:1/-1;">本章暂无小节，登录后点击右上角"+ 新建小节"添加！</p>`;
     } else {
         subSections.forEach(sec => {
             const card = document.createElement('div');
@@ -245,7 +245,7 @@ function openSectionDetail(secId) {
 
     document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
     if (sec.status) {
-        const activeBtn = document.getElementById(btn-status-${sec.status});
+        const activeBtn = document.getElementById(`btn-status-${sec.status}`);
         if (activeBtn) activeBtn.classList.add('active');
     }
 
@@ -275,7 +275,7 @@ function updateSectionNavButtons(sec) {
 
     if (prevSec) {
         prevBtn.disabled = false;
-        prevBtn.innerText = 上一节：${prevSec.title};
+        prevBtn.innerText = `上一节：${prevSec.title}`;
         prevBtn.onclick = () => openSectionDetail(prevSec.id);
     } else {
         prevBtn.disabled = true;
@@ -285,7 +285,7 @@ function updateSectionNavButtons(sec) {
 
     if (nextSec) {
         nextBtn.disabled = false;
-        nextBtn.innerText = 下一节：${nextSec.title};
+        nextBtn.innerText = `下一节：${nextSec.title}`;
         nextBtn.onclick = () => openSectionDetail(nextSec.id);
     } else {
         nextBtn.disabled = true;
@@ -302,7 +302,7 @@ function setSectionStatus(status) {
         .catch(e => alert('保存失败：' + e.message));
 
     document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(btn-status-${status}).classList.add('active');
+    document.getElementById(`btn-status-${status}`).classList.add('active');
 }
 
 /* ========== 8. 练习题（按小节自带的 quiz 数据渲染，没有数据时显示空状态） ==========
@@ -377,7 +377,7 @@ function checkAnswer(optEl, selectedIndex) {
         optEl.classList.add('correct');
     } else {
         optEl.classList.add('wrong');
-        const correctEl = card.querySelector(.quiz-option[data-index="${q.answerIndex}"]);
+        const correctEl = card.querySelector(`.quiz-option[data-index="${q.answerIndex}"`]);
         if (correctEl) correctEl.classList.add('correct');
     }
     card.querySelector('.quiz-explanation').style.display = 'block';
@@ -405,7 +405,7 @@ function openAddModal() {
 
     const chapters = getSubjectChapters(currentSubject);
     chapters.forEach(ch => {
-        select.innerHTML += <option value="${ch.id}">${ch.title}</option>;
+        select.innerHTML += `<option value="${ch.id}">${ch.title}</option>`;
     });
 
     document.getElementById('modal-title').value = '';
@@ -423,7 +423,7 @@ function openEditModal() {
     select.innerHTML = '';
 
     const chapters = getSubjectChapters(sec.subject || currentSubject);
-    chapters.forEach(ch => select.innerHTML += <option value="${ch.id}">${ch.title}</option>);
+    chapters.forEach(ch => select.innerHTML += `<option value="${ch.id}">${ch.title}</option>`);
 
     select.value = sec.chapterId;
     document.getElementById('modal-title').value = sec.title;
