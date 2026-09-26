@@ -89,7 +89,7 @@ function updateMainBadges() {
     const percent = pCount > 0 ? Math.round((greenCount / pCount) * 100) : 0;
 
     const pBadge = document.getElementById('badge-physics');
-    if (pBadge) pBadge.innerText = 27 章 · 已存 ${sections.filter(s => s.subject === 'physics' || !s.subject).length} 节;
+    if (pBadge) pBadge.innerText = `27 章 · 已存 ${sections.filter(s => s.subject === 'physics' || !s.subject).length} 节`;
 
     ['math', 'chemistry', 'biology'].forEach(sub => {
         const badge = document.getElementById(badge-${sub});
