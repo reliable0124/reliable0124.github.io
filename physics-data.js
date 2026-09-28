@@ -1817,100 +1817,840 @@ const defaultSections = [
     subject: 'physics',
     chapterId: 'p-ch7',
     title: '7.1 功和功率',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '功的定义式、正负功判定法则、平均功率与瞬时功率',
+    content: `
+        <h3>一、 功 (Work, $W$)</h3>
+        
+        <div class="box-yellow">
+            <strong>定义与做功两要素：</strong><br>
+            如果一个物体在<b>力的作用下</b>发生<b>位移</b>，且位移方向上存在力的分量，则这个力对物体做了功。
+            <ul>
+                <li><b>做功的两个必要因素：</b>① 作用在物体上的力 $F$；② 物体在力的方向上发生的位移 $s$。</li>
+                <li><b>标量性：</b>功是<b>标量</b>（只有大小，没有方向），单位为<b>焦耳 ($\\,\\text{J}$)</b>，其中 $1\\text{ J} = 1\\text{ N}\\cdot\\text{m}$。</li>
+            </ul>
+        </div>
+        
+        <p><b>1. 功的定义式：</b></p>
+        
+        $$W = F s \\cos\\theta$$
+        
+        <p>（其中 $F$ 为力的大小，$s$ 为位移的大小，$\\theta$ 为<b>力的方向与位移方向之间的夹角</b>）</p>
+        
+        <p><b>2. 正功与负功（物理意义）：</b></p>
+        <p>功的正负<b>不代表方向</b>，而是代表力对物体运动所起的作用（促进还是阻碍）：</p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>夹角 $\\theta$ 范围</th>
+                    <th>$\\,\\cos\\theta$ 符号</th>
+                    <th>功 $W$ 符号</th>
+                    <th>物理效果与效果描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>$0^\\circ \\le \\theta < 90^\\circ$</td>
+                    <td>$\\cos\\theta > 0$</td>
+                    <td><b>$W > 0$（正功）</b></td>
+                    <td>力对物体的位移起<b>促进作用</b>（使物体动能增加）</td>
+                </tr>
+                <tr>
+                    <td>$\\theta = 90^\\circ$</td>
+                    <td>$\\cos\\theta = 0$</td>
+                    <td><b>$W = 0$（不做功）</b></td>
+                    <td>力与位移垂直，对物体运动无促进或阻碍作用</td>
+                </tr>
+                <tr>
+                    <td>$90^\\circ < \\theta \\le 180^\\circ$</td>
+                    <td>$\\cos\\theta < 0$</td>
+                    <td><b>$W < 0$（负功）</b></td>
+                    <td>力对物体的位移起<b>阻碍作用</b>（也称物体克服该力做功）</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>二、 功率 (Power, $P$)</h3>
+        
+        <div class="box-blue">
+            <strong>定义与单位：</strong><br>
+            描述物体<b>做功快慢</b>的物理量，等于功 $W$ 与完成这些功所用时间 $t$ 的比值。
+            <ul>
+                <li><b>单位：</b>国际单位制中为<b>瓦特 ($\\,\\text{W}$)</b>，常用单位还有千瓦 ($\\,\\text{kW}$)。</li>
+                <li><b>单位换算：</b>$1\\text{ W} = 1\\text{ J/s} = 1\\text{ J}\\cdot\\text{s}^{-1}$。</li>
+            </ul>
+        </div>
+        
+        <p><b>1. 平均功率：</b>描述某段时间内做功的平均快慢。</p>
+        
+        $$P = \\frac{W}{t}$$
+        
+        <p><b>2. 瞬时功率：</b>描述某一时刻或某一位置做功的快慢。</p>
+        
+        $$P = F v \\cos\\theta$$
+        
+        <ul>
+            <li>若力的方向与速度方向相同（$\\theta = 0^\\circ$），则 $P = Fv$；</li>
+            <li>对于汽车等牵引机械，当功率 $P$ 恒定且沿直线运动时，牵引力 $F = \\frac{P}{v}$，即速度越大，牵引力越小。</li>
+        </ul>
+    `
 },
 {
     id: 'sec-702',
     subject: 'physics',
     chapterId: 'p-ch7',
     title: '7.2 恒力与变力的功',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '恒力做功公式、变力微元法/积分思想及弹簧弹力做功',
+    content: `
+        <h3>一、 恒力做功 (Work by a Constant Force)</h3>
+        
+        <p>当作用在物体上的力的大小和方向都保持不变时，称为<b>恒力做功</b>。</p>
+        
+        <div class="box-yellow">
+            <strong>恒力做功公式：</strong>
+            $$W = F s \\cos\\theta$$
+            <ul>
+                <li>$F$：恒力的大小；</li>
+                <li>$s$：物体的位移大小；</li>
+                <li>$\\theta$：恒力 $F$ 的方向与位移 $s$ 方向的夹角。</li>
+            </ul>
+        </div>
+        
+        <h3>二、 变力做功 (Work by a Variable Force)</h3>
+        
+        <p>当力的大小或方向随位置/时间变化时，不能直接套用恒力公式，需要采用<b>微元法（微积分思想）</b>。</p>
+        
+        <div class="box-blue">
+            <strong>微元法核心思想：</strong><br>
+            把物体的总位移分成很多非常小的小段 $\\Delta s_1, \\Delta s_2, \\dots, \\Delta s_n$。在极小的位移 $\\Delta s_i$ 内，力 $F_i$ 可以看作<b>恒力</b>。<br>
+            将每一小段上的功累加起来，当 $\\Delta s \\to 0$ 时，即得到变力做功的总和：
+            $$W = \\lim_{\\Delta s \\to 0} \\sum F_i \\Delta s_i \\cos\\theta_i = \\int F \\cdot \\mathrm{d}s$$
+        </div>
+        
+        <p><b>变力做功的常见求解途径：</b></p>
+        <ul>
+            <li><b>1. $F$-$s$ 图像法：</b>在 $F$-$s$ 图像中，图线与位移轴所围成的<b>面积</b>即表示力所做的功。</li>
+            <li><b>2. 平均力法：</b>若力随位移线性均匀变化（如 $F = kx$），可用平均力 $\\bar{F} = \\frac{F_{\\text{初}} + F_{\\text{末}}}{2}$ 代替恒力计算。</li>
+            <li><b>3. 动能定理法：</b>用总功等于动能变化量求解（$W_{\\text{变}} + W_{\\text{其它}} = \\Delta E_k$）。</li>
+        </ul>
+        
+        <h3>三、 弹簧弹力做功与弹性势能</h3>
+        
+        <p>弹簧的弹力 $F = kx$（胡克定律）随形变量 $x$ 改变，属于典型的<b>线性变力</b>。</p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>物理量</th>
+                    <th>公式表达</th>
+                    <th>物理意义与说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>外力克服弹力做功</b><br>（从原长拉伸/压缩 $x$）</td>
+                    <td>$$W_{\\text{外}} = \\frac{1}{2} k x^2$$</td>
+                    <td>等于 $F$-$x$ 图像中三角形的面积，即外力对弹簧所做的功</td>
+                </tr>
+                <tr>
+                    <td><b>弹簧弹性势能</b> ($E_p$)</td>
+                    <td>$$E_p = \\frac{1}{2} k x^2$$</td>
+                    <td>形变量为 $x$ 时，弹簧内部储存的能量</td>
+                </tr>
+                <tr>
+                    <td><b>弹簧自身弹力做功</b><br>（从 $x_1$ 到 $x_2$）</td>
+                    <td>$$W_{\\text{弹}} = \\frac{1}{2} k x_1^2 - \\frac{1}{2} k x_2^2 = -\\Delta E_p$$</td>
+                    <td>弹力做正功，弹性势能减少；<br>弹力做负功（克服弹力做功），弹性势能增加</td>
+                </tr>
+            </tbody>
+        </table>
+    `
 },
 {
     id: 'sec-703',
     subject: 'physics',
     chapterId: 'p-ch7',
     title: '7.3 动能',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '动能的概念与表达式、动能定理及其物理意义与解题应用',
+    content: `
+        <h3>一、 动能 (Kinetic Energy, $E_k$)</h3>
+        
+        <div class="box-yellow">
+            <strong>定义与特征：</strong><br>
+            物体由于<b>运动</b>而具有的能量称为动能。
+            <ul>
+                <li><b>标量性：</b>动能是<b>标量</b>，只有大小没有方向，且恒大于或等于零（$E_k \\ge 0$）。</li>
+                <li><b>单位：</b>国际单位制中为<b>焦耳 ($\\,\\text{J}$)</b>，即 $1\\text{ J} = 1\\text{ kg}\\cdot\\text{m}^2/\\text{s}^2$。</li>
+                <li><b>相对性：</b>速度 $v$ 与参考系的选择有关（通常以地面为参考系），故动能也具有相对性。</li>
+            </ul>
+        </div>
+        
+        <p><b>动能定义式：</b></p>
+        
+        $$E_k = \\frac{1}{2} m v^2$$
+        
+        <p>（其中 $m$ 为物体的质量，$v$ 为物体的瞬时速度大小）</p>
+        
+        <h3>二、 动能定理 (Work-Energy Theorem)</h3>
+        
+        <div class="box-blue">
+            <strong>定理内容：</strong><br>
+            <b>合外力对物体所做的功，等于物体动能的增量（末动能与初动能之差）。</b>
+        </div>
+        
+        <p><b>1. 表达式：</b></p>
+        
+        $$W_{\\text{合}} = \\Delta E_k = E_{k2} - E_{k1} = \\frac{1}{2} m v_2^2 - \\frac{1}{2} m v_1^2$$
+        
+        <p><b>2. 物理意义与状态变化：</b></p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>合外力做功 $W_{\\text{合}}$</th>
+                    <th>动能变化量 $\\Delta E_k$</th>
+                    <th>物体的运动状态与能量变化</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>$W_{\\text{合}} > 0$（正功）</b></td>
+                    <td>$\\Delta E_k > 0$（$E_{k2} > E_{k1}$）</td>
+                    <td>物体的动能<b>增加</b>，速度增大</td>
+                </tr>
+                <tr>
+                    <td><b>$W_{\\text{合}} < 0$（负功）</b></td>
+                    <td>$\\Delta E_k < 0$（$E_{k2} < E_{k1}$）</td>
+                    <td>物体的动能<b>减少</b>，速度减小（克服合外力做功）</td>
+                </tr>
+                <tr>
+                    <td><b>$W_{\\text{合}} = 0$</b></td>
+                    <td>$\\Delta E_k = 0$（$E_{k2} = E_{k1}$）</td>
+                    <td>物体的动能<b>不变</b>，速度大小不变（如匀速圆周运动）</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p><b>3. 合外力做功 $W_{\\text{合}}$ 的两种计算方法：</b></p>
+        <ul>
+            <li><b>先求合力再求功：</b>若物体受恒力作用，先求出合外力 $F_{\\text{合}}$，再计算 $W_{\\text{合}} = F_{\\text{合}} s \\cos\\theta$。</li>
+            <li><b>求各力做功的代数和：</b>分别计算各个外力所做的功 $W_1, W_2, \\dots, W_n$，则 $W_{\\text{合}} = W_1 + W_2 + \\dots + W_n$（更推荐，尤其是包含变力时）。</li>
+        </ul>
+        
+        <h3>三、 动能定理的应用优势与步骤</h3>
+        
+        <div class="box-green">
+            <strong>应用优势：</strong><br>
+            <ul>
+                <li><b>适用范围广：</b>既适用于<b>直线运动</b>，也适用于<b>曲线运动</b>；既适用于<b>恒力做功</b>，也适用于<b>变力做功</b>。</li>
+                <li><b>计算简便：</b>只关注<b>初、末状态</b>的动能和整个过程的<b>功</b>，无需关注过程细节，避免求解加速度 $a$ 和时间 $t$。</li>
+            </ul>
+        </div>
+    `
 },
 {
     id: 'sec-704',
     subject: 'physics',
     chapterId: 'p-ch7',
     title: '7.4 势能',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '重力势能概念、零势能面、重力做功特点及弹簧弹性势能公式',
+    content: `
+        <h3>一、 重力势能 (Gravitational Potential Energy, $E_p$)</h3>
+        
+        <p>物体由于<b>被举高</b>而具有的能量称为重力势能。</p>
+        
+        <div class="box-yellow">
+            <strong>重力势能定义式：</strong>
+            $$E_p = mgh$$
+            <ul>
+                <li>$m$：物体的质量 ($\\,\\text{kg}$)；</li>
+                <li>$g$：重力加速度 ($\\,\\text{m/s}^2$ 或 $\\,\\text{N/kg}$)；</li>
+                <li>$h$：物体相对于<b>零势能面</b>的高度 ($\\,\\text{m}$)。</li>
+            </ul>
+        </div>
+        
+        <p><b>重力势能的核心性质：</b></p>
+        <ul>
+            <li><b>系统性：</b>重力势能并非物体单独所有，而是由<b>地球与物体所组成的系统</b>共有的能量（习惯上简称为物体的重力势能）。</li>
+            <li><b>标量性：</b>重力势能是<b>标量</b>，单位为<b>焦耳 ($\\,\\text{J}$)</b>。正负号仅表示物体处于零势能面之上还是之下，不代表方向。</li>
+            <li><b>相对性：</b>$E_p$ 的数值取决于<b>零势能面</b>的选择：
+                <ul>
+                    <li>选定零势能面后，平面上方 $h > 0 \\implies E_p > 0$；</li>
+                    <li>零势能面上 $h = 0 \\implies E_p = 0$；</li>
+                    <li>平面下方 $h < 0 \\implies E_p < 0$。</li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h3>二、 重力做功的特点与势能变化关系</h3>
+        
+        <div class="box-blue">
+            <strong>1. 重力做功的特点：</strong><br>
+            重力所做的功只跟物体的<b>初、末位置的高度差</b>有关，而与物体的<b>运动路径无关</b>。<br>
+            无论物体沿直线、斜面还是曲线运动，重力做功均为：
+            $$W_G = mg \\Delta h = mgh_1 - mgh_2$$
+        </div>
+        
+        <p><b>2. 重力做功与重力势能变化的关系：</b></p>
+        
+        $$W_G = -\\Delta E_p = E_{p1} - E_{p2}$$
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>过程情况</th>
+                    <th>重力做功 $W_G$</th>
+                    <th>重力势能变化 $\\Delta E_p$</th>
+                    <th>能量转化</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>物体<b>下落</b> ($h_1 > h_2$)</td>
+                    <td>重力做<b>正功</b> ($W_G > 0$)</td>
+                    <td>重力势能<b>减少</b> ($\\,\\Delta E_p < 0$)</td>
+                    <td>重力势能转化为其他形式的能（如动能）</td>
+                </tr>
+                <tr>
+                    <td>物体<b>上升</b> ($h_1 < h_2$)</td>
+                    <td>重力做<b>负功</b> ($W_G < 0$，即克服重力做功)</td>
+                    <td>重力势能<b>增加</b> ($\\,\\Delta E_p > 0$)</td>
+                    <td>其他形式的能转化为重力势能</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>三、 弹性势能 (Elastic Potential Energy, $E_p$)</h3>
+        
+        <p>发生<b>弹性形变</b>的物体各部分之间由于弹力的相互作用而具有的能量称为弹性势能。</p>
+        
+        <div class="box-green">
+            <strong>弹簧弹性势能公式：</strong>
+            $$E_p = \\frac{1}{2} k x^2$$
+            <ul>
+                <li>$k$：弹簧的劲度系数 ($\\,\\text{N/m}$)；</li>
+                <li>$x$：弹簧的<b>形变量</b>（即相对于原长的拉伸量或压缩量，$\\,\\text{m}$）。</li>
+            </ul>
+            <strong>物理说明：</strong><br>
+            <ul>
+                <li>弹性势能的大小决定于弹簧的<b>劲度系数 $k$</b> 和<b>形变量 $x$</b>。在弹簧弹性限度内，$k$ 越大、形变量 $x$ 越大，弹性势能越大。</li>
+                <li>弹簧处于<b>原长</b>时，$x = 0$，弹性势能 $E_p = 0$。</li>
+                <li>弹簧<b>弹力做功</b>与弹性势能变化的关系：$W_{\\text{弹}} = -\\Delta E_p = E_{p1} - E_{p2}$。</li>
+            </ul>
+        </div>
+    `
 },
 {
     id: 'sec-705',
     subject: 'physics',
     chapterId: 'p-ch7',
     title: '7.5 机械能守恒定律',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '机械能的概念、机械能守恒定律及其条件与表达式、能量守恒定律',
+    content: `
+        <h3>一、 机械能 (Mechanical Energy, $E$)</h3>
+        
+        <div class="box-yellow">
+            <strong>定义与定义式：</strong><br>
+            物体的<b>动能 ($E_k$)</b>、<b>重力势能 ($E_{p,\\text{重}}$)</b> 和 <b>弹性势能 ($E_{p,\\text{弹}}$)</b> 的统称称为机械能。
+            $$E = E_k + E_p = \\frac{1}{2} m v^2 + mgh + \\frac{1}{2} k x^2$$
+            <ul>
+                <li><b>标量性与相对性：</b>机械能是<b>标量</b>；由于势能依赖于零势能面的选择，因此机械能的数值也具有<b>相对性</b>。</li>
+            </ul>
+        </div>
+        
+        <h3>二、 机械能守恒定律 (Law of Conservation of Mechanical Energy)</h3>
+        
+        <div class="box-blue">
+            <strong>1. 内容：</strong><br>
+            在只有重力或弹力做功的物体系统内，动能与势能可以互相转化，而<b>系统的机械能总量保持不变</b>。
+        </div>
+        
+        <p><b>2. 守恒条件（满足其一即可）：</b></p>
+        <ul>
+            <li>系统<b>只受重力（或弹力）</b>作用，不受其它外力（如自由落体、抛体运动）。</li>
+            <li>系统除受重力（或弹力）外，还受其它力作用，但<b>其它力不做功</b>（如绳子拉力垂直于位移的单摆运动、沿光滑斜面下滑的物体）。</li>
+            <li>系统除重力（或弹力）外有其它力做功，但<b>其它力做功的代数和为零</b>（如拉力做功与阻力做功相互抵消）。</li>
+        </ul>
+        
+        <p><b>3. 机械能守恒的三种常见书写形式（解题应用）：</b></p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>视角</th>
+                    <th>表达式</th>
+                    <th>物理含义与适用场景</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>守恒观点</b><br>（初末状态法）</td>
+                    <td>$$E_1 = E_2$$<br>$$E_{k1} + E_{p1} = E_{k2} + E_{p2}$$</td>
+                    <td>初状态的机械能等于末状态的机械能；<br>适用于列出完整系统初、末状态能量方程。</td>
+                </tr>
+                <tr>
+                    <td><b>转化观点</b><br>（能量增减法）</td>
+                    <td>$$\\Delta E_k = -\\Delta E_p$$<br>$$\\Delta E_{k,\\text{增}} = \\Delta E_{p,\\text{减}}$$</td>
+                    <td>系统动能的增加量等于势能的减少量；<br>无需选择零势能面，计算更简便。</td>
+                </tr>
+                <tr>
+                    <td><b>转移观点</b><br>（系统分配法）</td>
+                    <td>$$\\Delta E_A = -\\Delta E_B$$<br>$$\\Delta E_{A,\\text{增}} = \\Delta E_{B,\\text{减}}$$</td>
+                    <td>由多个物体组成的系统中，A 物体增加的机械能等于 B 物体减少的机械能。</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>三、 能量守恒定律 (Law of Conservation of Energy)</h3>
+        
+        <div class="box-green">
+            <strong>1. 定律内容：</strong><br>
+            能量既不会凭空产生，也不会凭空消失，它只能<b>从一种形式转化为另一种形式</b>，或者<b>从一个物体转移到别的物体</b>；在转化或转移的过程中，<b>能量的总量保持不变</b>。
+        </div>
+        
+        <p><b>2. 能量转化的表达方式：</b></p>
+        
+        $$\\Delta E_{\\text{减}} = \\Delta E_{\\text{增}}$$
+        
+        <p>即某些形式的能量减少，必然伴随着另一些形式能量的等量增加。</p>
+        
+        <p><b>3. 功与能量的关系（功能关系）：</b></p>
+        <ul>
+            <li><b>功是能量转化的量度：</b>做功的过程就是能量转化或转移的过程。做了多少功，就有多少能量发生了转化。</li>
+            <li><b>常见功能关系总结：</b>
+                <ul>
+                    <li>合外力做功 $\\implies$ 动能变化（动能定理：$W_{\\text{合}} = \\Delta E_k$）；</li>
+                    <li>重力做功 $\\implies$ 重力势能变化（$W_G = -\\Delta E_p$）；</li>
+                    <li>弹簧弹力做功 $\\implies$ 弹性势能变化（$W_{\\text{弹}} = -\\Delta E_p$）；</li>
+                    <li>除重力/弹力以外的其它力做功 $\\implies$ 机械能变化（$W_{\\text{其它}} = \\Delta E_{\\text{机}}$）；</li>
+                    <li>克服摩擦力（滑动摩擦）做功 $\\implies$ 产生的内能（热量 $Q = F_f \\cdot s_{\\text{相对}}$）。</li>
+                </ul>
+            </li>
+        </ul>
+     `
 },
 {
     id: 'sec-706',
     subject: 'physics',
     chapterId: 'p-ch7',
     title: '7.6 质量与能量',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '狭义相对论基本假设、运动质量随速度变化规律及爱因斯坦质能方程',
+    content: `
+        <h3>一、 狭义相对论的基本假设</h3>
+        
+        <div class="box-yellow">
+            <strong>爱因斯坦狭义相对论两条基本原理：</strong>
+            <ul>
+                <li><b>相对性原理：</b>在物理学中，所有的惯性参考系都是等价的（物理规律在所有惯性系中表达形式相同）。</li>
+                <li><b>光速不变原理：</b>真空中的光速 $c$ 在任意惯性参考系中都是相同的，与光源或观察者的运动状态无关（$c \\approx 3.0 \\times 10^8 \\text{ m/s}$）。</li>
+            </ul>
+        </div>
+        
+        <h3>二、 质速关系 (Mass-Velocity Relationship)</h3>
+        
+        <p>在经典力学中，物体的质量 $m$ 是固定不变的常数；而在狭义相对论中，<b>物体的质量会随其运动速度的增大而增大</b>。</p>
+        
+        <div class="box-blue">
+            <strong>质速关系公式：</strong>
+            $$m = \\frac{m_0}{\\sqrt{1 - \\frac{v^2}{c^2}}}$$
+            <ul>
+                <li>$m_0$：物体静止时的质量（<b>静止质量</b> / Rest Mass）；</li>
+                <li>$m$：物体以速度 $v$ 运动时的质量（<b>动质量</b> / Relativistic Mass）；</li>
+                <li>$v$：物体的运动速度；</li>
+                <li>$c$：真空中的光速。</li>
+            </ul>
+        </div>
+        
+        <p><b>物理意义与结论：</b></p>
+        <ul>
+            <li>当 $v \\ll c$（远小于光速的低速运动，如日常生活中的宏观物体）时，$\\frac{v^2}{c^2} \\approx 0$，公式可近似为 $m \\approx m_0$，退化为<b>经典牛顿力学</b>。</li>
+            <li>当 $v \\to c$ 时，分母接近零，动质量 $m \\to \\infty$。这意味着要使有静止质量的物体达到光速需要无穷大的能量，因此<b>任何有实质量的物体运动速度都不能达到或超越光速 $c$</b>。</li>
+        </ul>
+        
+        <h3>三、 质能关系 (Mass-Energy Relationship)</h3>
+        
+        <p>爱因斯坦揭示了质量与能量之间深刻的内在联系，提出了著名的<b>质能方程</b>。</p>
+        
+        <div class="box-green">
+            <strong>1. 爱因斯坦质能方程：</strong>
+            $$E = m c^2$$
+            <ul>
+                <li>$E$：物体所具有的总能量（包含静止能量与动能）；</li>
+                <li>$m$：物体的动质量。</li>
+            </ul>
+            当物体静止时（$v = 0$），具有<b>静止能量</b>：
+            $$E_0 = m_0 c^2$$
+        </div>
+        
+        <p><b>2. 质量亏损与能量变化公式：</b></p>
+        
+        $$\\Delta E = \\Delta m \\cdot c^2$$
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>符号</th>
+                    <th>物理意义</th>
+                    <th>说明与应用场景</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>$\\Delta m$</b></td>
+                    <td>质量变化量（或<b>质量亏损</b>）</td>
+                    <td>指反应前总质量与反应后总质量的差值</td>
+                </tr>
+                <tr>
+                    <td><b>$\\Delta E$</b></td>
+                    <td>释放或吸收的能量</td>
+                    <td>广泛应用于<b>核裂变、核聚变</b>等核反应中的能量计算</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p><b>物理理解注意事项：</b></p>
+        <ul>
+            <li>质能方程<b>不意味着“质量可以转化为能量”或“质量消失了”</b>，而是说明**系统的质量与能量是统一的实体**，质量是系统能量大小的一种度量。</li>
+            <li>当系统释放能量 $\\Delta E$ 时，其总质量必然相应减少 $\\Delta m = \\frac{\\Delta E}{c^2}$。</li>
+        </ul>
+     `
 },
 {
     id: 'sec-801',
     subject: 'physics',
     chapterId: 'p-ch8',
     title: '8.1 冲量与动量的关系',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '冲量的概念与矢量性、动量定义、动量定理公式及平均力与缓冲应用',
+    content: `
+        <h3>一、 力的冲量 (Impulse, $I$)</h3>
+        
+        <p>力与力的作用时间的乘积称为<b>冲量</b>，它是量度力对时间累积效应的物理量。</p>
+        
+        <div class="box-yellow">
+            <strong>恒力冲量定义式：</strong>
+            $$I = F \\cdot \\Delta t = F (t' - t)$$
+            <ul>
+                <li>$F$：作用在物体上的力 ($\\,\\text{N}$)；</li>
+                <li>$\\Delta t = t' - t$：力的作用时间区间 ($\\,\\text{s}$)；</li>
+                <li><b>矢量性：</b>冲量是<b>矢量</b>，在恒力作用下，冲量的方向与<b>力的方向</b>完全一致；</li>
+                <li><b>单位：</b>国际单位制中为<b>牛顿·秒 ($\\,\\text{N}\\cdot\\text{s}$)</b>，与动量单位（$\\text{kg}\\cdot\\text{m/s}$）等价。</li>
+            </ul>
+        </div>
+        
+        <p><b>变力冲量的求解方法：</b></p>
+        <ul>
+            <li><b>$F$-$t$ 图像法：</b>在力-时间 ($F$-$t$) 图像中，图线与时间轴所围成的<b>“面积”</b>即表示该力在对应时间内的冲量大小。</li>
+            <li><b>平均力替代法：</b>若知道变力作用时间内的<b>平均力 $\\bar{F}$</b>，则冲量可表示为 $I = \\bar{F} \\cdot \\Delta t$。</li>
+        </ul>
+        
+        <h3>二、 物体的动量 (Momentum, $p$)</h3>
+        
+        <div class="box-blue">
+            <strong>动能与动量对比：</strong><br>
+            物体的质量 $m$ 与速度 $v$ 的乘积称为物体的<b>动量</b>。
+            $$p = m v$$
+            <ul>
+                <li><b>状态量：</b>动量是描述物体运动状态的物理量，对应某一时刻的瞬时速度 $v$。</li>
+                <li><b>矢量性：</b>动量是<b>矢量</b>，其方向与瞬时速度 $v$ 的方向一致。</li>
+                <li><b>动量变化量 ($\\,\\Delta p$)：</b>物体初、末动量的矢量差：
+                    $$\\Delta p = p' - p = m v' - m v$$
+                    （注意：在一维运动中，必须先规定正方向，用正负号表示动量的方向后再列式计算）
+                </li>
+            </ul>
+        </div>
+        
+        <h3>三、 动量定理 (Impulse-Momentum Theorem)</h3>
+        
+        <div class="box-green">
+            <strong>定理内容：</strong><br>
+            <b>物体所受合外力的冲量，等于物体在此过程中动量的变化量。</b>
+        </div>
+        
+        <p><b>1. 表达式：</b></p>
+        
+        $$I_{\\text{合}} = \\Delta p$$
+        
+        $$F_{\\text{合}} \\cdot \\Delta t = p' - p = m v' - m v$$
+        
+        <p><b>2. 物理意义与平均力解释：</b></p>
+        <ul>
+            <li><b>合外力的冲量：</b> $I_{\\text{合}}$ 可以是合外力的冲量，也可以是物体所受各个外力冲量的<b>矢量和</b>（$I_{\\text{合}} = I_1 + I_2 + \\dots + I_n$）。</li>
+            <li><b>变力与平均力 $\\bar{F}$：</b>在碰撞、打击、爆炸等作用时间极短且力剧烈变化的现象中，利用动量定理公式计算得出的力 $F = \\frac{\\Delta p}{\\Delta t}$，即为变力在作用时间 $\\Delta t$ 内的<b>平均冲击力 $\\bar{F}$</b>。</li>
+        </ul>
+        
+        <p><b>3. 动量定理的应用——缓冲与防护原理：</b></p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>动量变化量 $\\Delta p$ 确定时</th>
+                    <th>时间 $\\Delta t$ 的调整</th>
+                    <th>平均作用力 $\\bar{F}$ 的变化</th>
+                    <th>实际应用举例</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>定值（动量改变一定）</td>
+                    <td><b>延长</b>作用时间 $\\Delta t \\uparrow$</td>
+                    <td>减小冲力 $\\bar{F} \\downarrow$</td>
+                    <td>海绵垫缓冲、汽车安全气囊、跳远落入沙坑、打包易碎品</td>
+                </tr>
+                <tr>
+                    <td>定值（动量改变一定）</td>
+                    <td><b>缩短</b>作用时间 $\\Delta t \\downarrow$</td>
+                    <td>增大冲力 $\\bar{F} \\uparrow$</td>
+                    <td>铁锤钉钉子、拳击发力、砸石破墙</td>
+                </tr>
+            </tbody>
+        </table>
+    `
 },
 {
     id: 'sec-802',
     subject: 'physics',
     chapterId: 'p-ch8',
     title: '8.2 动量守恒定律',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '系统、内力与外力的概念，动量守恒定律的内容、守恒条件及表达式应用',
+    content: `
+        <h3>一、 系统、内力与外力</h3>
+        
+        <p>在研究两个或多个物体的运动时，通常把这几个物体构成的整体称为<b>系统 (System)</b>。</p>
+        
+        <div class="box-yellow">
+            <strong>内力与外力的区分：</strong>
+            <ul>
+                <li><b>内力 (Internal Force)：</b>系统内部<b>各物体之间</b>相互作用的力。
+                    <br><i>注意：</i>内力只能改变系统内<b>单个物体</b>的动量，但<b>不能改变系统整体的总动量</b>（因为内力总是成对出现且大小相等、方向相反）。
+                </li>
+                <li><b>外力 (External Force)：</b>系统外部的物体对系统内部物体所施加的力。
+                    <br><i>注意：</i><b>只有外力才能改变系统整体的总动量</b>。
+                </li>
+            </ul>
+        </div>
+        
+        <h3>二、 动量守恒定律 (Law of Conservation of Momentum)</h3>
+        
+        <div class="box-blue">
+            <strong>定律内容：</strong><br>
+            一个系统<b>不受外力</b>作用，或者所受<b>合外力为零</b>时，这个系统的<b>总动量保持不变</b>。
+        </div>
+        
+        <p><b>1. 守恒条件（满足下列情况之一即可）：</b></p>
+        <ol>
+            <li><b>绝对守恒（理想条件）：</b>系统不受外力，或者系统所受合外力矢量和为零（$\\vec{F}_{\\text{合外}} = 0$）。</li>
+            <li><b>近似守恒（极短时间/强相互作用）：</b>系统虽然受外力（如重力、摩擦力），但<b>外力远小于系统内部物体间的相互作用内力</b>（如碰撞、爆炸、击打过程），外力的冲量可以忽略不计。</li>
+            <li><b>单方向守恒（分方向）：</b>系统整体所受合外力不为零，但在<b>某一特定方向（如 $x$ 轴）上合外力为零</b>，则该方向上的总动量守恒。</li>
+        </ol>
+        
+        <p><b>2. 动量守恒的常见书写形式（以两物体相撞为例）：</b></p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>视角</th>
+                    <th>公式表达式</th>
+                    <th>物理含义与解题说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>状态观点</b><br>（初末状态法）</td>
+                    <td>$$p_1 + p_2 = p_1' + p_2'$$<br>$$m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2'$$</td>
+                    <td>系统相互作用前的总动量等于相互作用后的总动量（最常用形式）。</td>
+                </tr>
+                <tr>
+                    <td><b>变化观点</b><br>（增减法）</td>
+                    <td>$$\\Delta p_1 = -\\Delta p_2$$<br>$$\\Delta p_{1,\\text{增}} = \\Delta p_{2,\\text{减}}$$</td>
+                    <td>$A$ 物体增加的动量等于 $B$ 物体减少的动量（数值相等、方向相反）。</td>
+                </tr>
+                <tr>
+                    <td><b>整体观点</b><br>（系统变化量）</td>
+                    <td>$$\\Delta p_{\\text{系统}} = 0$$</td>
+                    <td>系统整体的总动量变化量为零。</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>三、 应用动量守恒定律的物理注意事项</h3>
+        
+        <div class="box-green">
+            <strong>解题规范与核心特征：</strong>
+            <ul>
+                <li><b>矢量性（关键）：</b>动量是矢量。在一维运动中，解题前<b>必须先规定统一的正方向</b>。与正方向同向的速度取正值，反向取负值。</li>
+                <li><b>相对性：</b>公式中各物体的速度必须是相对于<b>同一个惯性参考系</b>（通常为地面）。</li>
+                <li><b>同时性：</b>公式左边的初速度 $v_1, v_2$ 必须是<b>同一时刻</b>的状态值，右边的末速度 $v_1', v_2'$ 也必须是<b>同一时刻</b>的状态值。</li>
+            </ul>
+        </div>
+    `
 },
 {
     id: 'sec-803',
     subject: 'physics',
     chapterId: 'p-ch8',
     title: '8.3 反冲作用',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '反冲运动定义与物理本质、动量守恒推导、火箭飞行决定因素及反击式水轮机应用',
+    content: `
+        <h3>一、 反冲运动 (Recoil Motion)</h3>
+        
+        <p>一个静止（或运动）的物体，在<b>内力</b>的作用下分裂为两部分，当其中一部分向某一方向运动时，另一部分<b>必然向相反的方向运动</b>，这种现象称为反冲运动。</p>
+        
+        <div class="box-yellow">
+            <strong>反冲运动的物理本质：</strong>
+            <ul>
+                <li><b>动力来源：</b>来自于系统<b>内部物体间剧烈的相互作用力（内力）</b>。</li>
+                <li><b>物理规律：</b>由于作用时间极短且内力远大于外力，系统整体满足<b>动量守恒定律</b>。</li>
+            </ul>
+        </div>
+        
+        <h3>二、 反冲运动的公式推导与模型</h3>
+        
+        <div class="box-blue">
+            <strong>基本数学模型（如炮弹发射、人船模型）：</strong><br>
+            设系统总质量为 $M + m$，初始静止（$p_{\\text{初}} = 0$）。当质量为 $m$ 的部分以速度 $v$ 弹出时，主体 $M$ 获得的对地反冲速度 $V$ 满足：
+            $$0 = M V + m v \\implies V = -\\frac{m}{M} v$$
+            <ul>
+                <li><b>负号含义：</b>表示反冲速度 $V$ 的方向与喷出/抛出速度 $v$ 的<b>方向相反</b>。</li>
+                <li><b>速度大小：</b>决定于喷出物体的<b>质量占比 $\\frac{m}{M}$</b> 和<b>喷射速度 $v$</b>。</li>
+            </ul>
+        </div>
+        
+        <p><b>生活与工程中的典型反冲现象：</b></p>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>现象/应用</th>
+                    <th>喷射/抛出部分 ($m, v$)</th>
+                    <th>反冲主体 ($M, V$)</th>
+                    <th>物理说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>枪炮开火</b></td>
+                    <td>子弹 / 炮弹（向前方高速飞出）</td>
+                    <td>枪身 / 炮车（产生向后的<b>后坐力/速度</b>）</td>
+                    <td>射击时需靠肩部或驻铲抵挡后坐冲击</td>
+                </tr>
+                <tr>
+                    <td><b>章鱼/乌贼游动</b></td>
+                    <td>向后喷出的水流</td>
+                    <td>章鱼躯体（向前方快速冲出）</td>
+                    <td>利用反冲力的典型生物代表</td>
+                </tr>
+                <tr>
+                    <td><b>农田旋转喷灌头</b></td>
+                    <td>弯管切线方向喷出的水流</td>
+                    <td>喷水管（向相反方向旋转）</td>
+                    <td>反冲力驱动自动旋转</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>三、 工业与科技应用：火箭与反击式水轮机</h3>
+        
+        <p><b>1. 航天领域：火箭 (Rocket)</b></p>
+        <div class="box-green">
+            靠燃料燃烧产生的高温高压气体从尾部<b>以极高速度向后喷出</b>，使火箭获得向前的巨大反冲速度。
+            <ul>
+                <li><b>决定速度的两因素：</b>喷气速度 $v_{\\text{喷}}$ 越大、质量比（$\\,\\frac{M_0}{m_{\\text{壳}}}\\,$）越高，火箭速度越快。</li>
+                <li><b>多级火箭：</b>燃料用尽后自动脱落壳体以减小质量负担，使火箭达到摆脱地球引力的第一宇宙速度（$7.9\\text{ km/s}$）。</li>
+            </ul>
+        </div>
+        
+        <p><b>2. 工业水力：反击式水轮机 (Reaction Turbine)</b></p>
+        <div class="box-yellow">
+            大坝中的水流在充满封闭叶片的流道中加速向外喷出/流出时，对叶片施加一个<b>相反方向的反击力（反冲力）</b>，推动转轮旋转带动发电机发电。
+            <ul>
+                <li><b>能量利用：</b>同时利用水流的<b>动能</b>（冲击作用）和<b>压力能</b>（反冲作用，占主导）。</li>
+                <li><b>典型代表：</b>三峡水电站采用的<b>混流式水轮机 (Francis Turbine)</b>，适用于中低水头、大流量水电站。</li>
+            </ul>
+        </div>
+     `
 },
 {
     id: 'sec-804',
     subject: 'physics',
     chapterId: 'p-ch8',
     title: '8.4 碰撞',
-    desc: '-',
-    content: `<div class="box-yellow">
-    <strong>力是改变物体运动状态的原因。</strong><br>
-    </div>`
+    desc: '对心与非对心碰撞区别，弹性碰撞速算公式及其3种极值特例，非弹性与完全非弹性碰撞能量特征',
+    content: `
+        <h3>一、 碰撞的几何分类：正碰与斜碰</h3>
+        
+        <table border="1" style="width:100%; border-collapse:collapse; margin-bottom:15px; text-align:center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th>分类</th>
+                    <th>运动方向与连线关系</th>
+                    <th>运动特点</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>正碰（对心碰撞）</b></td>
+                    <td>碰撞前两物体的运动速度方向在<b>两球心的连线上</b></td>
+                    <td>碰撞后两物体的运动<b>仍沿着这条直线</b>（一维运动）</td>
+                </tr>
+                <tr>
+                    <td><b>斜碰（非对心碰撞）</b></td>
+                    <td>碰撞前的速度方向<b>不在两球心连线上</b></td>
+                    <td>碰撞后的速度方向<b>均不在原直线上</b>（二维/平面运动）</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3>二、 碰撞的能量分类与规律</h3>
+        
+        <div class="box-yellow">
+            <strong>碰撞的基本前提：</strong><br>
+            无论何种碰撞，系统内力远大于外力，作用时间极短，系统整体<b>动量必定守恒</b>：
+            $$m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2'$$
+        </div>
+        
+        <h4>1. 弹性碰撞 (Elastic Collision)</h4>
+        <p>碰撞过程中发生的是<b>弹性形变</b>，系统<b>没有机械能损失</b>（机械能守恒）。</p>
+        
+        <div class="box-blue">
+            <strong>正碰速算公式（设物体 $m_2$ 初始静止，即 $v_2 = 0$）：</strong><br>
+            联立动量守恒与机械能守恒方程：
+            $$\\begin{cases} m_1 v_1 = m_1 v_1' + m_2 v_2' \\\\ \\frac{1}{2}m_1 v_1^2 = \\frac{1}{2}m_1 v_1'^2 + \\frac{1}{2}m_2 v_2'^2 \\end{cases}$$
+            解得碰撞后的速度解为：
+            $$v_1' = \\frac{m_1 - m_2}{m_1 + m_2} v_1, \\quad v_2' = \\frac{2m_1}{m_1 + m_2} v_1$$
+        </div>
+        
+        <p><b>弹性碰撞的三种典型特例（当 $v_2 = 0$ 时）：</b></p>
+        
+        <ul>
+            <li><b>等质量相撞 ($m_1 = m_2$) —— 速度交换：</b>
+                $$v_1' = 0, \\quad v_2' = v_1$$
+                <i>物理图景：</i>质量相同的两球相撞，$m_1$ 撞后彻底停下，将其速度完全传递给 $m_2$（如牛顿摆）。
+            </li>
+            <li><b>极轻撞极重 ($m_1 \\ll m_2$) —— 原速反弹：</b>
+                $$v_1' \\approx -v_1, \\quad v_2' \\approx 0$$
+                <i>物理图景：</i>乒乓球撞击墙壁或重铁球，$m_1$ 以原速率被弹回，$m_2$ 几乎保持静止。
+            </li>
+            <li><b>极重撞极轻 ($m_1 \\gg m_2$) —— 双倍速飞出：</b>
+                $$v_1' \\approx v_1, \\quad v_2' \\approx 2v_1$$
+                <i>物理图景：</i>保龄球撞击保龄球瓶，$m_1$ 速度几乎不受影响，轻物体 $m_2$ 以近乎两倍的速度被甩出。
+            </li>
+        </ul>
+        
+        <h4>2. 非弹性碰撞与完全非弹性碰撞</h4>
+        
+        <ul>
+            <li><b>非弹性碰撞 (Inelastic Collision)：</b><br>
+                发生<b>塑性形变</b>或产生摩擦生热、声能等，系统<b>机械能不守恒</b>，有部分机械能转化为内能（$\\Delta E_k > 0$）。
+            </li>
+            <li><b>完全非弹性碰撞 (Completely Inelastic Collision)：</b><br>
+                碰撞后两物体<b>粘合在一起，以相同的共同速度 $v_{\\text{共}}$ 运动</b>。
+                $$\\text{共同速度：} \\quad v_{\\text{共}} = \\frac{m_1 v_1 + m_2 v_2}{m_1 + m_2}$$
+                <div class="box-green">
+                    <strong>核心特征：</strong>完全非弹性碰撞是<b>损失机械能最多</b>的碰撞形态。
+                </div>
+            </li>
+        </ul>
+     `
 },
 {
     id: 'sec-901',
