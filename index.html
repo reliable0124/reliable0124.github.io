@@ -190,28 +190,59 @@
             .section-nav { flex-direction: column; }
         }
         
-        /* 补丁：修复表格改色问题 */
+        /* ----------------------------------------------------
+   表格全局统一深色背景补丁（完全与第二行同色）
+   ---------------------------------------------------- */
+
+        /* 1. 强制表格容器整体为深色，移除所有白色背景 */
         #detail-content table,
-        .content table {
-            width: 100%;
-            border-collapse: collapse;
+        .detail-view table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            margin: 18px 0 !important;
+            background-color: rgba(30, 41, 59, 0.95) !important; /* 统一为深色毛玻璃底色 */
             border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            color: #e0e0e0 !important;
+            border-radius: 8px !important;
+            overflow: hidden !important;
+            color: #f8fafc !important;
         }
-    
-        #detail-content td, 
+        
+        /* 2. 强制表头（第一行 th）与第二行完全同色 */
         #detail-content th,
-        .content td,
-        .content th {
-            background-color: transparent !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            color: #e0e0e0 !important;
-            padding: 10px 14px !important;
+        .detail-view th {
+            background-color: rgba(15, 23, 42, 0.9) !important; /* 稍深的深蓝/黑底色，区分表头 */
+            color: #f8fafc !important; /* 强制白字 */
+            font-weight: 700 !important;
+            padding: 12px 16px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
+            text-shadow: none !important;
         }
-    
+        
+        /* 3. 强制所有数据行（第二行、第三行等 td）统一深色背景与白字 */
+        #detail-content td,
+        .detail-view td {
+            background-color: rgba(30, 41, 59, 0.85) !important; /* 与第二行底色一致 */
+            color: #f8fafc !important; /* 强制白字，避免出现淡白色/灰色看不到 */
+            padding: 12px 16px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+            font-size: 14px !important;
+            line-height: 1.6 !important;
+        }
+        
+        /* 4. 移除原本的隔行变白逻辑，保持全暗色 */
         #detail-content tr:nth-child(even) td,
-        .content tr:nth-child(even) td {
-            background-color: rgba(255, 255, 255, 0.04) !important;
+        .detail-view tr:nth-child(even) td {
+            background-color: rgba(30, 41, 59, 0.95) !important;
+        }
+        
+        /* 5. 最后一列去除右边框 */
+        #detail-content th:last-child,
+        #detail-content td:last-child,
+        .detail-view th:last-child,
+        .detail-view td:last-child {
+            border-right: none !important;
         }
     </style>
 </head>
