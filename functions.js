@@ -177,35 +177,54 @@ function renderChaptersGrid() {
     const chapters = getSubjectChapters(currentSubject);
 
     let filtered = chapters;
-    if (currentSubject === 'physics' && currentVolumeFilter !== 'all') {
+    // 适用于所有科目的分册过滤
+    if (currentVolumeFilter !== 'all') {
         filtered = chapters.filter(ch => ch.volume === currentVolumeFilter || ch.vol === currentVolumeFilter);
     }
 
     filtered.forEach(ch => {
         const count = sections.filter(s => s.chapterId === ch.id).length;
         const card = document.createElement('div');
-        card.className = `card subj-${currentSubject === 'chemistry' ? 'chem' : currentSubject === 'biology' ? 'bio' : currentSubject}`;
+        
+        const subClassMap = { physics: 'physics', math: 'math', chemistry: 'chem', biology: 'bio' };
+        card.className = `card subj-${subClassMap[currentSubject]}`;
         card.onclick = () => openChapter(ch.id);
+        
         card.innerHTML = `
             <div>
-                <h3>${ch.title}</h3>
+                <span style="font-size:11px; color:var(--text-muted); font-weight:700;">${ch.volName || ''}</span>
+                <h3 style="margin-top:2px;">${ch.title}</h3>
                 <p>${ch.desc || ''}</p>
             </div>
-            <span class="badge" style="background:#eff6ff; color:#2563eb; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600; align-self:flex-start;">${count} 个已写小节</span>
+            <span class="badge" style="background:rgba(255,255,255,0.06); color:#fff; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600; align-self:flex-start;">${count} 个已写小节</span>
         `;
         grid.appendChild(card);
     });
 }
 
-function openChapter(chId) {
-    currentChapterId = chId;
-    const chapters = getSubjectChapters(currentSubject);
-    const chapter = chapters.find(c => c.id === chId);
+function openSubject(sub) {
+    currentSubject = sub;
+    currentVolumeFilter = 'all'; // 切换学科重置为"全部"
+    
+    const subNames = { physics: '物理', math: '高级数学', chemistry: '化学', biology: '生物' };
+    const accentColors = { physics: '#38bdf8', math: '#a855f7', chemistry: '#fb923c', biology: '#4ade80' };
 
-    document.getElementById('nav-chapter-name').innerText = chapter.title;
-    document.getElementById('chapter-title').innerText = chapter.title;
-    renderSectionsGrid();
-    navTo('level-3');
+    // 动态调整主题识别色
+    document.documentElement.style.setProperty('--primary-color', accentColors[sub]);
+
+    document.getElementById('nav-subject-name').innerText = subNames[sub];
+    document.getElementById('nav-subject-link').innerText = subNames[sub];
+    document.getElementById('subject-title').innerText = `${subNames[sub]} · 章节目录`;
+
+    // 重新计算并渲染分册 Tab 标签中的数字统计
+    updateVolumeTabLabels();
+
+    // 激活第一个 Tab 样式
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-vol-all').classList.add('active');
+
+    renderChaptersGrid();
+    navTo('level-2');
 }
 
 function renderSectionsGrid() {
@@ -233,6 +252,20 @@ function renderSectionsGrid() {
             grid.appendChild(card);
         });
     }
+}
+
+function updateVolumeTabLabels() {
+    const chapters = getSubjectChapters(currentSubject);
+    
+    const countAll = chapters.length;
+    const countUpper = chapters.filter(c => c.volume === 'upper' || c.vol === 'upper').length;
+    const countMiddle = chapters.filter(c => c.volume === 'middle' || c.vol === 'middle').length;
+    const countLower = chapters.filter(c => c.volume === 'lower' || c.vol === 'lower').length;
+
+    document.getElementById('tab-vol-all').innerText = `全部 (${countAll}章)`;
+    document.getElementById('tab-vol-upper').innerText = `上册 (${countUpper}章)`;
+    document.getElementById('tab-vol-middle').innerText = `中册 (${countMiddle}章)`;
+    document.getElementById('tab-vol-lower').innerText = `下册 (${countLower}章)`;
 }
 
 /* ========== 6. 详情页 + 上一节 / 下一节 ========== */
