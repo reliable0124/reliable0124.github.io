@@ -35,7 +35,7 @@ auth.onAuthStateChanged(user => {
     updateEditableUI();
 });
 
-// 默认先挂上登录处理，onAuthStateChanged 触发前也能点
+// 默认先挂上登录处理
 document.addEventListener('DOMContentLoaded', () => {
     const loginBtn = document.getElementById('login-btn');
     if (loginBtn && !currentUser) loginBtn.onclick = handleLogin;
@@ -52,7 +52,6 @@ function updateEditableUI() {
 
 async function initAndListen() {
     try {
-        // 强制从服务器查一次，跳过本地缓存，避免因缓存不完整而误判"缺失"
         const snap = await db.collection('sections').get({ source: 'server' });
         const existingIds = new Set(snap.docs.map(d => d.id));
 
@@ -66,7 +65,6 @@ async function initAndListen() {
         console.error('初始播种检查失败：', e);
     }
 
-    // 播种确认完成后，才开始正常的实时监听（不再重复播种）
     db.collection('sections').onSnapshot(snapshot => {
         sections = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         if (typeof updateMainBadges === 'function') updateMainBadges();
@@ -101,9 +99,13 @@ function updateMainBadges() {
         }
     });
 
-    document.getElementById('progress-text').innerText = `已掌握 ${greenCount} 节 / 共 ${pCount} 节小节`;
-    document.getElementById('progress-fill').style.width = percent + '%';
-    document.getElementById('progress-percent').innerText = percent + '%';
+    const textEl = document.getElementById('progress-text');
+    const fillEl = document.getElementById('progress-fill');
+    const percentEl = document.getElementById('progress-percent');
+
+    if (textEl) textEl.innerText = `已掌握 ${greenCount} 节 / 共 ${pCount} 节小节`;
+    if (fillEl) fillEl.style.width = percent + '%';
+    if (percentEl) percentEl.innerText = percent + '%';
 }
 
 /* ========== 4. 跨学科全局搜索 ========== */
@@ -139,21 +141,57 @@ function handleSearch(keyword) {
     navTo('level-search');
 }
 
-/* ========== 5. 学科与章节 ========== */
+/* ========== 5. 学科与章节（含补全的 openChapter） ========== */
 
 function openSubject(sub) {
     currentSubject = sub;
+    currentVolumeFilter = 'all'; // 切换学科重置为"全部"
+    
     const subNames = { physics: '物理', math: '高级数学', chemistry: '化学', biology: '生物' };
+    const accentColors = { physics: '#38bdf8', math: '#a855f7', chemistry: '#fb923c', biology: '#4ade80' };
 
-    document.getElementById('nav-subject-name').innerText = subNames[sub];
-    document.getElementById('nav-subject-link').innerText = subNames[sub];
-    document.getElementById('subject-title').innerText = `${subNames[sub]} · 章节目录`;
+    // 动态调整主题识别色
+    document.documentElement.style.setProperty('--primary-color', accentColors[sub] || '#38bdf8');
 
-    const volTabs = document.getElementById('physics-vol-tabs');
-    if (volTabs) volTabs.style.display = (sub === 'physics') ? 'flex' : 'none';
+    const navName = document.getElementById('nav-subject-name');
+    const navLink = document.getElementById('nav-subject-link');
+    const subTitle = document.getElementById('subject-title');
+
+    if (navName) navName.innerText = subNames[sub];
+    if (navLink) navLink.innerText = subNames[sub];
+    if (subTitle) subTitle.innerText = `${subNames[sub]} · 章节目录`;
+
+    // 重新计算并渲染分册 Tab 标签中的数字统计
+    updateVolumeTabLabels();
+
+    // 激活第一个 Tab 样式
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    const tabAll = document.getElementById('tab-vol-all');
+    if (tabAll) tabAll.classList.add('active');
 
     renderChaptersGrid();
     navTo('level-2');
+}
+
+/** 
+ * 补全核心缺失函数：openChapter 
+ */
+function openChapter(chapterId) {
+    currentChapterId = chapterId;
+
+    const chapters = getSubjectChapters(currentSubject);
+    const chapter = chapters.find(c => c.id === chapterId);
+    
+    if (chapter) {
+        const navChapterName = document.getElementById('nav-chapter-name');
+        const chapterTitle = document.getElementById('chapter-title');
+        
+        if (navChapterName) navChapterName.innerText = chapter.title;
+        if (chapterTitle) chapterTitle.innerText = `${chapter.title} · 小节列表`;
+    }
+
+    renderSectionsGrid();
+    navTo('level-3');
 }
 
 function filterVolume(vol, btnEl) {
@@ -165,19 +203,19 @@ function filterVolume(vol, btnEl) {
 
 function getSubjectChapters(sub) {
     if (sub === 'physics') return (typeof physicsChapters !== 'undefined') ? physicsChapters : [];
-    if (sub === 'math') return mathChapters;
-    if (sub === 'chemistry') return chemChapters;
-    if (sub === 'biology') return bioChapters;
+    if (sub === 'math') return (typeof mathChapters !== 'undefined') ? mathChapters : [];
+    if (sub === 'chemistry') return (typeof chemChapters !== 'undefined') ? chemChapters : [];
+    if (sub === 'biology') return (typeof bioChapters !== 'undefined') ? bioChapters : [];
     return [];
 }
 
 function renderChaptersGrid() {
     const grid = document.getElementById('chapters-grid');
+    if (!grid) return;
     grid.innerHTML = '';
     const chapters = getSubjectChapters(currentSubject);
 
     let filtered = chapters;
-    // 适用于所有科目的分册过滤
     if (currentVolumeFilter !== 'all') {
         filtered = chapters.filter(ch => ch.volume === currentVolumeFilter || ch.vol === currentVolumeFilter);
     }
@@ -187,7 +225,7 @@ function renderChaptersGrid() {
         const card = document.createElement('div');
         
         const subClassMap = { physics: 'physics', math: 'math', chemistry: 'chem', biology: 'bio' };
-        card.className = `card subj-${subClassMap[currentSubject]}`;
+        card.className = `card subj-${subClassMap[currentSubject] || 'physics'}`;
         card.onclick = () => openChapter(ch.id);
         
         card.innerHTML = `
@@ -202,33 +240,9 @@ function renderChaptersGrid() {
     });
 }
 
-function openSubject(sub) {
-    currentSubject = sub;
-    currentVolumeFilter = 'all'; // 切换学科重置为"全部"
-    
-    const subNames = { physics: '物理', math: '高级数学', chemistry: '化学', biology: '生物' };
-    const accentColors = { physics: '#38bdf8', math: '#a855f7', chemistry: '#fb923c', biology: '#4ade80' };
-
-    // 动态调整主题识别色
-    document.documentElement.style.setProperty('--primary-color', accentColors[sub]);
-
-    document.getElementById('nav-subject-name').innerText = subNames[sub];
-    document.getElementById('nav-subject-link').innerText = subNames[sub];
-    document.getElementById('subject-title').innerText = `${subNames[sub]} · 章节目录`;
-
-    // 重新计算并渲染分册 Tab 标签中的数字统计
-    updateVolumeTabLabels();
-
-    // 激活第一个 Tab 样式
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-vol-all').classList.add('active');
-
-    renderChaptersGrid();
-    navTo('level-2');
-}
-
 function renderSectionsGrid() {
     const grid = document.getElementById('sections-grid');
+    if (!grid) return;
     grid.innerHTML = '';
     const subSections = getOrderedChapterSections(currentChapterId);
 
@@ -262,10 +276,15 @@ function updateVolumeTabLabels() {
     const countMiddle = chapters.filter(c => c.volume === 'middle' || c.vol === 'middle').length;
     const countLower = chapters.filter(c => c.volume === 'lower' || c.vol === 'lower').length;
 
-    document.getElementById('tab-vol-all').innerText = `全部 (${countAll}章)`;
-    document.getElementById('tab-vol-upper').innerText = `上册 (${countUpper}章)`;
-    document.getElementById('tab-vol-middle').innerText = `中册 (${countMiddle}章)`;
-    document.getElementById('tab-vol-lower').innerText = `下册 (${countLower}章)`;
+    const tabAll = document.getElementById('tab-vol-all');
+    const tabUpper = document.getElementById('tab-vol-upper');
+    const tabMiddle = document.getElementById('tab-vol-middle');
+    const tabLower = document.getElementById('tab-vol-lower');
+
+    if (tabAll) tabAll.innerText = `全部 (${countAll}章)`;
+    if (tabUpper) tabUpper.innerText = `上册 (${countUpper}章)`;
+    if (tabMiddle) tabMiddle.innerText = `中册 (${countMiddle}章)`;
+    if (tabLower) tabLower.innerText = `下册 (${countLower}章)`;
 }
 
 /* ========== 6. 详情页 + 上一节 / 下一节 ========== */
@@ -340,18 +359,7 @@ function setSectionStatus(status) {
     document.getElementById(`btn-status-${status}`).classList.add('active');
 }
 
-/* ========== 8. 练习题（按小节自带的 quiz 数据渲染，没有数据时显示空状态） ==========
-   在 physics-data.js 里给某个 section 加上这样的字段即可让练习题生效：
-
-   quiz: [
-     {
-       question: '关于滑动摩擦力，下列说法正确的是：',
-       options: ['与接触面积成正比', '与正压力成正比', '与运动速度成正比', '与物体质量无关'],
-       answerIndex: 1,
-       explanation: '滑动摩擦力 f = μ·F_N，只与动摩擦因数和正压力有关。'
-     }
-   ]
-*/
+/* ========== 8. 练习题 ========== */
 
 function renderQuizContainer(sec) {
     const container = document.getElementById('quiz-container');
@@ -495,3 +503,17 @@ function saveSectionNote() {
 
     closeModal();
 }
+
+/* ========== 10. 显式挂载到全局 window 对象（确保 HTML 行内 onclick 随时可调） ========== */
+window.navTo = navTo;
+window.openSubject = openSubject;
+window.openChapter = openChapter;
+window.openSectionDetail = openSectionDetail;
+window.filterVolume = filterVolume;
+window.handleSearch = handleSearch;
+window.checkAnswer = checkAnswer;
+window.setSectionStatus = setSectionStatus;
+window.openAddModal = openAddModal;
+window.openEditModal = openEditModal;
+window.closeModal = closeModal;
+window.saveSectionNote = saveSectionNote;
