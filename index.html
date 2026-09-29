@@ -189,6 +189,30 @@
             .progress-card { flex-direction: column; align-items: flex-start; gap: 8px; }
             .section-nav { flex-direction: column; }
         }
+        
+        /* 补丁：修复表格改色问题 */
+        #detail-content table,
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            color: #e0e0e0 !important;
+        }
+    
+        #detail-content td, 
+        #detail-content th,
+        .content td,
+        .content th {
+            background-color: transparent !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            color: #e0e0e0 !important;
+            padding: 10px 14px !important;
+        }
+    
+        #detail-content tr:nth-child(even) td,
+        .content tr:nth-child(even) td {
+            background-color: rgba(255, 255, 255, 0.04) !important;
+        }
     </style>
 </head>
 <body>
