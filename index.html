@@ -325,6 +325,24 @@
                 <button class="tab-btn" onclick="filterVolume('lower', this)">下册 (21-27章)</button>
             </div>
 
+            <h2 style="margin-bottom: 16px; font-size: 20px;" id="subject-title">章节目录</h2>
+
+            <div class="volume-tabs" id="physics-vol-tabs">
+                <button class="tab-btn active" onclick="filterVolume('all', this)">全部 (27章)</button>
+                <button class="tab-btn" onclick="filterVolume('upper', this)">上册 (1-11章)</button>
+                <button class="tab-btn" onclick="filterVolume('middle', this)">中册 (12-20章)</button>
+                <button class="tab-btn" onclick="filterVolume('lower', this)">下册 (21-27章)</button>
+            </div>
+
+            <h2 style="margin-bottom: 16px; font-size: 20px;" id="subject-title">章节目录</h2>
+
+            <div class="volume-tabs" id="physics-vol-tabs">
+                <button class="tab-btn active" onclick="filterVolume('all', this)">全部 (27章)</button>
+                <button class="tab-btn" onclick="filterVolume('upper', this)">上册 (1-11章)</button>
+                <button class="tab-btn" onclick="filterVolume('middle', this)">中册 (12-20章)</button>
+                <button class="tab-btn" onclick="filterVolume('lower', this)">下册 (21-27章)</button>
+            </div>
+
             <div class="card-grid" id="chapters-grid"></div>
         </div>
 
@@ -431,17 +449,17 @@
         ];
 
         const physicsChapters = [
-            { id: 'p-ch1', volume: 'upper', volName: '上册', title: '第1章 物理学简介', desc: '质点、位移、速度与加速度基础概念' },
-            { id: 'p-ch2', volume: 'upper', volName: '上册', title: '第2章 物理量的测量、单位和数据处理', desc: '速度与时间、位移与时间的关系及自由落体' },
-            { id: 'p-ch3', volume: 'upper', volName: '上册', title: '第3章 直线运动', desc: '重力、弹力、摩擦力及力的合成与分解' },
-            { id: 'p-ch4', volume: 'upper', volName: '上册', title: '第4章 牛顿运动定律', desc: '牛顿第一、二、三定律及其综合应用' },
-            { id: 'p-ch5', volume: 'upper', volName: '上册', title: '第5章 静力学', desc: '共点力平衡与胡克定律' },
-            { id: 'p-ch6', volume: 'upper', volName: '上册', title: '第6章 平面运动', desc: '平抛运动与圆周运动' },
-            { id: 'p-ch7', volume: 'upper', volName: '上册', title: '第7章 功与能', desc: '功、动能定理与机械能守恒定律' },
-            { id: 'p-ch8', volume: 'upper', volName: '上册', title: '第8章 动量守恒定律', desc: '冲量、动量定理与动量守恒' },
-            { id: 'p-ch9', volume: 'upper', volName: '上册', title: '第9章 转动', desc: '刚体转动与力矩' },
-            { id: 'p-ch10', volume: 'upper', volName: '上册', title: '第10章 振动', desc: '简谐运动与单摆' },
-            { id: 'p-ch11', volume: 'upper', volName: '中册', title: '第11章 流体力学', desc: '帕斯卡定律与伯努利方程' },
+            { id: 'p-ch1', volume: 'upper', volName: '上册', title: '第1章 物理学简介', desc: '' },
+            { id: 'p-ch2', volume: 'upper', volName: '上册', title: '第2章 物理量的测量、单位和数据处理', desc: '' },
+            { id: 'p-ch3', volume: 'upper', volName: '上册', title: '第3章 直线运动', desc: '' },
+            { id: 'p-ch4', volume: 'upper', volName: '上册', title: '第4章 牛顿运动定律', desc: '' },
+            { id: 'p-ch5', volume: 'upper', volName: '上册', title: '第5章 静力学', desc: '' },
+            { id: 'p-ch6', volume: 'upper', volName: '上册', title: '第6章 平面运动', desc: '' },
+            { id: 'p-ch7', volume: 'upper', volName: '上册', title: '第7章 功与能', desc: '' },
+            { id: 'p-ch8', volume: 'upper', volName: '上册', title: '第8章 动量守恒定律', desc: '' },
+            { id: 'p-ch9', volume: 'upper', volName: '上册', title: '第9章 转动', desc: '' },
+            { id: 'p-ch10', volume: 'upper', volName: '上册', title: '第10章 振动', desc: '' },
+            { id: 'p-ch11', volume: 'upper', volName: '上册', title: '第11章 流体力学', desc: '' },
 
             { id: 'p-ch12', volume: 'middle', volName: '中册', title: '第12章 物质的性质', desc: '固态、液态与气体性质' },
             { id: 'p-ch13', volume: 'middle', volName: '中册', title: '第13章 温度与热量', desc: '热平衡与比热容' },
@@ -451,7 +469,7 @@
             { id: 'p-ch17', volume: 'middle', volName: '中册', title: '第17章 机械波', desc: '波的干涉、衍射与多普勒效应' },
             { id: 'p-ch18', volume: 'middle', volName: '中册', title: '第18章 光的反射与折射', desc: '全反射与折射率测量' },
             { id: 'p-ch19', volume: 'middle', volName: '中册', title: '第19章 棱镜和透镜', desc: '透镜成像公式与光学仪器' },
-            { id: 'p-ch20', volume: 'middle', volName: '下册', title: '第20章 光的波动性', desc: '双缝干涉与偏振光' },
+            { id: 'p-ch20', volume: 'middle', volName: '中册', title: '第20章 光的波动性', desc: '双缝干涉与偏振光' },
 
             { id: 'p-ch21', volume: 'lower', volName: '下册', title: '第21章 电场', desc: '库仑定律、电场强度与电势能' },
             { id: 'p-ch22', volume: 'lower', volName: '下册', title: '第22章 恒定电流', desc: '欧姆定律与闭合电路欧姆定律' },
@@ -463,23 +481,67 @@
         ];
 
         const chemChapters = [
-            { id: 'c-ch1', title: '第一章 物质及其变化', desc: '物质分类、离子反应与氧化还原反应' },
-            { id: 'c-ch2', title: '第二章 海水中的重要元素——钠和氯', desc: '钠和氯及其化合物的性质与实验' },
-            { id: 'c-ch3', title: '第三章 铁 金属材料', desc: '铁合金、铝合金及其变价化合物性质' },
-            { id: 'c-ch4', title: '第四章 物质结构 元素周期律', desc: '原子结构、元素周期表与化学键' },
-            { id: 'c-ch5', title: '第五章 化工样例与化学反应速率', desc: '可逆反应、化学平衡与速率影响因素' },
-            { id: 'c-ch6', title: '第六章 反应热与电化学', desc: '原电池、电解池原理及其工业应用' },
-            { id: 'c-ch7', title: '第七章 有机化合物基础', desc: '烷烃、烯烃、苯、乙醇、乙酸与高分子材料' }
+            { id: 'c-ch1', volume: 'upper', volName: '下册', title: '第1章 绪论', desc: '' },
+            { id: 'c-ch2', volume: 'upper', volName: '上册', title: '第2章 水和氢', desc: '' },
+            { id: 'c-ch3', volume: 'upper', volName: '上册', title: '第3章 原子与分子', desc: '' },
+            { id: 'c-ch4', volume: 'upper', volName: '上册', title: '第4章 化学方程式与化学计算', desc: '' },
+            { id: 'c-ch5', volume: 'upper', volName: '上册', title: '第5章 原子结构', desc: '' },
+            { id: 'c-ch6', volume: 'upper', volName: '上册', title: '第6章 元素周期表', desc: '' },
+            { id: 'c-ch7', volume: 'upper', volName: '上册', title: '第7章 化学键与分子间作用力', desc: '' },
+            { id: 'c-ch8', volume: 'upper', volName: '上册', title: '第8章 氧化还原反应', desc: '' },
+            { id: 'c-ch9', volume: 'upper', volName: '上册', title: '第9章 IA族元素：纳和钾', desc: '' },
+            { id: 'c-ch10', volume: 'upper', volName: '上册', title: '第10章 IIA族元素：镁和钙', desc: '' },
+            { id: 'c-ch11', volume: 'upper', volName: '上册', title: '第11章 IIIA组元素：铝', desc: '' },
+            { id: 'c-ch12', volume: 'upper', volName: '上册', title: '第12章 IVA族元素：碳和硅', desc: '' },
+            { id: 'c-ch13', volume: 'upper', volName: '上册', title: '第13章 VA族元素：氮和磷', desc: '' },
+            { id: 'c-ch14', volume: 'upper', volName: '上册', title: '第14章 VIA族元素：氧和硫', desc: '' },
+            { id: 'c-ch15', volume: 'upper', volName: '上册', title: '第15章 VIIA族元素', desc: '' },
+            { id: 'c-ch16', volume: 'upper', volName: '上册', title: '第16章 过渡元素', desc: '' },
+            
+            { id: 'c-ch17', volume: 'middle', volName: '中册', title: '第17章 气体', desc: '' },
+            { id: 'c-ch18', volume: 'middle', volName: '中册', title: '第18章 溶液及其性质', desc: '' },
+            { id: 'c-ch19', volume: 'middle', volName: '中册', title: '第19章 化学反应和能量', desc: '' },
+            { id: 'c-ch20', volume: 'middle', volName: '中册', title: '第20章 化学反应速率', desc: '' },
+            { id: 'c-ch21', volume: 'middle', volName: '中册', title: '第21章 化学平衡的移动', desc: '' },
+            { id: 'c-ch22', volume: 'middle', volName: '中册', title: '第22章 水溶液中的离子平衡', desc: '' },
+            { id: 'c-ch23', volume: 'middle', volName: '中册', title: '第23章 酸碱盐', desc: '' },
+            { id: 'c-ch24', volume: 'middle', volName: '中册', title: '第24章 电化学', desc: '' },
+            { id: 'c-ch25', volume: 'middle', volName: '中册', title: '第25章 核化学', desc: '' },
+            
+            { id: 'c-ch26', volume: 'lower', volName: '下册', title: '第26章 有机化学', desc: '' },
+            { id: 'c-ch27', volume: 'lower', volName: '下册', title: '第27章 烷烃', desc: '' },
+            { id: 'c-ch28', volume: 'lower', volName: '下册', title: '第28章 烯烃', desc: '' },
+            { id: 'c-ch29', volume: 'lower', volName: '下册', title: '第29章 炔烃', desc: '' },
+            { id: 'c-ch30', volume: 'lower', volName: '下册', title: '第30章 芳香烃', desc: '' },
+            { id: 'c-ch31', volume: 'lower', volName: '下册', title: '第31章 卤代烃', desc: '' },
+            { id: 'c-ch32', volume: 'lower', volName: '下册', title: '第32章 羟基化合物：醇、酚', desc: '' },
+            { id: 'c-ch33', volume: 'lower', volName: '下册', title: '第33章 羟基化合物：醛、酮、碳水化合物', desc: '' },
+            { id: 'c-ch34', volume: 'lower', volName: '下册', title: '第34章 有机酸及其衍生物', desc: '' },
+            { id: 'c-ch35', volume: 'lower', volName: '下册', title: '第35章 有机高分子化合物', desc: '' },
         ];
 
         const bioChapters = [
-            { id: 'b-ch1', title: '第一章 走近细胞与组成细胞的分子', desc: '显微镜使用、蛋白质、核酸、糖类与脂质' },
-            { id: 'b-ch2', title: '第二章 细胞的结构与物质输入输出', desc: '细胞器分工、细胞膜与渗透作用' },
-            { id: 'b-ch3', title: '第三章 细胞的能量供应和利用', desc: '酶的特性、ATP、光合作用与呼吸作用' },
-            { id: 'b-ch4', title: '第四章 细胞的生命历程', desc: '有丝分裂、减数分裂、细胞分化与衰老' },
-            { id: 'b-ch5', title: '第五章 遗传因子的发现', desc: '孟德尔单因子与双因子杂交实验定律' },
-            { id: 'b-ch6', title: '第六章 基因的本质与表达', desc: 'DNA复制、转录、翻译与基因表达调控' },
-            { id: 'b-ch7', title: '第七章 植物激素调节与神经体液调节', desc: '生长素、内环境稳态、兴奋传导与免疫' }
+            { id: 'b-ch1', volume: 'upper', volName: '上册', title: '第1章 生物是由什么组成的', desc: '' },
+            { id: 'b-ch2', volume: 'upper', volName: '上册', title: '第2章 细胞的结构与功能', desc: '' },
+            { id: 'b-ch3', volume: 'upper', volName: '上册', title: '第3章 细胞内物质和能量的转换', desc: '' },
+            { id: 'b-ch4', volume: 'upper', volName: '上册', title: '第4章 细胞分化', desc: '' },
+            { id: 'b-ch5', volume: 'upper', volName: '上册', title: '第5章 食物的消化与物质代谢', desc: '' },
+            { id: 'b-ch6', volume: 'upper', volName: '上册', title: '第6章 营养成分的运输', desc: '' },
+            { id: 'b-ch7', volume: 'upper', volName: '上册', title: '第7章 动植物的协调与反应', desc: '' },
+            { id: 'b-ch8', volume: 'upper', volName: '上册', title: '第8章 内环境的恒定和排泄系统', desc: '' },
+            { id: 'b-ch9', volume: 'upper', volName: '上册', title: '第9章 健康与免疫', desc: '' },
+            
+            { id: 'b-ch10', volume: 'middle', volName: '中册', title: '第10章 生态系统', desc: '' },
+            { id: 'b-ch11', volume: 'middle', volName: '中册', title: '第11章 生态保育与可持续发展', desc: '' },
+            { id: 'b-ch12', volume: 'middle', volName: '中册', title: '第12章 生殖', desc: '' },
+            { id: 'b-ch13', volume: 'middle', volName: '中册', title: '第13章 细胞分裂', desc: '' },
+            { id: 'b-ch14', volume: 'middle', volName: '中册', title: '第14章 遗传的物质基础', desc: '' },
+            { id: 'b-ch15', volume: 'middle', volName: '中册', title: '第15章 基因与遗传定律', desc: '' },
+            { id: 'b-ch16', volume: 'middle', volName: '中册', title: '第16章 应用遗传学', desc: '' },
+            
+            { id: 'b-ch17', volume: 'lower', volName: '下册', title: '第17章 生物多样性', desc: '' },
+            { id: 'b-ch18', volume: 'lower', volName: '下册', title: '第18章 细菌与病毒', desc: '' },
+            { id: 'b-ch19', volume: 'lower', volName: '下册', title: '第19章 演化', desc: '' },
         ];
     </script>
 </body>
