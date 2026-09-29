@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>理科全科知识库</title>
 
-    <!-- 字体：标题用衬线（教材感），正文用无衬线，两者区分明显 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@600;700;900&display=swap" rel="stylesheet">
 
-    <!-- 引入 KaTeX 用于渲染数学与物理公式 -->
+    <!-- KaTeX 公式渲染 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
@@ -25,143 +24,120 @@
 
     <style>
         :root {
-            /* 深靛蓝为主墨色，四个学科各自的识别色 */
-            --ink: #16233c;
-            --ink-soft: #2b3a5c;
-            --bg-color: #eef2f6;
-            --card-bg: #ffffff;
-            --text-main: #16233c;
-            --text-muted: #5b6b82;
-            --border-color: #d7dee6;
+            --ink: #0f172a;
+            --ink-soft: #1e293b;
+            --bg-color: #0d1117; /* 暗色底，衬托手绘荧光线条 */
+            --card-bg: rgba(23, 32, 51, 0.75);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.12);
 
-            --accent-physics: #2b6cb0;
-            --accent-math: #6b46c1;
-            --accent-chem: #c0552b;
-            --accent-bio: #2f855a;
+            --accent-physics: #38bdf8;
+            --accent-math: #a855f7;
+            --accent-chem: #fb923c;
+            --accent-bio: #4ade80;
 
             --primary-color: var(--accent-physics);
-            --primary-hover: #235a94;
+            --primary-hover: #0284c7;
 
-            --shadow-sm: 0 1px 3px rgba(22,35,60,0.06);
-            --shadow-md: 0 6px 16px rgba(22,35,60,0.08);
-            --shadow-lg: 0 12px 28px -6px rgba(22,35,60,0.14);
-            --radius-md: 10px;
-            --radius-lg: 18px;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --radius-md: 12px;
+            --radius-lg: 20px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
-            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background: var(--bg-color);
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            /* 理科手绘图案 SVG 平铺背景 (包含烧杯、原子、DNA、数学符号等外形线条) */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><g fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><!-- 烧杯 --><path d="M20 20 h20 v5 l-8 15 v20 h-24 v-20 l-8 -15 v-5 z M20 50 h24"/><circle cx="28" cy="42" r="1.5"/><circle cx="36" cy="45" r="1"/><!-- 原子 --><ellipse cx="120" cy="40" rx="18" ry="6" transform="rotate(30 120 40)"/><ellipse cx="120" cy="40" rx="18" ry="6" transform="rotate(-30 120 40)"/><circle cx="120" cy="40" r="3" fill="rgba(255,255,255,0.08)"/><!-- DNA 双螺旋 --><path d="M160 110 c5 5, 5 15, 0 20 c-5 5, -5 15, 0 20"/><path d="M172 110 c-5 5, -5 15, 0 20 c5 5, 5 15, 0 20"/><line x1="162" y1="115" x2="170" y2="115"/><line x1="162" y1="135" x2="170" y2="135"/><!-- 积分与数学公式 --><path d="M30 130 c-3 -10, 3 -10, 0 -20"/><text x="36" y="122" font-size="10" fill="rgba(255,255,255,0.06)" font-family="sans-serif">dx</text><!-- 苯环/化学结构 --><polygon points="90,120 105,112 120,120 120,136 105,144 90,136"/><circle cx="105" cy="128" r="8"/></g></svg>');
             color: var(--text-main);
             line-height: 1.65;
             min-height: 100vh;
         }
+
         h1, h2, h3, .logo, .detail-header h2 {
             font-family: 'Noto Serif SC', serif;
         }
 
-        /* 顶部导航条 */
+        /* 顶部导航条（毛玻璃效果） */
         header {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            position: sticky; top: 0; z-index: 100;
             box-shadow: var(--shadow-sm);
         }
         .nav-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            height: 68px;
-            gap: 16px;
+            max-width: 1100px; margin: 0 auto; display: flex;
+            align-items: center; justify-content: space-between;
+            padding: 0 20px; height: 68px; gap: 16px;
         }
-
         .logo-group { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-        .logo {
-            font-size: 19px;
-            font-weight: 700;
-            color: var(--ink);
-            cursor: pointer;
-            white-space: nowrap;
-        }
+        .logo { font-size: 19px; font-weight: 700; color: #f8fafc; cursor: pointer; white-space: nowrap; }
 
         .search-box { flex: 1; max-width: 320px; position: relative; }
         .search-input {
-            width: 100%;
-            padding: 8px 14px 8px 36px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            background: #f8fafc;
-            font-size: 13px;
-            outline: none;
-            transition: all 0.2s;
+            width: 100%; padding: 8px 14px 8px 36px; border-radius: 20px;
+            border: 1px solid var(--border-color); background: rgba(255,255,255,0.05);
+            color: #fff; font-size: 13px; outline: none; transition: all 0.2s;
         }
         .search-input:focus {
-            background: #ffffff;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(43, 108, 176, 0.12);
+            background: rgba(255,255,255,0.1); border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
         }
-        .search-icon {
-            position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-            font-size: 13px; color: var(--text-muted);
-        }
+        .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--text-muted); }
 
         .nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
         .author-credit {
-            font-size: 12px; color: var(--text-muted); background: #f8fafc;
+            font-size: 12px; color: var(--text-muted); background: rgba(255,255,255,0.05);
             border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 20px; white-space: nowrap;
         }
         #user-status { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
 
         .add-btn {
-            background: var(--primary-color); color: white; border: none;
-            padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; font-weight: 600;
-            box-shadow: 0 2px 8px rgba(43, 108, 176, 0.25); transition: all 0.2s; white-space: nowrap;
+            background: var(--primary-color); color: #0f172a; border: none;
+            padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; font-weight: 700;
+            box-shadow: 0 2px 10px rgba(56, 189, 248, 0.3); transition: all 0.2s; white-space: nowrap;
         }
-        .add-btn:hover { background: var(--primary-hover); }
+        .add-btn:hover { background: #0284c7; color: #fff; }
         .login-btn {
-            background: #fff; color: var(--ink); border: 1px solid var(--border-color);
+            background: rgba(255,255,255,0.08); color: #fff; border: 1px solid var(--border-color);
             padding: 8px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; font-weight: 600; white-space: nowrap;
         }
-        .login-btn:hover { border-color: var(--ink); }
+        .login-btn:hover { background: rgba(255,255,255,0.15); }
 
         main { max-width: 1100px; margin: 28px auto; padding: 0 20px; }
 
         /* 复习进度看板 */
         .progress-card {
-            background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-lg);
-            padding: 18px 24px; margin-bottom: 24px; display: flex; align-items: center;
-            justify-content: space-between; gap: 20px; box-shadow: var(--shadow-sm);
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+            padding: 20px 24px; margin-bottom: 24px; display: flex; align-items: center;
+            justify-content: space-between; gap: 20px; backdrop-filter: blur(12px); box-shadow: var(--shadow-md);
         }
-        .progress-bar-bg { flex: 1; height: 10px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
-        .progress-bar-fill {
-            height: 100%; background: linear-gradient(90deg, var(--accent-physics), #14b8a6);
-            width: 0%; transition: width 0.4s ease;
-        }
+        .progress-bar-bg { flex: 1; height: 10px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent-physics), var(--accent-bio)); width: 0%; transition: width 0.4s ease; }
 
         /* 选项卡 & 网格 */
-        .volume-tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 2px solid var(--border-color); padding-bottom: 2px; }
-        .tab-btn { background: none; border: none; padding: 8px 16px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 8px 8px 0 0; }
-        .tab-btn.active { color: var(--primary-color); border-bottom: 3px solid var(--primary-color); background: #ffffff; }
+        .volume-tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px; }
+        .tab-btn { background: none; border: none; padding: 8px 16px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; border-radius: 8px 8px 0 0; transition: all 0.2s; }
+        .tab-btn.active { color: var(--primary-color); border-bottom: 3px solid var(--primary-color); background: rgba(255,255,255,0.05); }
 
         .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
         .card {
             background: var(--card-bg); padding: 20px; border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color); cursor: pointer; transition: all 0.2s;
+            border: 1px solid var(--border-color); cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative; display: flex; flex-direction: column; justify-content: space-between;
+            backdrop-filter: blur(10px);
         }
-        .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
-        .card h3 { font-size: 16px; margin-bottom: 6px; color: var(--text-main); font-weight: 700; }
+        .card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.3); box-shadow: var(--shadow-md); }
+        .card h3 { font-size: 16px; margin-bottom: 6px; color: #fff; font-weight: 700; }
         .card p { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; }
 
-        /* 学科识别色（左边框） */
+        /* 学科识别边框 */
         .subj-physics { border-left: 5px solid var(--accent-physics); }
         .subj-math { border-left: 5px solid var(--accent-math); }
         .subj-chem { border-left: 5px solid var(--accent-chem); }
@@ -169,63 +145,47 @@
 
         .view-page { display: none; }
         .view-page.active { display: block; animation: fadeIn 0.25s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-        .detail-view { background: #fff; padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); }
+        .detail-view { background: var(--card-bg); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); backdrop-filter: blur(12px); }
         .detail-header {
-            background: linear-gradient(135deg, var(--ink), var(--ink-soft)); color: #fff;
-            padding: 24px; border-radius: var(--radius-md); margin-bottom: 28px; position: relative;
+            background: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.9)); color: #fff;
+            padding: 24px; border-radius: var(--radius-md); margin-bottom: 28px; position: relative; border: 1px solid var(--border-color);
         }
         .edit-btn {
-            position: absolute; right: 20px; top: 20px; background: rgba(255,255,255,0.16);
-            border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 14px; border-radius: 8px;
-            cursor: pointer; font-size: 12px;
+            position: absolute; right: 20px; top: 20px; background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2); color: white; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 12px;
         }
 
         .status-picker {
-            display: flex; align-items: center; gap: 10px; background: #f8fafc; padding: 12px 18px;
+            display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.2); padding: 12px 18px;
             border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 24px; flex-wrap: wrap;
         }
         .status-btn { border: none; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; opacity: 0.5; transition: all 0.2s; }
-        .status-btn.active { opacity: 1; transform: scale(1.05); box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-        .status-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+        .status-btn.active { opacity: 1; transform: scale(1.05); box-shadow: 0 2px 6px rgba(0,0,0,0.4); }
 
         /* 练习题 */
-        .quiz-section { margin-top: 36px; border-top: 2px dashed var(--border-color); padding-top: 28px; }
-        .quiz-card { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-top: 16px; }
-        .quiz-progress { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; font-weight: 600; }
-        .quiz-option { background: #ffffff; border: 1px solid var(--border-color); padding: 10px 16px; border-radius: 8px; margin-top: 8px; cursor: pointer; transition: all 0.2s; font-size: 14px; }
-        .quiz-option:hover { border-color: var(--primary-color); background: #eff6fc; }
-        .quiz-option.correct { background: #e3f5e9; border-color: #2f855a; color: #1c5c39; font-weight: 600; }
-        .quiz-option.wrong { background: #fbeae7; border-color: #c0552b; color: #93341a; }
-        .quiz-explanation { display: none; margin-top: 14px; padding: 12px; background: #eef2f6; border-radius: 8px; font-size: 13px; color: var(--ink-soft); border-left: 4px solid var(--accent-physics); }
-        .quiz-next-btn { display: block; margin-top: 16px; background: var(--ink); color: #fff; border: none; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; }
-        .quiz-empty { text-align: center; padding: 36px 16px; color: var(--text-muted); background: #f8fafc; border-radius: 12px; border: 1px dashed var(--border-color); }
-        .quiz-empty p:first-child { color: var(--text-main); font-weight: 700; margin-bottom: 6px; }
+        .quiz-section { margin-top: 36px; border-top: 1px dashed var(--border-color); padding-top: 28px; }
+        .quiz-card { background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-top: 16px; }
+        .quiz-option { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); padding: 10px 16px; border-radius: 8px; margin-top: 8px; cursor: pointer; transition: all 0.2s; font-size: 14px; color: #fff; }
+        .quiz-option:hover { border-color: var(--primary-color); background: rgba(56, 189, 248, 0.1); }
+        .quiz-option.correct { background: rgba(74, 222, 128, 0.15); border-color: var(--accent-bio); color: #4ade80; }
+        .quiz-option.wrong { background: rgba(251, 146, 60, 0.15); border-color: var(--accent-chem); color: #fb923c; }
+        .quiz-explanation { display: none; margin-top: 14px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; font-size: 13px; color: var(--text-muted); border-left: 4px solid var(--accent-physics); }
 
-        /* 上一节 / 下一节 */
-        .section-nav {
-            display: flex; justify-content: space-between; gap: 12px; margin-top: 32px;
-            padding-top: 20px; border-top: 1px solid var(--border-color);
-        }
-        .nav-arrow-btn {
-            flex: 1; text-align: left; background: #f8fafc; border: 1px solid var(--border-color);
-            border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--ink); cursor: pointer;
-            transition: all 0.2s;
-        }
+        .section-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border-color); }
+        .nav-arrow-btn { flex: 1; text-align: left; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 16px; font-size: 13px; color: #fff; cursor: pointer; transition: all 0.2s; }
         .nav-arrow-btn:last-child { text-align: right; }
-        .nav-arrow-btn:not(:disabled):hover { border-color: var(--primary-color); background: #eff6fc; }
-        .nav-arrow-btn:disabled { color: var(--text-muted); cursor: not-allowed; opacity: 0.6; }
+        .nav-arrow-btn:not(:disabled):hover { border-color: var(--primary-color); background: rgba(255,255,255,0.1); }
 
         /* 弹窗 */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(22, 35, 60, 0.45); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 200; }
-        .modal-content { background: white; padding: 28px; border-radius: var(--radius-lg); width: 90%; max-width: 540px; }
-        .modal-content input, .modal-content textarea, .modal-content select { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; font-family: inherit; }
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); justify-content: center; align-items: center; z-index: 200; }
+        .modal-content { background: #1e293b; color: #fff; padding: 28px; border-radius: var(--radius-lg); width: 90%; max-width: 540px; border: 1px solid var(--border-color); }
+        .modal-content input, .modal-content textarea, .modal-content select { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); background: rgba(0,0,0,0.3); color: #fff; border-radius: 8px; font-size: 14px; }
 
         @media (max-width: 640px) {
             .search-box { max-width: 120px; }
-            .author-credit { display: none; }
-            #user-status { display: none; }
+            .author-credit, #user-status { display: none; }
             .progress-card { flex-direction: column; align-items: flex-start; gap: 8px; }
             .section-nav { flex-direction: column; }
         }
@@ -238,12 +198,10 @@
             <div class="logo-group">
                 <div class="logo" onclick="navTo('level-1')">理科知识库</div>
             </div>
-
             <div class="search-box">
                 <span class="search-icon">🔍</span>
                 <input type="text" class="search-input" id="global-search" placeholder="跨学科搜索知识点/公式..." oninput="handleSearch(this.value)">
             </div>
-
             <div class="nav-right">
                 <span class="author-credit">育青中学2026年高一理制作</span>
                 <span id="user-status">未登录（仅浏览）</span>
@@ -254,10 +212,8 @@
     </header>
 
     <main>
-
-        <!-- 第 1 层：学科选择 (首页) -->
+        <!-- 第 1 层：学科选择 -->
         <div id="level-1" class="view-page active">
-
             <div class="progress-card">
                 <div>
                     <h4 style="font-size: 15px;">全科复习完成度</h4>
@@ -266,7 +222,7 @@
                 <div class="progress-bar-bg">
                     <div class="progress-bar-fill" id="progress-fill"></div>
                 </div>
-                <span style="font-weight: 800; font-size: 16px; color: #14b8a6;" id="progress-percent">0%</span>
+                <span style="font-weight: 800; font-size: 16px; color: var(--accent-bio);" id="progress-percent">0%</span>
             </div>
 
             <h2 style="margin-bottom: 18px; font-weight: 700; font-size: 20px;">选择学科专栏</h2>
@@ -274,30 +230,30 @@
                 <div class="card subj-math" onclick="openSubject('math')">
                     <div>
                         <h3>高级数学</h3>
-                        <p>函数、三角函数、数列、向量、导数与微积分体系</p>
+                        <p>函数、三角函数、向量、立体几何与微积分体系</p>
                     </div>
-                    <span class="badge" id="badge-math" style="background:#f5f0ff; color:#6b46c1; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600;">已开启 · 0 节</span>
+                    <span class="badge" id="badge-math" style="background:rgba(168, 85, 247, 0.15); color:var(--accent-math); padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600;">已开启 · 0 节</span>
                 </div>
                 <div class="card subj-physics" onclick="openSubject('physics')">
                     <div>
                         <h3>物理</h3>
                         <p>上册、中册、下册 · 共 27 章核心知识</p>
                     </div>
-                    <span class="badge" id="badge-physics" style="background:#ebf3fc; color:#2b6cb0; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600;">27 章 / 加载中...</span>
+                    <span class="badge" id="badge-physics" style="background:rgba(56, 189, 248, 0.15); color:var(--accent-physics); padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600;">27 章 / 加载中...</span>
                 </div>
                 <div class="card subj-chem" onclick="openSubject('chemistry')">
                     <div>
                         <h3>化学</h3>
                         <p>上册、中册、下册 · 共 35 章核心知识</p>
                     </div>
-                    <span class="badge" id="badge-chemistry" style="background:#fdf0e9; color:#c0552b; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600;">35章 · 0 节</span>
+                    <span class="badge" id="badge-chemistry" style="background:rgba(251, 146, 60, 0.15); color:var(--accent-chem); padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600;">35章 · 0 节</span>
                 </div>
                 <div class="card subj-bio" onclick="openSubject('biology')">
                     <div>
                         <h3>生物</h3>
                         <p>上册、中册、下册 · 共 19 章核心知识</p>
                     </div>
-                    <span class="badge" id="badge-biology" style="background:#eaf6ef; color:#2f855a; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600;">19章 · 0 节</span>
+                    <span class="badge" id="badge-biology" style="background:rgba(74, 222, 128, 0.15); color:var(--accent-bio); padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600;">19章 · 0 节</span>
                 </div>
             </div>
         </div>
@@ -310,37 +266,20 @@
 
         <!-- 第 2 层：章节列表页 -->
         <div id="level-2" class="view-page">
-            <div class="breadcrumb-bar" style="margin-bottom: 16px;">
+            <div class="breadcrumb-bar" style="margin-bottom: 16px; color: var(--text-muted);">
                 <span class="back-link" onclick="navTo('level-1')" style="color:var(--primary-color); cursor:pointer;">首页</span>
                 <span>/</span>
-                <span id="nav-subject-name" style="font-weight:600;">物理</span>
+                <span id="nav-subject-name" style="font-weight:600; color: #fff;">物理</span>
             </div>
 
             <h2 style="margin-bottom: 16px; font-size: 20px;" id="subject-title">章节目录</h2>
 
-            <div class="volume-tabs" id="physics-vol-tabs">
-                <button class="tab-btn active" onclick="filterVolume('all', this)">全部 (27章)</button>
-                <button class="tab-btn" onclick="filterVolume('upper', this)">上册 (1-11章)</button>
-                <button class="tab-btn" onclick="filterVolume('middle', this)">中册 (12-20章)</button>
-                <button class="tab-btn" onclick="filterVolume('lower', this)">下册 (21-27章)</button>
-            </div>
-
-            <h2 style="margin-bottom: 16px; font-size: 20px;" id="subject-title">章节目录</h2>
-
-            <div class="volume-tabs" id="physics-vol-tabs">
-                <button class="tab-btn active" onclick="filterVolume('all', this)">全部 (27章)</button>
-                <button class="tab-btn" onclick="filterVolume('upper', this)">上册 (1-11章)</button>
-                <button class="tab-btn" onclick="filterVolume('middle', this)">中册 (12-20章)</button>
-                <button class="tab-btn" onclick="filterVolume('lower', this)">下册 (21-27章)</button>
-            </div>
-
-            <h2 style="margin-bottom: 16px; font-size: 20px;" id="subject-title">章节目录</h2>
-
-            <div class="volume-tabs" id="physics-vol-tabs">
-                <button class="tab-btn active" onclick="filterVolume('all', this)">全部 (27章)</button>
-                <button class="tab-btn" onclick="filterVolume('upper', this)">上册 (1-11章)</button>
-                <button class="tab-btn" onclick="filterVolume('middle', this)">中册 (12-20章)</button>
-                <button class="tab-btn" onclick="filterVolume('lower', this)">下册 (21-27章)</button>
+            <!-- 修正：全科目通用的动态分册标签选项卡 -->
+            <div class="volume-tabs" id="vol-tabs">
+                <button class="tab-btn active" onclick="filterVolume('all', this)" id="tab-vol-all">全部</button>
+                <button class="tab-btn" onclick="filterVolume('upper', this)" id="tab-vol-upper">上册</button>
+                <button class="tab-btn" onclick="filterVolume('middle', this)" id="tab-vol-middle">中册</button>
+                <button class="tab-btn" onclick="filterVolume('lower', this)" id="tab-vol-lower">下册</button>
             </div>
 
             <div class="card-grid" id="chapters-grid"></div>
@@ -348,10 +287,10 @@
 
         <!-- 第 3 层：小节卡片列表页 -->
         <div id="level-3" class="view-page">
-            <div class="breadcrumb-bar" style="margin-bottom: 16px;">
+            <div class="breadcrumb-bar" style="margin-bottom: 16px; color: var(--text-muted);">
                 <span class="back-link" onclick="navTo('level-1')" style="color:var(--primary-color); cursor:pointer;">首页</span> /
                 <span class="back-link" onclick="navTo('level-2')" id="nav-subject-link" style="color:var(--primary-color); cursor:pointer;">物理</span> /
-                <span id="nav-chapter-name" style="font-weight:600;">第一章</span>
+                <span id="nav-chapter-name" style="font-weight:600; color: #fff;">第一章</span>
             </div>
             <h2 style="margin-bottom: 18px; font-size: 20px;" id="chapter-title">小节列表</h2>
             <div class="card-grid" id="sections-grid"></div>
@@ -359,7 +298,7 @@
 
         <!-- 第 4 层：笔记正文详情页 -->
         <div id="level-4" class="view-page">
-            <div class="breadcrumb-bar" style="margin-bottom: 16px;">
+            <div class="breadcrumb-bar" style="margin-bottom: 16px; color: var(--text-muted);">
                 <span class="back-link" onclick="navTo('level-1')" style="color:var(--primary-color); cursor:pointer;">首页</span> /
                 <span class="back-link" onclick="navTo('level-2')" style="color:var(--primary-color); cursor:pointer;">章节</span> /
                 <span class="back-link" onclick="navTo('level-3')" style="color:var(--primary-color); cursor:pointer;">小节列表</span>
@@ -373,9 +312,9 @@
 
                 <div class="status-picker">
                     <span style="font-size:13px; font-weight:600; color:var(--text-muted);">标记复习状态：</span>
-                    <button class="status-btn" id="btn-status-green" style="background:#e3f5e9; color:#1c5c39;" onclick="setSectionStatus('green')">🟢 已掌握</button>
-                    <button class="status-btn" id="btn-status-yellow" style="background:#fdf3e3; color:#9a6a1a;" onclick="setSectionStatus('yellow')">🟡 需复习</button>
-                    <button class="status-btn" id="btn-status-red" style="background:#fbeae7; color:#93341a;" onclick="setSectionStatus('red')">🔴 困难</button>
+                    <button class="status-btn" id="btn-status-green" style="background:rgba(74, 222, 128, 0.2); color:#4ade80;" onclick="setSectionStatus('green')">🟢 已掌握</button>
+                    <button class="status-btn" id="btn-status-yellow" style="background:rgba(250, 204, 21, 0.2); color:#facc15;" onclick="setSectionStatus('yellow')">🟡 需复习</button>
+                    <button class="status-btn" id="btn-status-red" style="background:rgba(248, 113, 113, 0.2); color:#f87171;" onclick="setSectionStatus('red')">🔴 困难</button>
                 </div>
 
                 <div id="detail-content" style="font-size: 15px; line-height: 1.8;"></div>
@@ -391,10 +330,9 @@
                 </div>
             </div>
         </div>
-
     </main>
 
-    <!-- 新增/编辑弹窗 -->
+    <!-- 编辑弹窗 -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <h3 id="modal-heading" style="margin-bottom:14px;">新增/编辑小节笔记</h3>
@@ -404,13 +342,13 @@
             <textarea id="modal-content" rows="6" placeholder="笔记正文 (支持 HTML & LaTeX 公式)"></textarea>
 
             <div style="display:flex; justify-content:flex-end; gap:10px;">
-                <button onclick="closeModal()" style="padding:8px 16px; border:none; border-radius:6px; cursor:pointer;">取消</button>
-                <button style="padding:8px 16px; background:var(--primary-color); color:white; border:none; border-radius:6px; cursor:pointer;" onclick="saveSectionNote()">保存</button>
+                <button onclick="closeModal()" style="padding:8px 16px; border:none; border-radius:6px; background:rgba(255,255,255,0.1); color:#fff; cursor:pointer;">取消</button>
+                <button style="padding:8px 16px; background:var(--primary-color); color:#0f172a; border:none; border-radius:6px; cursor:pointer; font-weight:700;" onclick="saveSectionNote()">保存</button>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDK：登录与云端数据同步 -->
+    <!-- Firebase SDK 引入保持不变 -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -428,26 +366,24 @@
         const db = firebase.firestore();
     </script>
 
-    <!-- 1. 引入物理基础章节数据文件 (physicsChapters, defaultSections) -->
     <script src="physics-data.js"></script>
-
-    <!-- 2. 引入业务处理逻辑函数脚本（登录、云同步、渲染逻辑全部在这里） -->
     <script src="functions.js"></script>
 
-    <!-- 3. 数学、化学、生物的章节数据 -->
+    <!-- 补充数学分册数据及脚本逻辑 -->
     <script>
+        // 补充数学分册 (Volume) 数据支持
         const mathChapters = [
-            { id: 'm-ch1', title: '第一章 集合与常用逻辑用语', desc: '集合概念、基本关系、充分条件与必要条件' },
-            { id: 'm-ch2', title: '第二章 一元二次函数、方程与不等式', desc: '基本不等式、二次函数性质与图像' },
-            { id: 'm-ch3', title: '第三章 函数的概念与性质', desc: '函数的单调性、奇偶性、奇偶性与周期性' },
-            { id: 'm-ch4', title: '第四章 指数函数与对数函数', desc: '运算性质、图像特点与对数方程' },
-            { id: 'm-ch5', title: '第五章 三角函数', desc: '弧度制、同角三角关系、诱导公式与图像' },
-            { id: 'm-ch6', title: '第六章 平面向量与复数', desc: '向量加减法、数量积与复数代数形式' },
-            { id: 'm-ch7', title: '第七章 立体几何初步', desc: '空间点线面关系、表面积与体积计算' },
-            { id: 'm-ch8', title: '第八章 解析几何与圆锥曲线', desc: '直线、圆、椭圆、双曲线与抛物线方程' },
-            { id: 'm-ch9', title: '第九章 导数及其应用', desc: '导数的几何意义、单调性讨论与极值最值' }
+            { id: 'm-ch1', volume: 'upper', volName: '上册', title: '第一章 集合与常用逻辑用语', desc: '集合概念、基本关系、充分条件与必要条件' },
+            { id: 'm-ch2', volume: 'upper', volName: '上册', title: '第二章 一元二次函数、方程与不等式', desc: '基本不等式、二次函数性质与图像' },
+            { id: 'm-ch3', volume: 'upper', volName: '上册', title: '第三章 函数的概念与性质', desc: '函数的单调性、奇偶性与周期性' },
+            { id: 'm-ch4', volume: 'middle', volName: '中册', title: '第四章 指数函数与对数函数', desc: '运算性质、图像特点与对数方程' },
+            { id: 'm-ch5', volume: 'middle', volName: '中册', title: '第五章 三角函数', desc: '弧度制、同角三角关系、诱导公式与图像' },
+            { id: 'm-ch6', volume: 'middle', volName: '中册', title: '第六章 平面向量与复数', desc: '向量加减法、数量积与复数代数形式' },
+            { id: 'm-ch7', volume: 'lower', volName: '下册', title: '第七章 立体几何初步', desc: '空间点线面关系、表面积与体积计算' },
+            { id: 'm-ch8', volume: 'lower', volName: '下册', title: '第八章 解析几何与圆锥曲线', desc: '直线、圆、椭圆、双曲线与抛物线方程' },
+            { id: 'm-ch9', volume: 'lower', volName: '下册', title: '第九章 导数及其应用', desc: '导数的几何意义、单调性讨论与极值最值' }
         ];
-
+        
         const physicsChapters = [
             { id: 'p-ch1', volume: 'upper', volName: '上册', title: '第1章 物理学简介', desc: '' },
             { id: 'p-ch2', volume: 'upper', volName: '上册', title: '第2章 物理量的测量、单位和数据处理', desc: '' },
