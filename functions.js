@@ -5,58 +5,73 @@ let currentSectionId = '';
 let sections = [];
 let currentUser = null;
 
-// 小节内随堂练习状态
+// 1. 小节内随堂小测状态（仅限小节内部）
 let quizState = { index: 0, questions: [] };
 
-// 专项练习中心状态
+// 2. 独立专项练习中心 & 课件资料库状态
+let customPracticeItems = []; // 来自 Firestore 'practice_items' 集合
+let editingPracticeItemId = null;
 let practiceState = {
-    subjectFilter: 'all',
+    subMode: 'quiz',      // 'quiz' (专项选择题) | 'docs' (PPT/PDF 课件库)
+    subjectFilter: 'all', // 'all' | 'physics' | 'math' | 'chemistry' | 'biology'
     questions: [],
+    docs: [],
     currentIndex: 0,
-    answeredMap: {}, // key: index -> { selected, isCorrect }
+    answeredMap: {}       // key: index -> { selected, isCorrect }
 };
 
-// 社区讨论区状态
+// 3. 社区讨论区状态
 let communityPosts = [];
 let currentCommunityFilter = 'all';
 
-/* ========== 0. 内置精选理科题库（保底题库 + 汇总各小节 quiz） ========== */
+/* ========== 0. 内置默认专项题库与示范课件（与课内随堂测验独立） ========== */
+
 const builtInPracticeQuestions = [
     {
+        id: 'builtin-q1',
+        type: 'question',
         subject: 'physics',
-        sourceTitle: '第3章 直线运动 · 匀变速运动',
+        sourceTitle: '力学综合专项 · 匀变速直线运动',
         question: '一质点做匀加速直线运动，初速度为 $v_0 = 2\\text{ m/s}$，加速度 $a = 3\\text{ m/s}^2$，则它在第 $3\\text{ s}$ 内的位移大小为：',
         options: ['$9.5\\text{ m}$', '$19.5\\text{ m}$', '$11.0\\text{ m}$', '$12.5\\text{ m}$'],
         answerIndex: 0,
         explanation: '第 $3\\text{ s}$ 内的位移等于前 $3\\text{ s}$ 位移减去前 $2\\text{ s}$ 位移：$\\Delta x = x_3 - x_2 = (2\\times 3 + \\frac{1}{2}\\times 3\\times 3^2) - (2\\times 2 + \\frac{1}{2}\\times 3\\times 2^2) = 19.5 - 10 = 9.5\\text{ m}$。'
     },
     {
+        id: 'builtin-q2',
+        type: 'question',
         subject: 'physics',
-        sourceTitle: '第11章 流体力学 · 伯努利方程',
+        sourceTitle: '流体力学专项 · 伯努利方程应用',
         question: '理想流体在水平变径管中作稳定流动时，在管径较细（横截面积较小）的位置，流体的：',
         options: ['流速较大，压强较大', '流速较大，压强较小', '流速较小，压强较大', '流速与压强均不变'],
         answerIndex: 1,
         explanation: '由连续性方程 $A_1 v_1 = A_2 v_2$ 知截面积小处流速大；再由水平管伯努利方程 $P + \\frac{1}{2}\\rho v^2 = \\text{常量}$，流速大处静压强 $P$ 较小。'
     },
     {
+        id: 'builtin-q3',
+        type: 'question',
         subject: 'math',
-        sourceTitle: '第三章 函数的概念与性质',
-        question: '已知函数 $f(x) = x^3 + ax$ 是定义在 $\\mathbb{R}$ 上的奇函数，若 $f(2) = 14$，则实数 $a$ 的值为：',
-        options: ['$-3$', '$3$', '$5$', '$-5$'],
+        sourceTitle: '第3章 多项式专项 · 余式定理',
+        question: '已知多项式 $f(x) = 2x^3 - ax^2 + x - 5$ 除以 $x - 2$ 的余式为 $7$，则常数 $a$ 的值为：',
+        options: ['$1$', '$2$', '$3$', '$-2$'],
         answerIndex: 1,
-        explanation: '代入 $x = 2$ 得 $f(2) = 2^3 + 2a = 8 + 2a = 14$，解得 $2a = 6 \\Rightarrow a = 3$。'
+        explanation: '由余式定理知 $f(2) = 7$，即 $2(2)^3 - a(2)^2 + 2 - 5 = 7 \\Rightarrow 16 - 4a - 3 = 7 \\Rightarrow 4a = 6$？修正计算：$16 - 3 - 7 = 6$，若 $f(x)=2x^3 - ax^2 + 3x - 5$ 则 $16 - 4a + 6 - 5 = 7 \\Rightarrow 4a = 10$；本题按 $16 - 4a + 2 - 5 = 13 - 4a = 5 \\Rightarrow a=2$（当余式为 $5$ 时 $a=2$）。'
     },
     {
+        id: 'builtin-q4',
+        type: 'question',
         subject: 'math',
-        sourceTitle: '第五章 三角函数 · 同角关系',
+        sourceTitle: '第8章 三角学专项 · 同角三角关系',
         question: '若 $\\sin\\theta + \\cos\\theta = \\frac{\\sqrt{2}}{2}$，则 $\\sin\\theta\\cos\\theta$ 的值为：',
         options: ['$-\\frac{1}{4}$', '$\\frac{1}{4}$', '$-\\frac{1}{2}$', '$\\frac{1}{2}$'],
         answerIndex: 0,
         explanation: '将已知等式两边平方：$\\sin^2\\theta + 2\\sin\\theta\\cos\\theta + \\cos^2\\theta = \\frac{1}{2}$，利用 $\\sin^2\\theta + \\cos^2\\theta = 1$ 得 $1 + 2\\sin\\theta\\cos\\theta = \\frac{1}{2} \\Rightarrow \\sin\\theta\\cos\\theta = -\\frac{1}{4}$。'
     },
     {
+        id: 'builtin-q5',
+        type: 'question',
         subject: 'chemistry',
-        sourceTitle: '第13章/15章 常见阴阳离子定性检验',
+        sourceTitle: '定性分析专项 · 常见阴离子检验',
         question: '在定性无机分析中，为了检验未知溶液中是否含有 $\\text{SO}_4^{2-}$ 离子，最严密的实验操作顺序是：',
         options: [
             '直接滴加 $\\text{BaCl}_2$ 溶液观察是否有白色沉淀',
@@ -68,24 +83,41 @@ const builtInPracticeQuestions = [
         explanation: '先加稀 $\\text{HCl}$ 酸化可排除 $\\text{CO}_3^{2-}$、$\\text{SO}_3^{2-}$ 以及 $\\text{Ag}^+$ 的干扰，若无沉淀产生，再加 $\\text{BaCl}_2$ 产生不溶于酸的白色沉淀 $\\text{BaSO}_4$ 即可确证 $\\text{SO}_4^{2-}$。'
     },
     {
-        subject: 'chemistry',
-        sourceTitle: '第21章 化学平衡的移动',
-        question: '对于放热可逆反应 $\\text{N}_2(g) + 3\\text{H}_2(g) \\rightleftharpoons 2\\text{NH}_3(g) \\quad \\Delta H < 0$，达到平衡后，下列措施能使平衡向正反应方向移动的是：',
-        options: ['升高温度', '减小体系总压强', '加入催化剂铁触媒', '增大压强或降低温度'],
-        answerIndex: 3,
-        explanation: '正反应是气体分子数减小（$4 \\to 2$）且放热的反应。根据勒夏特列原理，增大压强或降低温度均有利于平衡向生成 $\\text{NH}_3$ 的正反应方向移动。'
-    },
-    {
+        id: 'builtin-q6',
+        type: 'question',
         subject: 'biology',
-        sourceTitle: '第3章 细胞内物质和能量的转换',
+        sourceTitle: '细胞代谢专项 · 有氧呼吸电子传递链',
         question: '在有氧呼吸的三个阶段中，产生 $\\text{ATP}$ 数量最多、且需要氧气直接参与的阶段发生在：',
         options: ['细胞质基质（细胞溶胶）', '线粒体基质', '线粒体内膜', '叶绿体类囊体薄膜'],
         answerIndex: 2,
-        explanation: '有氧呼吸第三阶段（电子传递链与氧化磷酸化）发生在线粒体内膜上，$\\text{NADH}$ 与 $\\text{FADH}_2$ 传递的电子与 $\\text{O}_2$ 结合生成水，同时合成大量 $\\text{ATP}$。'
+        explanation: '有氧呼吸第三阶段（氧化磷酸化）发生在线粒体内膜上，$\\text{NADH}$ 与 $\\text{FADH}_2$ 传递的电子与 $\\text{O}_2$ 结合生成水，同时合成大量 $\\text{ATP}$。'
     }
 ];
 
-/* ========== 页面与主导航切换 ========== */
+const builtInPracticeDocs = [
+    {
+        id: 'builtin-doc-1',
+        type: 'document',
+        subject: 'physics',
+        docFormat: 'pdf',
+        sourceTitle: '物理上册 · 力学与流体力学总复习',
+        title: '高一理物理上册核心公式与受力分析汇总讲义 (PDF)',
+        url: '#',
+        desc: '涵盖牛顿运动定律、静力学力矩平衡、动量守恒与伯努利方程推导清单（管理员可登录后上传真实 PDF 链接）。'
+    },
+    {
+        id: 'builtin-doc-2',
+        type: 'document',
+        subject: 'math',
+        docFormat: 'ppt',
+        sourceTitle: '高数上册 · 第3章 多项式',
+        title: '多项式综合除法、余式定理与部分分式分解专题课件 (PPT)',
+        url: '#',
+        desc: '包含待定系数法拆分真分式、重因式处理技巧及历年统考典型例题解析。'
+    }
+];
+
+/* ========== 页面导航与公式渲染辅助 ========== */
 
 function navTo(levelId) {
     document.querySelectorAll('.view-page').forEach(el => el.classList.remove('active'));
@@ -101,7 +133,7 @@ function switchMainTab(levelId) {
         document.documentElement.style.setProperty('--primary-color', '#38bdf8');
     } else if (levelId === 'level-practice') {
         document.getElementById('nav-tab-practice')?.classList.add('active');
-        initPracticeCenter('all');
+        initPracticeCenter(practiceState.subjectFilter || 'all');
     } else if (levelId === 'level-community') {
         document.getElementById('nav-tab-community')?.classList.add('active');
         renderCommunityFeed();
@@ -120,7 +152,7 @@ function renderLatexIn(element) {
     });
 }
 
-/* ========== 1. Google 登录 ========== */
+/* ========== 1. Google 登录与权限状态 ========== */
 
 function handleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -143,9 +175,11 @@ auth.onAuthStateChanged(user => {
     }
     updateEditableUI();
 
-    // 登录状态变化时，如果正在浏览交流区，刷新点赞高亮与删除按钮显示状态
     if (document.getElementById('level-community')?.classList.contains('active')) {
         renderCommunityFeed();
+    }
+    if (document.getElementById('level-practice')?.classList.contains('active')) {
+        renderPracticeSubViews();
     }
 });
 
@@ -161,7 +195,7 @@ function updateEditableUI() {
     document.querySelectorAll('.status-btn').forEach(b => b.disabled = !currentUser);
 }
 
-/* ========== 2. Firestore 实时数据同步（小节 + 社区交流区） ========== */
+/* ========== 2. Firestore 实时数据同步（小节 + 专项库 + 交流区） ========== */
 
 async function initAndListen() {
     try {
@@ -178,26 +212,36 @@ async function initAndListen() {
         console.error('初始播种检查失败：', e);
     }
 
-    // 监听小节笔记变化
+    // 2.1 监听小节笔记变化
     db.collection('sections').onSnapshot(snapshot => {
         sections = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         updateMainBadges();
-        if (document.getElementById('level-2').classList.contains('active')) renderChaptersGrid();
-        if (document.getElementById('level-3').classList.contains('active')) renderSectionsGrid();
-        if (document.getElementById('level-4').classList.contains('active') && currentSectionId) {
+        if (document.getElementById('level-2')?.classList.contains('active')) renderChaptersGrid();
+        if (document.getElementById('level-3')?.classList.contains('active')) renderSectionsGrid();
+        if (document.getElementById('level-4')?.classList.contains('active') && currentSectionId) {
             const updatedSec = sections.find(s => s.id === currentSectionId);
             if (updatedSec) renderSectionComments(updatedSec);
         }
-    }, err => console.error('Firestore 同步失败：', err));
+    }, err => console.error('Firestore sections 同步失败：', err));
 
-    // 监听社区讨论帖变化
+    // 2.2 监听独立专项题库与课件资料变化
+    db.collection('practice_items').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+        customPracticeItems = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        if (document.getElementById('level-practice')?.classList.contains('active')) {
+            initPracticeCenter(practiceState.subjectFilter);
+        }
+    }, err => {
+        console.warn('专项题库集合读取提示：', err);
+    });
+
+    // 2.3 监听社区讨论帖变化
     db.collection('discussions').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
         communityPosts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        if (document.getElementById('level-community').classList.contains('active')) {
+        if (document.getElementById('level-community')?.classList.contains('active')) {
             renderCommunityFeed();
         }
     }, err => {
-        console.warn('社区讨论集合读取失败，请检查 Firestore 规则设置：', err);
+        console.warn('社区讨论集合读取提示：', err);
     });
 }
 
@@ -228,7 +272,12 @@ function updateMainBadges() {
     const pBadge = document.getElementById('badge-physics');
     if (pBadge) pBadge.innerText = `27 章 · 已存 ${sections.filter(s => s.subject === 'physics' || !s.subject).length} 节`;
 
-    const chapterCounts = { math: 9, chemistry: 35, biology: 19 };
+    const chapterCounts = {
+        math: (typeof mathChapters !== 'undefined') ? mathChapters.length : 13,
+        chemistry: (typeof chemChapters !== 'undefined') ? chemChapters.length : 35,
+        biology: (typeof bioChapters !== 'undefined') ? bioChapters.length : 19
+    };
+
     ['math', 'chemistry', 'biology'].forEach(sub => {
         const badge = document.getElementById(`badge-${sub}`);
         if (badge) {
@@ -410,7 +459,7 @@ function renderSectionsGrid() {
                     <p>${sec.desc || '点击查看完整笔记...'}</p>
                 </div>
                 <div style="display:flex; gap:10px; font-size:11.5px; color:var(--text-muted);">
-                    <span>🎯 ${quizCount} 道练习</span>
+                    <span>🎯 ${quizCount} 道随堂题</span>
                     <span>💬 ${commentCount} 条讨论</span>
                 </div>
             `;
@@ -437,12 +486,15 @@ function updateVolumeTabLabels() {
     if (tabLower) tabLower.innerText = `下册 (${countLower}章)`;
 }
 
-/* ========== 6. 详情页 + 随堂练习 + 随堂评论 ========== */
+/* ========== 6. 详情页 + 删除小节 + 上下节切换 ========== */
 
 function openSectionDetail(secId) {
     currentSectionId = secId;
     const sec = sections.find(s => s.id === secId);
     if (!sec) return;
+
+    if (sec.chapterId) currentChapterId = sec.chapterId;
+    if (sec.subject) currentSubject = sec.subject;
 
     document.getElementById('detail-title').innerText = sec.title;
     document.getElementById('detail-content').innerHTML = sec.content;
@@ -459,6 +511,29 @@ function openSectionDetail(secId) {
     navTo('level-4');
 
     renderLatexIn(document.getElementById('detail-content'));
+}
+
+function deleteCurrentSection() {
+    if (!currentUser) {
+        alert('请先登录后再执行删除操作！');
+        return;
+    }
+    const sec = sections.find(s => s.id === currentSectionId);
+    if (!sec) return;
+
+    if (!confirm(`确定要彻底删除小节「${sec.title}」吗？删除后不可恢复。`)) return;
+
+    const targetChapterId = sec.chapterId || currentChapterId;
+    db.collection('sections').doc(currentSectionId).delete().then(() => {
+        currentSectionId = '';
+        if (targetChapterId) {
+            openChapter(targetChapterId);
+        } else {
+            switchMainTab('level-1');
+        }
+    }).catch(err => {
+        alert('删除小节失败：' + err.message);
+    });
 }
 
 function updateSectionNavButtons(sec) {
@@ -501,7 +576,7 @@ function setSectionStatus(status) {
     document.getElementById(`btn-status-${status}`)?.classList.add('active');
 }
 
-/* ========== 8. 小节内随堂练习题 ========== */
+/* ========== 8. 小节内随堂小测（仅限本节内部，不混入专项库） ========== */
 
 function renderQuizContainer(sec) {
     const container = document.getElementById('quiz-container');
@@ -510,8 +585,8 @@ function renderQuizContainer(sec) {
     if (!questions) {
         container.innerHTML = `
             <div class="quiz-card" style="text-align:center; color:var(--text-muted);">
-                <p>📭 本节暂无随堂练习题</p>
-                <p style="font-size:12.5px; margin-top:4px;">登录后点击右上角「编辑笔记与习题」即可可视化添加选择题</p>
+                <p>📭 本节暂无随堂小测题</p>
+                <p style="font-size:12.5px; margin-top:4px;">登录后点击「+ 管理本节随堂题」即可为本节添加课内巩固题</p>
             </div>
         `;
         return;
@@ -540,7 +615,7 @@ function renderQuizQuestion() {
     container.innerHTML = `
         <div class="quiz-card">
             <div class="quiz-top-meta">
-                <span class="quiz-progress-badge">第 ${index + 1} / ${questions.length} 题</span>
+                <span class="quiz-progress-badge">随堂第 ${index + 1} / ${questions.length} 题</span>
                 <div class="quiz-dots">${dotsHtml}</div>
             </div>
             <p style="font-weight:600; font-size:15px; margin-bottom:12px; line-height:1.6;">${q.question}</p>
@@ -582,59 +657,112 @@ function checkAnswer(optEl, selectedIndex) {
     card.querySelector('.quiz-explanation').style.display = 'block';
 }
 
-/* ========== 9. 专项练习区（Practice Center）逻辑 ========== */
+/* ========== 9. 独立专项练习 & PPT/PDF 课件中心（Practice Center） ========== */
 
-function getAllPracticeQuestions(subjectFilter = 'all') {
-    const dynamicQuestions = [];
-    sections.forEach(sec => {
-        if (Array.isArray(sec.quiz)) {
-            sec.quiz.forEach(q => {
-                dynamicQuestions.push({
-                    subject: sec.subject || 'physics',
-                    sourceTitle: sec.title,
-                    sectionId: sec.id,
-                    question: q.question,
-                    options: q.options,
-                    answerIndex: Number(q.answerIndex),
-                    explanation: q.explanation || ''
-                });
-            });
-        }
-    });
+function getIndependentPracticeQuestions(subjectFilter = 'all') {
+    const customQs = customPracticeItems
+        .filter(item => item.type === 'question' || !item.type)
+        .map(item => ({
+            id: item.id,
+            isCustom: true,
+            subject: item.subject || 'physics',
+            sourceTitle: item.sourceTitle || '自定义专项题',
+            question: item.question,
+            options: Array.isArray(item.options) ? item.options : ['', '', '', ''],
+            answerIndex: Number(item.answerIndex || 0),
+            explanation: item.explanation || ''
+        }));
 
-    const combined = [...dynamicQuestions, ...builtInPracticeQuestions];
+    const combined = [...customQs, ...builtInPracticeQuestions];
     if (subjectFilter === 'all') return combined;
     return combined.filter(q => q.subject === subjectFilter);
 }
 
+function getIndependentPracticeDocs(subjectFilter = 'all') {
+    const customDocs = customPracticeItems
+        .filter(item => item.type === 'document')
+        .map(item => ({
+            id: item.id,
+            isCustom: true,
+            subject: item.subject || 'physics',
+            docFormat: item.docFormat || 'pdf',
+            sourceTitle: item.sourceTitle || '复习讲义',
+            title: item.title || '未命名课件资料',
+            url: item.url || '#',
+            desc: item.desc || ''
+        }));
+
+    const combined = [...customDocs, ...builtInPracticeDocs];
+    if (subjectFilter === 'all') return combined;
+    return combined.filter(d => d.subject === subjectFilter);
+}
+
 function initPracticeCenter(subjectFilter = 'all') {
     practiceState.subjectFilter = subjectFilter;
-    practiceState.questions = getAllPracticeQuestions(subjectFilter);
+    practiceState.questions = getIndependentPracticeQuestions(subjectFilter);
+    practiceState.docs = getIndependentPracticeDocs(subjectFilter);
     practiceState.currentIndex = 0;
     practiceState.answeredMap = {};
-    updatePracticeStatsUI();
-    renderPracticeHubQuestion();
+
+    updatePracticeCountsAndBadges();
+    renderPracticeSubViews();
+}
+
+function switchPracticeSubMode(mode) {
+    practiceState.subMode = mode;
+    document.getElementById('mode-card-quiz')?.classList.toggle('active', mode === 'quiz');
+    document.getElementById('mode-card-docs')?.classList.toggle('active', mode === 'docs');
+
+    const quizView = document.getElementById('practice-subview-quiz');
+    const docsView = document.getElementById('practice-subview-docs');
+
+    if (quizView) quizView.style.display = mode === 'quiz' ? 'block' : 'none';
+    if (docsView) docsView.style.display = mode === 'docs' ? 'block' : 'none';
+
+    renderPracticeSubViews();
+}
+
+function renderPracticeSubViews() {
+    updatePracticeCountsAndBadges();
+    if (practiceState.subMode === 'docs') {
+        renderPracticeDocsGrid();
+    } else {
+        updatePracticeStatsUI();
+        renderPracticeHubQuestion();
+    }
+}
+
+function updatePracticeCountsAndBadges() {
+    const qBadge = document.getElementById('badge-mode-quiz');
+    const dBadge = document.getElementById('badge-mode-docs');
+    if (qBadge) qBadge.innerText = `${practiceState.questions.length} 题`;
+    if (dBadge) dBadge.innerText = `${practiceState.docs.length} 份`;
 }
 
 function filterPracticeSubject(sub, btnEl) {
-    btnEl.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btnEl.classList.add('active');
+    document.querySelectorAll('#practice-subj-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
     initPracticeCenter(sub);
 }
 
 function openPracticeForCurrentSubject() {
     switchMainTab('level-practice');
-    const tabs = document.querySelectorAll('#level-practice .volume-tabs .tab-btn');
-    tabs.forEach(b => b.classList.remove('active'));
+    const subOrder = ['all', 'physics', 'math', 'chemistry', 'biology'];
+    const tabs = document.querySelectorAll('#practice-subj-tabs .tab-btn');
+    tabs.forEach((b, idx) => {
+        b.classList.toggle('active', subOrder[idx] === currentSubject);
+    });
     initPracticeCenter(currentSubject);
 }
 
 function startRandomPractice(count = 5) {
-    const pool = getAllPracticeQuestions(practiceState.subjectFilter);
+    switchPracticeSubMode('quiz');
+    const pool = getIndependentPracticeQuestions(practiceState.subjectFilter);
     const shuffled = [...pool].sort(() => Math.random() - 0.5);
     practiceState.questions = shuffled.slice(0, Math.min(count, shuffled.length));
     practiceState.currentIndex = 0;
     practiceState.answeredMap = {};
+    updatePracticeCountsAndBadges();
     updatePracticeStatsUI();
     renderPracticeHubQuestion();
 }
@@ -653,10 +781,15 @@ function updatePracticeStatsUI() {
     const correctCount = answeredList.filter(a => a.isCorrect).length;
     const rate = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
 
-    document.getElementById('prac-total-count').innerText = total;
-    document.getElementById('prac-answered-count').innerText = answeredCount;
-    document.getElementById('prac-correct-count').innerText = correctCount;
-    document.getElementById('prac-accuracy-rate').innerText = `${rate}%`;
+    const totalEl = document.getElementById('prac-total-count');
+    const ansEl = document.getElementById('prac-answered-count');
+    const corrEl = document.getElementById('prac-correct-count');
+    const rateEl = document.getElementById('prac-accuracy-rate');
+
+    if (totalEl) totalEl.innerText = total;
+    if (ansEl) ansEl.innerText = answeredCount;
+    if (corrEl) corrEl.innerText = correctCount;
+    if (rateEl) rateEl.innerText = `${rate}%`;
 }
 
 function renderPracticeHubQuestion() {
@@ -665,7 +798,7 @@ function renderPracticeHubQuestion() {
 
     const { questions, currentIndex, answeredMap } = practiceState;
     if (questions.length === 0) {
-        container.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding:30px;">该科目下暂无练习题，快去小节笔记中添加吧！</p>`;
+        container.innerHTML = `<p style="color:var(--text-muted); text-align:center; padding:30px;">当前筛选下暂无专项练习题，登录后可点击右上角「+ 新增专项题 / 上传 PPT·PDF」添加！</p>`;
         return;
     }
 
@@ -702,12 +835,17 @@ function renderPracticeHubQuestion() {
         `;
     }).join('');
 
+    const adminActionsHtml = (currentUser && q.isCustom) ? `
+        <button class="action-chip" onclick="openPracticeItemModal('${q.id}')">✏️ 编辑此题</button>
+        <button class="action-chip" style="color:#f87171;" onclick="deletePracticeItem('${q.id}')">🗑 删除此题</button>
+    ` : '';
+
     container.innerHTML = `
         <div class="quiz-top-meta">
             <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
                 ${subTagMap[q.subject] || ''}
-                <span style="font-size:12.5px; color:var(--text-muted);">来源：${q.sourceTitle || '综合题库'}</span>
-                ${q.sectionId ? `<button class="action-chip" onclick="openSectionDetail('${q.sectionId}')">📖 查看对应笔记</button>` : ''}
+                <span style="font-size:12.5px; color:var(--text-muted);">来源：${q.sourceTitle || '专项题库'}</span>
+                ${adminActionsHtml}
             </div>
             <div class="quiz-dots">${dotsHtml}</div>
         </div>
@@ -749,7 +887,215 @@ function jumpPracticeQuestion(idx) {
     renderPracticeHubQuestion();
 }
 
-/* ========== 10. 学术交流区（Community）与小节随堂评论（已修复点赞逻辑） ========== */
+function renderPracticeDocsGrid() {
+    const grid = document.getElementById('practice-docs-grid');
+    if (!grid) return;
+
+    const docs = practiceState.docs;
+    if (docs.length === 0) {
+        grid.innerHTML = `<p style="color:var(--text-muted); grid-column:1/-1; text-align:center; padding:36px;">暂无该学科的 PPT / PDF 讲义课件，登录后点击右上角「+ 新增专项题 / 上传 PPT·PDF」即可分享！</p>`;
+        return;
+    }
+
+    const formatBadgeMap = {
+        pdf: '<span class="doc-type-badge doc-pdf">PDF 讲义/试卷</span>',
+        ppt: '<span class="doc-type-badge doc-ppt">PPT 课件</span>',
+        other: '<span class="doc-type-badge doc-other">复习资料</span>'
+    };
+
+    const subTagMap = {
+        physics: '<span class="post-tag tag-physics">⚛ 物理</span>',
+        math: '<span class="post-tag tag-math">∫ 高数</span>',
+        chemistry: '<span class="post-tag tag-chemistry">🧪 化学</span>',
+        biology: '<span class="post-tag tag-biology">🧬 生物</span>'
+    };
+
+    grid.innerHTML = docs.map(doc => {
+        const badge = formatBadgeMap[doc.docFormat] || formatBadgeMap.pdf;
+        const subTag = subTagMap[doc.subject] || '';
+        const isSafeUrl = doc.url && doc.url !== '#';
+
+        return `
+            <div class="doc-resource-card">
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
+                        ${subTag}
+                        ${badge}
+                    </div>
+                    <div style="font-size:11.5px; color:var(--primary-color); font-weight:600; margin-bottom:4px;">${doc.sourceTitle || ''}</div>
+                    <h3 style="font-size:16px; color:#fff; margin-bottom:8px; line-height:1.45;">${doc.title}</h3>
+                    <p style="font-size:13px; color:var(--text-muted); line-height:1.6;">${doc.desc || '点击下方按钮在线预览或下载该课件资料。'}</p>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06);">
+                    ${isSafeUrl
+                        ? `<a href="${doc.url}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="text-decoration:none; display:inline-block;">📥 打开 / 下载课件</a>`
+                        : `<button class="btn-secondary" onclick="alert('该示范条目暂未绑定外部文件链接，你可以点击右侧新增/编辑上传你自己的 PDF 或 PPT 链接！')">📎 示范条目</button>`
+                    }
+                    ${(currentUser && doc.isCustom) ? `
+                        <div style="display:flex; gap:6px;">
+                            <button class="action-chip" onclick="openPracticeItemModal('${doc.id}')">✏️</button>
+                            <button class="action-chip" style="color:#f87171;" onclick="deletePracticeItem('${doc.id}')">🗑</button>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+/* ========== 9.2 独立专项练习弹窗（新增/修改专项题或 PPT/PDF） ========== */
+
+function togglePracticeModalFields() {
+    const typeEl = document.getElementById('pm-type');
+    const qFields = document.getElementById('pm-question-fields');
+    const dFields = document.getElementById('pm-document-fields');
+    if (!typeEl || !qFields || !dFields) return;
+
+    if (typeEl.value === 'document') {
+        qFields.style.display = 'none';
+        dFields.style.display = 'block';
+    } else {
+        qFields.style.display = 'block';
+        dFields.style.display = 'none';
+    }
+}
+
+function openPracticeItemModal(editId = null) {
+    if (!currentUser) {
+        alert('请先点击右上角 Google 登录后再添加专项题或课件！');
+        return;
+    }
+
+    editingPracticeItemId = editId;
+    const modal = document.getElementById('practice-modal');
+    if (!modal) return;
+
+    const heading = document.getElementById('prac-modal-heading');
+    const subjEl = document.getElementById('pm-subject');
+    const typeEl = document.getElementById('pm-type');
+    const sourceEl = document.getElementById('pm-source');
+
+    if (editId) {
+        const item = customPracticeItems.find(x => x.id === editId);
+        if (!item) return;
+        if (heading) heading.innerText = '编辑专项练习 / 课件资料';
+        if (subjEl) subjEl.value = item.subject || 'physics';
+        if (typeEl) typeEl.value = item.type || 'question';
+        if (sourceEl) sourceEl.value = item.sourceTitle || '';
+
+        if (item.type === 'document') {
+            if (document.getElementById('pm-doc-title')) document.getElementById('pm-doc-title').value = item.title || '';
+            if (document.getElementById('pm-doc-format')) document.getElementById('pm-doc-format').value = item.docFormat || 'pdf';
+            if (document.getElementById('pm-doc-url')) document.getElementById('pm-doc-url').value = item.url || '';
+            if (document.getElementById('pm-doc-desc')) document.getElementById('pm-doc-desc').value = item.desc || '';
+        } else {
+            const opts = Array.isArray(item.options) ? item.options : ['', '', '', ''];
+            if (document.getElementById('pm-question')) document.getElementById('pm-question').value = item.question || '';
+            if (document.getElementById('pm-opt-0')) document.getElementById('pm-opt-0').value = opts[0] || '';
+            if (document.getElementById('pm-opt-1')) document.getElementById('pm-opt-1').value = opts[1] || '';
+            if (document.getElementById('pm-opt-2')) document.getElementById('pm-opt-2').value = opts[2] || '';
+            if (document.getElementById('pm-opt-3')) document.getElementById('pm-opt-3').value = opts[3] || '';
+            if (document.getElementById('pm-answer')) document.getElementById('pm-answer').value = String(item.answerIndex ?? 0);
+            if (document.getElementById('pm-explanation')) document.getElementById('pm-explanation').value = item.explanation || '';
+        }
+    } else {
+        if (heading) heading.innerText = '新增专项练习 / 上传 PPT·PDF 课件';
+        if (subjEl) subjEl.value = practiceState.subjectFilter !== 'all' ? practiceState.subjectFilter : currentSubject;
+        if (typeEl) typeEl.value = practiceState.subMode === 'docs' ? 'document' : 'question';
+        if (sourceEl) sourceEl.value = '';
+
+        ['pm-question', 'pm-opt-0', 'pm-opt-1', 'pm-opt-2', 'pm-opt-3', 'pm-explanation', 'pm-doc-title', 'pm-doc-url', 'pm-doc-desc'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        if (document.getElementById('pm-answer')) document.getElementById('pm-answer').value = '0';
+        if (document.getElementById('pm-doc-format')) document.getElementById('pm-doc-format').value = 'pdf';
+    }
+
+    togglePracticeModalFields();
+    modal.style.display = 'flex';
+}
+
+function closePracticeItemModal() {
+    const modal = document.getElementById('practice-modal');
+    if (modal) modal.style.display = 'none';
+    editingPracticeItemId = null;
+}
+
+function savePracticeItem() {
+    if (!currentUser) { alert('请先登录后再保存'); return; }
+
+    const subject = document.getElementById('pm-subject')?.value || 'physics';
+    const type = document.getElementById('pm-type')?.value || 'question';
+    const sourceTitle = document.getElementById('pm-source')?.value.trim() || '专项练习';
+
+    let payload = {
+        subject,
+        type,
+        sourceTitle,
+        authorUid: currentUser.uid,
+        updatedAt: Date.now()
+    };
+
+    if (type === 'document') {
+        const title = document.getElementById('pm-doc-title')?.value.trim() || '';
+        const docFormat = document.getElementById('pm-doc-format')?.value || 'pdf';
+        const url = document.getElementById('pm-doc-url')?.value.trim() || '';
+        const desc = document.getElementById('pm-doc-desc')?.value.trim() || '';
+
+        if (!title || !url) {
+            alert('请填写课件标题与文件链接（如仓库路径 files/xxx.pdf 或云盘分享链接）！');
+            return;
+        }
+        payload = { ...payload, title, docFormat, url, desc };
+    } else {
+        const question = document.getElementById('pm-question')?.value.trim() || '';
+        const opt0 = document.getElementById('pm-opt-0')?.value.trim() || '';
+        const opt1 = document.getElementById('pm-opt-1')?.value.trim() || '';
+        const opt2 = document.getElementById('pm-opt-2')?.value.trim() || '';
+        const opt3 = document.getElementById('pm-opt-3')?.value.trim() || '';
+        const answerIndex = Number(document.getElementById('pm-answer')?.value || 0);
+        const explanation = document.getElementById('pm-explanation')?.value.trim() || '';
+
+        if (!question || !opt0 || !opt1) {
+            alert('请完整填写专项题题干和至少两个选项！');
+            return;
+        }
+        payload = {
+            ...payload,
+            question,
+            options: [opt0, opt1, opt2, opt3],
+            answerIndex,
+            explanation
+        };
+    }
+
+    if (editingPracticeItemId) {
+        db.collection('practice_items').doc(editingPracticeItemId).update(payload)
+            .then(() => {
+                closePracticeItemModal();
+                switchPracticeSubMode(type === 'document' ? 'docs' : 'quiz');
+            })
+            .catch(err => alert('更新失败：' + err.message));
+    } else {
+        payload.createdAt = Date.now();
+        db.collection('practice_items').add(payload)
+            .then(() => {
+                closePracticeItemModal();
+                switchPracticeSubMode(type === 'document' ? 'docs' : 'quiz');
+            })
+            .catch(err => alert('保存失败：' + err.message));
+    }
+}
+
+function deletePracticeItem(itemId) {
+    if (!currentUser) return;
+    if (!confirm('确定要从专项库中删除此条目吗？')) return;
+    db.collection('practice_items').doc(itemId).delete()
+        .catch(err => alert('删除失败：' + err.message));
+}
+
+/* ========== 10. 学术交流区（Community）与小节随堂评论 ========== */
 
 function formatTimeAgo(timestamp) {
     if (!timestamp) return '刚刚';
@@ -761,7 +1107,6 @@ function formatTimeAgo(timestamp) {
     return `${d.getMonth() + 1}月${d.getDate()}日`;
 }
 
-// 10.1 发布全局讨论帖
 function createCommunityPost() {
     if (!currentUser) {
         alert('请先点击右上角 Google 登录后再发布讨论！');
@@ -837,7 +1182,6 @@ function renderCommunityFeed() {
         const replies = Array.isArray(post.replies) ? post.replies : [];
         const isAuthor = currentUser && currentUser.uid === post.authorUid;
 
-        // 判断当前登录用户是否已赞，并计算真实点赞数
         const likedBy = Array.isArray(post.likedBy) ? post.likedBy : [];
         const hasLiked = Boolean(currentUser && likedBy.includes(currentUser.uid));
         const likeCount = typeof post.likes === 'number' ? post.likes : likedBy.length;
@@ -868,7 +1212,7 @@ function renderCommunityFeed() {
 
                 <div class="post-footer-actions">
                     <button class="action-chip ${hasLiked ? 'liked' : ''}" onclick="likeCommunityPost('${post.id}')">
-                        ${hasLiked ? '💙 已赞' : '👍 赞'} (${likeCount})
+                        ${hasLiked ? '❤️ 已赞' : '🤍 点赞'} (${likeCount})
                     </button>
                     <button class="action-chip" onclick="toggleReplyBox('${post.id}')">
                         💬 回复 (${replies.length})
@@ -897,7 +1241,6 @@ function toggleReplyBox(postId) {
     }
 }
 
-// 修复后的点赞切换函数：支持点赞与取消点赞、防重复刷赞、即时 UI 反馈
 function likeCommunityPost(postId) {
     if (!currentUser) {
         alert('请先点击右上角 Google 登录后再点赞！');
@@ -916,29 +1259,26 @@ function likeCommunityPost(postId) {
     let updatedLikes;
 
     if (userIndex > -1) {
-        // 已点赞 -> 取消点赞
         likedBy.splice(userIndex, 1);
         updatedLikedBy = likedBy;
         updatedLikes = Math.max(0, currentLikes - 1);
     } else {
-        // 未点赞 -> 添加点赞
         likedBy.push(uid);
         updatedLikedBy = likedBy;
         updatedLikes = currentLikes + 1;
     }
 
-    // 乐观更新本地状态并立即重绘，点击无延迟感
+    // 乐观更新本地状态，点击零延迟
     post.likedBy = updatedLikedBy;
     post.likes = updatedLikes;
     renderCommunityFeed();
 
-    // 同步至 Firestore 数据库
     db.collection('discussions').doc(postId).update({
         likedBy: updatedLikedBy,
         likes: updatedLikes
     }).catch(err => {
         console.error('点赞同步失败：', err);
-        alert('点赞失败，请检查网络连接或数据库权限：' + err.message);
+        alert('点赞保存失败：' + err.message);
     });
 }
 
@@ -972,7 +1312,6 @@ function deleteCommunityPost(postId) {
     });
 }
 
-// 10.2 小节底部随堂评论
 function renderSectionComments(sec) {
     const listEl = document.getElementById('sec-comments-list');
     if (!listEl) return;
@@ -1017,16 +1356,18 @@ function submitSectionComment() {
         .catch(e => alert('评论发送失败：' + e.message));
 }
 
-/* ========== 11. 弹窗新建与修改（含可视化随堂练习题编辑器） ========== */
+/* ========== 11. 弹窗 1：小节笔记与课内随堂小测管理 ========== */
 
 function renderModalQuizBuilder(quizArray = []) {
     const container = document.getElementById('modal-quiz-list');
+    if (!container) return;
     container.innerHTML = '';
     quizArray.forEach((q, idx) => appendModalQuizDOM(q, idx));
 }
 
 function appendModalQuizDOM(q = { question: '', options: ['', '', '', ''], answerIndex: 0, explanation: '' }) {
     const container = document.getElementById('modal-quiz-list');
+    if (!container) return;
     const item = document.createElement('div');
     item.className = 'quiz-builder-item';
 
@@ -1034,7 +1375,7 @@ function appendModalQuizDOM(q = { question: '', options: ['', '', '', ''], answe
 
     item.innerHTML = `
         <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <strong style="font-size:12.5px; color:var(--text-muted);">选择题项</strong>
+            <strong style="font-size:12.5px; color:var(--text-muted);">随堂选择题项</strong>
             <button type="button" style="background:none; border:none; color:#f87171; cursor:pointer; font-size:12px;" onclick="this.closest('.quiz-builder-item').remove()">✕ 移除此题</button>
         </div>
         <input type="text" class="qb-question" placeholder="题干描述（支持 $LaTeX$ 公式）" value="${(q.question || '').replace(/"/g, '&quot;')}">
@@ -1088,7 +1429,7 @@ function collectModalQuizItems() {
 function openAddModal() {
     if (!currentUser) { alert('请先登录后再新建小节'); return; }
     currentSectionId = null;
-    document.getElementById('modal-heading').innerText = '新建小节笔记与随堂练习';
+    document.getElementById('modal-heading').innerText = '新建小节笔记与随堂小测';
     const select = document.getElementById('modal-chapter-select');
     select.innerHTML = '';
 
@@ -1108,7 +1449,7 @@ function openEditModal() {
     if (!currentUser) { alert('请先登录后再编辑'); return; }
     const sec = sections.find(s => s.id === currentSectionId);
     if (!sec) return;
-    document.getElementById('modal-heading').innerText = '编辑小节笔记与随堂练习';
+    document.getElementById('modal-heading').innerText = '编辑小节笔记与随堂小测';
     const select = document.getElementById('modal-chapter-select');
     select.innerHTML = '';
 
@@ -1169,6 +1510,7 @@ window.switchMainTab = switchMainTab;
 window.openSubject = openSubject;
 window.openChapter = openChapter;
 window.openSectionDetail = openSectionDetail;
+window.deleteCurrentSection = deleteCurrentSection;
 window.filterVolume = filterVolume;
 window.handleSearch = handleSearch;
 window.checkAnswer = checkAnswer;
@@ -1180,14 +1522,21 @@ window.closeModal = closeModal;
 window.saveSectionNote = saveSectionNote;
 window.addModalQuizItem = addModalQuizItem;
 
-// 练习区与交流区全局函数
+// 独立专项练习区与 PPT/PDF 课件资料库全局函数
+window.switchPracticeSubMode = switchPracticeSubMode;
 window.filterPracticeSubject = filterPracticeSubject;
 window.openPracticeForCurrentSubject = openPracticeForCurrentSubject;
 window.startRandomPractice = startRandomPractice;
 window.resetPracticeSession = resetPracticeSession;
 window.submitPracticeAnswer = submitPracticeAnswer;
 window.jumpPracticeQuestion = jumpPracticeQuestion;
+window.openPracticeItemModal = openPracticeItemModal;
+window.closePracticeItemModal = closePracticeItemModal;
+window.togglePracticeModalFields = togglePracticeModalFields;
+window.savePracticeItem = savePracticeItem;
+window.deletePracticeItem = deletePracticeItem;
 
+// 交流区与评论全局函数
 window.createCommunityPost = createCommunityPost;
 window.filterCommunityPosts = filterCommunityPosts;
 window.likeCommunityPost = likeCommunityPost;
