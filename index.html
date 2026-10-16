@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>理科全科知识库 · 笔记 · 题库 · 交流</title>
+    <title>理科全科知识库 · 笔记 · 专项题库 · 交流</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,7 +28,7 @@
             --ink-soft: #1e293b;
             --bg-color: #090d16;
             --card-bg: rgba(20, 29, 47, 0.78);
-            --card-hover-bg: rgba(28, 40, 64, 0.9);
+            --card-hover-bg: rgba(28, 40, 64, 0.92);
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --border-color: rgba(255, 255, 255, 0.1);
@@ -44,7 +44,6 @@
 
             --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
             --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.45);
-            --shadow-glow: 0 0 24px rgba(56, 189, 248, 0.18);
             --radius-sm: 8px;
             --radius-md: 14px;
             --radius-lg: 20px;
@@ -120,7 +119,6 @@
             box-shadow: 0 2px 10px rgba(56, 189, 248, 0.35);
         }
 
-        /* 主导航切换菜单 */
         .main-nav-links {
             display: flex;
             align-items: center;
@@ -156,10 +154,9 @@
             box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
         }
 
-        /* 搜索框 */
         .search-box {
             flex: 1;
-            max-width: 260px;
+            max-width: 250px;
             position: relative;
         }
         .search-input {
@@ -393,7 +390,6 @@
             user-select: none;
         }
 
-        /* 学科识别边框与光晕 */
         .subj-physics { border-left: 5px solid var(--accent-physics); }
         .subj-physics:hover { box-shadow: 0 10px 28px -6px rgba(56, 189, 248, 0.25); }
         .subj-math { border-left: 5px solid var(--accent-math); }
@@ -403,7 +399,6 @@
         .subj-bio { border-left: 5px solid var(--accent-bio); }
         .subj-bio:hover { box-shadow: 0 10px 28px -6px rgba(74, 222, 128, 0.25); }
 
-        /* 快捷入口横幅（首页底部） */
         .quick-hub-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -448,7 +443,6 @@
             flex-shrink: 0;
         }
 
-        /* 选项卡 & 面包屑 */
         .breadcrumb-bar {
             display: flex;
             align-items: center;
@@ -519,11 +513,18 @@
             margin-bottom: 24px;
             position: relative;
             border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .detail-header-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
         }
         .edit-btn {
-            position: absolute;
-            right: 20px;
-            top: 20px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
@@ -535,6 +536,21 @@
             transition: all 0.2s;
         }
         .edit-btn:hover { background: var(--primary-color); color: #0f172a; }
+        .delete-btn {
+            background: rgba(248, 113, 113, 0.15);
+            border: 1px solid rgba(248, 113, 113, 0.35);
+            color: #f87171;
+            padding: 7px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .delete-btn:hover {
+            background: #ef4444;
+            color: #fff;
+        }
 
         .status-picker {
             display: flex;
@@ -564,7 +580,7 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
         }
 
-        /* ==================== 练习题组件（小节内 & 练习中心通用） ==================== */
+        /* ==================== 练习题与课件组件 ==================== */
         .quiz-section {
             margin-top: 40px;
             border-top: 1px dashed var(--border-color);
@@ -698,7 +714,32 @@
             filter: brightness(1.1);
         }
 
-        /* ==================== 专项练习中心 (level-practice) ==================== */
+        /* ==================== 专项练习中心 & 课件资料库 (level-practice) ==================== */
+        .practice-mode-switcher {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .mode-switch-card {
+            flex: 1;
+            min-width: 240px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .mode-switch-card.active {
+            border-color: var(--primary-color);
+            background: rgba(56, 189, 248, 0.1);
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15);
+        }
+
         .practice-stats-bar {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -722,6 +763,33 @@
             font-size: 22px;
             color: #fff;
         }
+
+        /* 课件/试卷卡片样式 */
+        .doc-resource-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 14px;
+            transition: all 0.2s;
+        }
+        .doc-resource-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        .doc-type-badge {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 9px;
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+        .doc-pdf { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .doc-ppt { background: rgba(249, 115, 22, 0.2); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); }
+        .doc-other { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
 
         /* ==================== 学术交流区 & 评论系统 (level-community) ==================== */
         .community-layout {
@@ -829,30 +897,36 @@
         .post-footer-actions {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.06);
             padding-top: 12px;
+            flex-wrap: wrap;
         }
         .action-chip {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 4px 12px;
+            padding: 5px 13px;
             border-radius: 16px;
             font-size: 12px;
+            font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 5px;
             transition: all 0.2s;
         }
-        .action-chip:hover, .action-chip.liked {
-            color: var(--primary-color);
-            border-color: var(--primary-color);
-            background: rgba(56, 189, 248, 0.1);
+        .action-chip:hover {
+            color: #fff;
+            border-color: var(--border-highlight);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .action-chip.liked {
+            color: #f43f5e;
+            border-color: rgba(244, 63, 94, 0.45);
+            background: rgba(244, 63, 94, 0.14);
         }
 
-        /* 二级回复列表 */
         .replies-box {
             margin-top: 14px;
             padding: 12px 14px;
@@ -872,7 +946,6 @@
             margin-top: 10px;
         }
 
-        /* 上一节 / 下一节 */
         .section-nav {
             display: flex;
             justify-content: space-between;
@@ -900,7 +973,7 @@
         }
         .nav-arrow-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        /* ==================== 弹窗（支持笔记 + 随堂题目可视化编辑） ==================== */
+        /* ==================== 弹窗通用样式 ==================== */
         .modal {
             display: none;
             position: fixed;
@@ -949,9 +1022,7 @@
             gap: 8px;
         }
 
-        /* ----------------------------------------------------
-           表格全局统一深色背景补丁与移动端横向滚动适配
-        ---------------------------------------------------- */
+        /* 表格深色背景与移动端横向滚动 */
         #detail-content, .detail-view {
             overflow-x: auto !important;
             -webkit-overflow-scrolling: touch;
@@ -999,7 +1070,6 @@
             min-width: 140px !important;
         }
 
-        /* 响应式适配 */
         @media (max-width: 860px) {
             .community-layout { grid-template-columns: 1fr; }
             .author-credit { display: none; }
@@ -1025,14 +1095,14 @@
                 </div>
                 <nav class="main-nav-links">
                     <button class="nav-pill active" id="nav-tab-home" onclick="switchMainTab('level-1')">📚 知识库</button>
-                    <button class="nav-pill" id="nav-tab-practice" onclick="switchMainTab('level-practice')">✍️ 练习区</button>
+                    <button class="nav-pill" id="nav-tab-practice" onclick="switchMainTab('level-practice')">✍️ 专项练习 & 课件</button>
                     <button class="nav-pill" id="nav-tab-community" onclick="switchMainTab('level-community')">💬 交流区</button>
                 </nav>
             </div>
 
             <div class="search-box">
                 <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" id="global-search" placeholder="搜索公式 / 知识点 / 题目..." oninput="handleSearch(this.value)">
+                <input type="text" class="search-input" id="global-search" placeholder="搜索公式 / 知识点 / 笔记..." oninput="handleSearch(this.value)">
             </div>
 
             <div class="nav-right">
@@ -1076,9 +1146,9 @@
                 <div class="card subj-math" onclick="openSubject('math')">
                     <div>
                         <h3>高级数学</h3>
-                        <p>集合逻辑、函数性质、三角函数、平面向量、立体几何、圆锥曲线与导数微积分</p>
+                        <p>直角坐标系、二次函数、多项式、无理式、函数、不等式、逻辑、三角学、指数对数与数列级数</p>
                     </div>
-                    <span class="badge" id="badge-math" style="background:rgba(168, 85, 247, 0.15); color:var(--accent-math); padding:5px 12px; border-radius:20px; font-size:12px; font-weight:700; align-self:flex-start;">9 章 · 0 节</span>
+                    <span class="badge" id="badge-math" style="background:rgba(168, 85, 247, 0.15); color:var(--accent-math); padding:5px 12px; border-radius:20px; font-size:12px; font-weight:700; align-self:flex-start;">13 章 · 0 节</span>
                     <div class="card-icon-bg">∫</div>
                 </div>
 
@@ -1114,8 +1184,8 @@
             <div class="quick-hub-grid">
                 <div class="hub-banner" onclick="switchMainTab('level-practice')">
                     <div>
-                        <h3>✍️ 专项练习与随机自测</h3>
-                        <p>汇总全科随堂习题与精选统考题型，支持按科刷题与随机抽题计分</p>
+                        <h3>✍️ 独立专项题库 & PPT/PDF 课件区</h3>
+                        <p>与随堂测验独立区分！支持上传/查阅 PDF 讲义、PPT 课件与历年统考专项题</p>
                     </div>
                     <div class="hub-action-arrow" style="color: var(--accent-physics);">→</div>
                 </div>
@@ -1150,7 +1220,7 @@
 
             <div class="section-heading-bar">
                 <h2 id="subject-title">章节目录</h2>
-                <button class="btn-secondary" onclick="openPracticeForCurrentSubject()">✍️ 练习本科学题库</button>
+                <button class="btn-secondary" onclick="openPracticeForCurrentSubject()">✍️ 进入本科学专项练习 & 课件区</button>
             </div>
 
             <div class="volume-tabs" id="vol-tabs">
@@ -1192,8 +1262,11 @@
 
             <div class="detail-view">
                 <div class="detail-header">
-                    <button class="edit-btn requires-login" style="display:none;" onclick="openEditModal()">✏️ 编辑笔记与习题</button>
-                    <h2 id="detail-title" style="font-size: 22px; padding-right: 120px;">小节标题</h2>
+                    <h2 id="detail-title" style="font-size: 22px;">小节标题</h2>
+                    <div class="detail-header-actions">
+                        <button class="edit-btn requires-login" style="display:none;" onclick="openEditModal()">✏️ 编辑笔记与随堂题</button>
+                        <button class="delete-btn requires-login" style="display:none;" onclick="deleteCurrentSection()">🗑 删除本小节</button>
+                    </div>
                 </div>
 
                 <div class="status-picker">
@@ -1205,11 +1278,11 @@
 
                 <div id="detail-content" style="font-size: 15px; line-height: 1.85;"></div>
 
-                <!-- 随堂思考与练习题 -->
+                <!-- 随堂思考与练习题（仅限本小节内部） -->
                 <div class="quiz-section">
                     <div class="section-heading-bar" style="margin-bottom: 8px;">
-                        <h3 style="font-size: 18px;">🎯 随堂思考与练习题</h3>
-                        <button class="btn-secondary requires-login" style="display:none; font-size:12px; padding:5px 12px;" onclick="openEditModal()">+ 补充/修改本节习题</button>
+                        <h3 style="font-size: 18px;">🎯 随堂小测（课内巩固）</h3>
+                        <button class="btn-secondary requires-login" style="display:none; font-size:12px; padding:5px 12px;" onclick="openEditModal()">+ 管理本节随堂题</button>
                     </div>
                     <div id="quiz-container"></div>
                 </div>
@@ -1231,38 +1304,40 @@
             </div>
         </div>
 
-        <!-- ==================== 新增第 5 层：✍️ 专项练习区 (Practice Center) ==================== -->
+        <!-- ==================== 第 5 层：✍️ 独立专项练习 & PPT/PDF 资料中心 (Practice Center) ==================== -->
         <div id="level-practice" class="view-page">
             <div class="section-heading-bar">
-                <h2>✍️ 理科专项练习中心</h2>
+                <div>
+                    <h2>✍️ 独立专项练习 & 课件资料中心</h2>
+                    <p style="font-size:12.5px; color:var(--text-muted); margin-top:2px;">独立于课内随堂小测，专门用于历年统考真题训练及分享 PPT、PDF 复习讲义</p>
+                </div>
                 <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="add-btn requires-login" style="display:none;" onclick="openPracticeItemModal()">+ 新增专项题 / 上传 PPT·PDF</button>
                     <button class="btn-secondary" onclick="startRandomPractice(5)">🎲 随机抽 5 题自测</button>
-                    <button class="btn-primary" onclick="resetPracticeSession()">🔄 重置答题状态</button>
+                    <button class="btn-secondary" onclick="resetPracticeSession()">🔄 重置答题</button>
                 </div>
             </div>
 
-            <!-- 刷题统计栏 -->
-            <div class="practice-stats-bar">
-                <div class="practice-stat-box">
-                    <span>当前题库题目总数</span>
-                    <strong id="prac-total-count">0</strong>
+            <!-- 模式切换：专项刷题 vs PPT/PDF 资料库 -->
+            <div class="practice-mode-switcher">
+                <div class="mode-switch-card active" id="mode-card-quiz" onclick="switchPracticeSubMode('quiz')">
+                    <div>
+                        <h3 style="font-size:16px; color:#fff;">🎯 专项选择题库</h3>
+                        <p style="font-size:12px; color:var(--text-muted);">独立综合拔高题、统考真题在线作答与解析</p>
+                    </div>
+                    <strong id="badge-mode-quiz" style="font-size:20px; color:var(--accent-physics);">0 题</strong>
                 </div>
-                <div class="practice-stat-box">
-                    <span>本次已作答</span>
-                    <strong id="prac-answered-count" style="color: var(--accent-physics);">0</strong>
-                </div>
-                <div class="practice-stat-box">
-                    <span>答对题数</span>
-                    <strong id="prac-correct-count" style="color: var(--accent-bio);">0</strong>
-                </div>
-                <div class="practice-stat-box">
-                    <span>当前正确率</span>
-                    <strong id="prac-accuracy-rate" style="color: var(--accent-chem);">0%</strong>
+                <div class="mode-switch-card" id="mode-card-docs" onclick="switchPracticeSubMode('docs')">
+                    <div>
+                        <h3 style="font-size:16px; color:#fff;">📂 PPT / PDF 讲义与试卷库</h3>
+                        <p style="font-size:12px; color:var(--text-muted);">在线预览或下载各科复习 PPT、PDF 笔记与模拟卷</p>
+                    </div>
+                    <strong id="badge-mode-docs" style="font-size:20px; color:var(--accent-chem);">0 份</strong>
                 </div>
             </div>
 
-            <!-- 学科题库筛选 -->
-            <div class="volume-tabs">
+            <!-- 学科筛选 -->
+            <div class="volume-tabs" id="practice-subj-tabs">
                 <button class="tab-btn active" onclick="filterPracticeSubject('all', this)">全部学科</button>
                 <button class="tab-btn" onclick="filterPracticeSubject('physics', this)">⚛ 物理</button>
                 <button class="tab-btn" onclick="filterPracticeSubject('math', this)">∫ 高级数学</button>
@@ -1270,12 +1345,39 @@
                 <button class="tab-btn" onclick="filterPracticeSubject('biology', this)">🧬 生物</button>
             </div>
 
-            <div class="detail-view" style="padding: 26px;">
-                <div id="practice-hub-container"></div>
+            <!-- 子视图 A：专项刷题面板 -->
+            <div id="practice-subview-quiz">
+                <div class="practice-stats-bar">
+                    <div class="practice-stat-box">
+                        <span>当前专项题数</span>
+                        <strong id="prac-total-count">0</strong>
+                    </div>
+                    <div class="practice-stat-box">
+                        <span>本次已作答</span>
+                        <strong id="prac-answered-count" style="color: var(--accent-physics);">0</strong>
+                    </div>
+                    <div class="practice-stat-box">
+                        <span>答对题数</span>
+                        <strong id="prac-correct-count" style="color: var(--accent-bio);">0</strong>
+                    </div>
+                    <div class="practice-stat-box">
+                        <span>当前正确率</span>
+                        <strong id="prac-accuracy-rate" style="color: var(--accent-chem);">0%</strong>
+                    </div>
+                </div>
+
+                <div class="detail-view" style="padding: 26px;">
+                    <div id="practice-hub-container"></div>
+                </div>
+            </div>
+
+            <!-- 子视图 B：PPT / PDF 课件资料网格 -->
+            <div id="practice-subview-docs" style="display:none;">
+                <div class="card-grid" id="practice-docs-grid"></div>
             </div>
         </div>
 
-        <!-- ==================== 新增第 6 层：💬 学术交流区 (Community Hub) ==================== -->
+        <!-- ==================== 第 6 层：💬 学术交流区 (Community Hub) ==================== -->
         <div id="level-community" class="view-page">
             <div class="section-heading-bar">
                 <h2>💬 理科问答与学术交流区</h2>
@@ -1283,7 +1385,6 @@
             </div>
 
             <div class="community-layout">
-                <!-- 左侧：发帖编辑器 + 帖子流 -->
                 <div>
                     <div class="post-composer-card">
                         <h3 style="font-size: 16px; margin-bottom: 12px;">📝 发起新讨论 / 提问</h3>
@@ -1304,7 +1405,6 @@
                         </div>
                     </div>
 
-                    <!-- 讨论分类筛选 -->
                     <div class="volume-tabs">
                         <button class="tab-btn active" onclick="filterCommunityPosts('all', this)">全部帖子</button>
                         <button class="tab-btn" onclick="filterCommunityPosts('physics', this)">⚛ 物理</button>
@@ -1317,7 +1417,6 @@
                     <div id="community-posts-feed"></div>
                 </div>
 
-                <!-- 右侧：交流区公告与 LaTeX 速查表 -->
                 <aside>
                     <div class="post-composer-card" style="position: sticky; top: 90px;">
                         <h3 style="font-size: 15px; margin-bottom: 10px; color: var(--accent-physics);">📌 交流区指南 & 公式速查</h3>
@@ -1338,7 +1437,7 @@
         </div>
     </main>
 
-    <!-- ==================== 笔记与随堂练习编辑弹窗 ==================== -->
+    <!-- ==================== 弹窗 1：笔记与随堂练习编辑弹窗 ==================== -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <h3 id="modal-heading" style="margin-bottom:14px;">新增/编辑小节笔记</h3>
@@ -1347,152 +1446,65 @@
             <input type="text" id="modal-desc" placeholder="简短摘要（显示在卡片列表上的简介）">
             <textarea id="modal-content" rows="7" placeholder="笔记正文 (支持 HTML 标签与 $LaTeX$ 公式)"></textarea>
 
-            <!-- 新增：可视化随堂练习题构建器 -->
             <div style="border-top: 1px solid var(--border-color); padding-top: 14px; margin-top: 6px; margin-bottom: 16px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <span style="font-size:14px; font-weight:700; color:var(--accent-physics);">✍️ 随堂练习题配置（可选）</span>
-                    <button type="button" class="btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="addModalQuizItem()">+ 添加一道题目</button>
+                    <span style="font-size:14px; font-weight:700; color:var(--accent-physics);">🎯 本节随堂小测配置（仅显示在本节底部）</span>
+                    <button type="button" class="btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="addModalQuizItem()">+ 添加一道随堂题</button>
                 </div>
                 <div id="modal-quiz-list"></div>
             </div>
 
             <div style="display:flex; justify-content:flex-end; gap:10px;">
                 <button onclick="closeModal()" class="btn-secondary">取消</button>
-                <button class="btn-primary" onclick="saveSectionNote()">💾 保存笔记与习题</button>
+                <button class="btn-primary" onclick="saveSectionNote()">💾 保存笔记与随堂题</button>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDK 引入保持不变 -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCm6CY-drJoxAosOt3zU2pUYK1DUQwQHX0",
-            authDomain: "reliable0124-545c8.firebaseapp.com",
-            projectId: "reliable0124-545c8",
-            storageBucket: "reliable0124-545c8.firebasestorage.app",
-            messagingSenderId: "490057880841",
-            appId: "1:490057880841:web:12cc01debc821812f1afd8"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-    </script>
+    <!-- ==================== 弹窗 2：独立专项练习区（题目 / PPT / PDF）新增与编辑弹窗 ==================== -->
+    <div id="practice-modal" class="modal">
+        <div class="modal-content">
+            <h3 id="prac-modal-heading" style="margin-bottom:14px;">新增专项练习 / 上传 PPT·PDF 课件</h3>
 
-    <!-- 章节静态目录数据 -->
-    <script>
-        const mathChapters = [
-            { id: 'm-ch1', volume: 'upper', volName: '上册', title: '第一章 集合与常用逻辑用语', desc: '集合概念、基本关系、充分条件与必要条件' },
-            { id: 'm-ch2', volume: 'upper', volName: '上册', title: '第二章 一元二次函数、方程与不等式', desc: '基本不等式、二次函数性质与图像' },
-            { id: 'm-ch3', volume: 'upper', volName: '上册', title: '第三章 函数的概念与性质', desc: '函数的单调性、奇偶性与周期性' },
-            { id: 'm-ch4', volume: 'middle', volName: '中册', title: '第四章 指数函数与对数函数', desc: '运算性质、图像特点与对数方程' },
-            { id: 'm-ch5', volume: 'middle', volName: '中册', title: '第五章 三角函数', desc: '弧度制、同角三角关系、诱导公式与图像' },
-            { id: 'm-ch6', volume: 'middle', volName: '中册', title: '第六章 平面向量与复数', desc: '向量加减法、数量积与复数代数形式' },
-            { id: 'm-ch7', volume: 'lower', volName: '下册', title: '第七章 立体几何初步', desc: '空间点线面关系、表面积与体积计算' },
-            { id: 'm-ch8', volume: 'lower', volName: '下册', title: '第八章 解析几何与圆锥曲线', desc: '直线、圆、椭圆、双曲线与抛物线方程' },
-            { id: 'm-ch9', volume: 'lower', volName: '下册', title: '第九章 导数及其应用', desc: '导数的几何意义、单调性讨论与极值最值' }
-        ];
-        
-        const physicsChapters = [
-            { id: 'p-ch1', volume: 'upper', volName: '上册', title: '第1章 物理学简介', desc: '物理学研究尺度、科学方法与基本量纲' },
-            { id: 'p-ch2', volume: 'upper', volName: '上册', title: '第2章 物理量的测量、单位和数据处理', desc: '国际单位制、有效数字与误差分析' },
-            { id: 'p-ch3', volume: 'upper', volName: '上册', title: '第3章 直线运动', desc: '位移、速度、加速度与匀变速运动图像' },
-            { id: 'p-ch4', volume: 'upper', volName: '上册', title: '第4章 牛顿运动定律', desc: '惯性、牛顿第二定律受力分析与超重失重' },
-            { id: 'p-ch5', volume: 'upper', volName: '上册', title: '第5章 静力学', desc: '共点力平衡、力矩平衡与重心' },
-            { id: 'p-ch6', volume: 'upper', volName: '上册', title: '第6章 平面运动', desc: '运动的合成与分解、平抛运动与斜抛运动' },
-            { id: 'p-ch7', volume: 'upper', volName: '上册', title: '第7章 功与能', desc: '动能定理、机械能守恒定律与功率' },
-            { id: 'p-ch8', volume: 'upper', volName: '上册', title: '第8章 动量守恒定律', desc: '冲量、动量定理与弹性/非弹性碰撞' },
-            { id: 'p-ch9', volume: 'upper', volName: '上册', title: '第9章 转动', desc: '角速度、向心力、万有引力与刚体转动惯量' },
-            { id: 'p-ch10', volume: 'upper', volName: '上册', title: '第10章 振动', desc: '简谐运动回复力、弹簧振子与单摆周期' },
-            { id: 'p-ch11', volume: 'upper', volName: '上册', title: '第11章 流体力学', desc: '帕斯卡定律、阿基米德浮力与伯努利方程' },
+            <div class="quiz-builder-grid">
+                <div>
+                    <label style="font-size:12px; color:var(--text-muted);">所属学科</label>
+                    <select id="pm-subject">
+                        <option value="physics">⚛ 物理</option>
+                        <option value="math">∫ 高级数学</option>
+                        <option value="chemistry">🧪 化学</option>
+                        <option value="biology">🧬 生物</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="font-size:12px; color:var(--text-muted);">内容类型</label>
+                    <select id="pm-type" onchange="togglePracticeModalFields()">
+                        <option value="question">🎯 专项选择题（支持公式与解析）</option>
+                        <option value="document">📂 PPT / PDF / 讲义试卷文件</option>
+                    </select>
+                </div>
+            </div>
 
-            { id: 'p-ch12', volume: 'middle', volName: '中册', title: '第12章 物质的性质', desc: '固态弹性模量、液态表面张力与毛细现象' },
-            { id: 'p-ch13', volume: 'middle', volName: '中册', title: '第13章 温度与热量', desc: '温标换算、热膨胀、热平衡与比热容潜热' },
-            { id: 'p-ch14', volume: 'middle', volName: '中册', title: '第14章 热的传递', desc: '热传导定律、对流与黑体热辐射' },
-            { id: 'p-ch15', volume: 'middle', volName: '中册', title: '第15章 气体定律', desc: '玻意耳定律、查理定律与理想气体状态方程' },
-            { id: 'p-ch16', volume: 'middle', volName: '中册', title: '第16章 气体分子运动论与热力学', desc: '分子平均动能与热力学第一、第二定律' },
-            { id: 'p-ch17', volume: 'middle', volName: '中册', title: '第17章 机械波', desc: '横波纵波、波的干涉、衍射、驻波与多普勒效应' },
-            { id: 'p-ch18', volume: 'middle', volName: '中册', title: '第18章 光的反射与折射', desc: '斯涅尔折射定律、全反射与光导纤维' },
-            { id: 'p-ch19', volume: 'middle', volName: '中册', title: '第19章 棱镜和透镜', desc: '薄透镜成像公式、放大率与光学仪器' },
-            { id: 'p-ch20', volume: 'middle', volName: '中册', title: '第20章 光的波动性', desc: '杨氏双缝干涉、单缝衍射与偏振光' },
+            <input type="text" id="pm-source" placeholder="来源或章节标签（例如：2025统考真题 / 第03章 多项式专项）">
 
-            { id: 'p-ch21', volume: 'lower', volName: '下册', title: '第21章 电场', desc: '库仑定律、电场强度、电势能与平行板电容器' },
-            { id: 'p-ch22', volume: 'lower', volName: '下册', title: '第22章 恒定电流', desc: '欧姆定律、电阻定律、基尔霍夫定律与闭合电路' },
-            { id: 'p-ch23', volume: 'lower', volName: '下册', title: '第23章 电流与磁场', desc: '毕奥-萨伐尔定律、安培力与带电粒子洛伦兹力' },
-            { id: 'p-ch24', volume: 'lower', volName: '下册', title: '第24章 电磁感应与交流电', desc: '法拉第电磁感应定律、楞次定律与变压器' },
-            { id: 'p-ch25', volume: 'lower', volName: '下册', title: '第25章 量子物理学', desc: '光电效应方程、康普顿散射与物质波' },
-            { id: 'p-ch26', volume: 'lower', volName: '下册', title: '第26章 原子与原子核物理学', desc: '玻尔能级跃迁、放射性衰变与质能方程' },
-            { id: 'p-ch27', volume: 'lower', volName: '下册', title: '第27章 相对论简介', desc: '狭义相对论基本假设、钟慢尺缩效应' }
-        ];
+            <!-- 专项选择题表单字段 -->
+            <div id="pm-question-fields">
+                <textarea id="pm-question" rows="3" placeholder="题干内容（支持 $LaTeX$ 公式）"></textarea>
+                <div class="quiz-builder-grid">
+                    <input type="text" id="pm-opt-0" placeholder="选项 A">
+                    <input type="text" id="pm-opt-1" placeholder="选项 B">
+                    <input type="text" id="pm-opt-2" placeholder="选项 C">
+                    <input type="text" id="pm-opt-3" placeholder="选项 D">
+                </div>
+                <select id="pm-answer">
+                    <option value="0">正确答案：A</option>
+                    <option value="1">正确答案：B</option>
+                    <option value="2">正确答案：C</option>
+                    <option value="3">正确答案：D</option>
+                </select>
+                <textarea id="pm-explanation" rows="3" placeholder="详细解析（支持 $LaTeX$ 公式推导）"></textarea>
+            </div>
 
-        const chemChapters = [
-            { id: 'c-ch1', volume: 'upper', volName: '上册', title: '第1章 绪论', desc: '化学发展史、混合物分离提纯与基本概念' },
-            { id: 'c-ch2', volume: 'upper', volName: '上册', title: '第2章 水和氢', desc: '水的净化、硬水软化与氢气的制备性质' },
-            { id: 'c-ch3', volume: 'upper', volName: '上册', title: '第3章 原子与分子', desc: '相对原子质量、摩尔概念与阿伏伽德罗常数' },
-            { id: 'c-ch4', volume: 'upper', volName: '上册', title: '第4章 化学方程式与化学计算', desc: '化学计量关系、过量计算与产率分析' },
-            { id: 'c-ch5', volume: 'upper', volName: '上册', title: '第5章 原子结构', desc: '电子云轨道、四个量子数与核外电子排布规律' },
-            { id: 'c-ch6', volume: 'upper', volName: '上册', title: '第6章 元素周期表', desc: '原子半径、电离能、电负性周期性递变规律' },
-            { id: 'c-ch7', volume: 'upper', volName: '上册', title: '第7章 化学键与分子间作用力', desc: '离子键、共价键杂化轨道、氢键与范德华力' },
-            { id: 'c-ch8', volume: 'upper', volName: '上册', title: '第8章 氧化还原反应', desc: '氧化数判断、氧化剂还原剂与半反应配平法' },
-            { id: 'c-ch9', volume: 'upper', volName: '上册', title: '第9章 IA族元素：钠和钾', desc: '碱金属通性、焰色反应与碳酸钠/碳酸氢钠' },
-            { id: 'c-ch10', volume: 'upper', volName: '上册', title: '第10章 IIA族元素：镁和钙', desc: '碱土金属化合物性质与钟乳石成因' },
-            { id: 'c-ch11', volume: 'upper', volName: '上册', title: '第11章 IIIA族元素：铝', desc: '铝与氧化铝的两性反应、明矾净水原理' },
-            { id: 'c-ch12', volume: 'upper', volName: '上册', title: '第12章 IVA族元素：碳和硅', desc: '同素异形体、硅酸盐工业与二氧化硅性质' },
-            { id: 'c-ch13', volume: 'upper', volName: '上册', title: '第13章 VA族元素：氮和磷', desc: '氨气哈伯法合成、铵盐检验与硝酸强氧化性' },
-            { id: 'c-ch14', volume: 'upper', volName: '上册', title: '第14章 VIA族元素：氧和硫', desc: '接触法制硫酸、二氧化硫还原性与硫酸根检验' },
-            { id: 'c-ch15', volume: 'upper', volName: '上册', title: '第15章 VIIA族元素', desc: '卤素单质置换、氯水成分与卤素离子检验' },
-            { id: 'c-ch16', volume: 'upper', volName: '上册', title: '第16章 过渡元素', desc: '配合物初步、铁铜铬锰常见价态转化与检验' },
-            
-            { id: 'c-ch17', volume: 'middle', volName: '中册', title: '第17章 气体', desc: '理想气体方程、道尔顿分压定律与气体扩散' },
-            { id: 'c-ch18', volume: 'middle', volName: '中册', title: '第18章 溶液及其性质', desc: '溶解度曲线、体积摩尔浓度与依数性' },
-            { id: 'c-ch19', volume: 'middle', volName: '中册', title: '第19章 化学反应和能量', desc: '焓变、热化学方程式与盖斯定律计算' },
-            { id: 'c-ch20', volume: 'middle', volName: '中册', title: '第20章 化学反应速率', desc: '有效碰撞模型、活化能与速率影响因素' },
-            { id: 'c-ch21', volume: 'middle', volName: '中册', title: '第21章 化学平衡的移动', desc: '平衡常数 Kc/Kp 与勒夏特列原理应用' },
-            { id: 'c-ch22', volume: 'middle', volName: '中册', title: '第22章 水溶液中的离子平衡', desc: '弱电解质电离、水的离子积、pH与缓冲溶液' },
-            { id: 'c-ch23', volume: 'middle', volName: '中册', title: '第23章 酸碱盐', desc: '阿伦尼乌斯与布朗斯特酸碱理论、酸碱中和滴定' },
-            { id: 'c-ch24', volume: 'middle', volName: '中册', title: '第24章 电化学', desc: '原电池电动势、电解池法拉第定律与金属防护' },
-            { id: 'c-ch25', volume: 'middle', volName: '中册', title: '第25章 核化学', desc: '核衰变规律、半衰期计算与同位素示踪' },
-            
-            { id: 'c-ch26', volume: 'lower', volName: '下册', title: '第26章 有机化学', desc: '官能团分类、同分异构体与系统命名法(IUPAC)' },
-            { id: 'c-ch27', volume: 'lower', volName: '下册', title: '第27章 烷烃', desc: 'sp3杂化、自由基取代反应与石油分馏' },
-            { id: 'c-ch28', volume: 'lower', volName: '下册', title: '第28章 烯烃', desc: '顺反异构、亲电加成反应与马氏规则' },
-            { id: 'c-ch29', volume: 'lower', volName: '下册', title: '第29章 炔烃', desc: '乙炔电石法制备、加成反应与金属炔化物检验' },
-            { id: 'c-ch30', volume: 'lower', volName: '下册', title: '第30章 芳香烃', desc: '苯环大π键结构、硝化与卤代亲电取代反应' },
-            { id: 'c-ch31', volume: 'lower', volName: '下册', title: '第31章 卤代烃', desc: '亲核取代水解反应与消去反应(扎伊采夫规则)' },
-            { id: 'c-ch32', volume: 'lower', volName: '下册', title: '第32章 羟基化合物：醇、酚', desc: '醇的催化氧化、消去反应与苯酚弱酸性显色' },
-            { id: 'c-ch33', volume: 'lower', volName: '下册', title: '第33章 羰基化合物：醛、酮、碳水化合物', desc: '银镜反应、斐林试剂检验与单糖多糖性质' },
-            { id: 'c-ch34', volume: 'lower', volName: '下册', title: '第34章 有机酸及其衍生物', desc: '羧酸酯化反应、油脂皂化、氨基酸与蛋白质' },
-            { id: 'c-ch35', volume: 'lower', volName: '下册', title: '第35章 有机高分子化合物', desc: '加聚反应与缩聚反应、合成塑料橡胶与纤维' }
-        ];
-
-        const bioChapters = [
-            { id: 'b-ch1', volume: 'upper', volName: '上册', title: '第1章 生物是由什么组成的', desc: '水、无机盐、糖类、脂质、蛋白质与核酸检验' },
-            { id: 'b-ch2', volume: 'upper', volName: '上册', title: '第2章 细胞的结构与功能', desc: '流动镶嵌模型、细胞器分工与跨膜运输方式' },
-            { id: 'b-ch3', volume: 'upper', volName: '上册', title: '第3章 细胞内物质和能量的转换', desc: '酶的特性、ATP循环、光合作用与细胞呼吸' },
-            { id: 'b-ch4', volume: 'upper', volName: '上册', title: '第4章 细胞分化', desc: '细胞全能性、干细胞、衰老与细胞凋亡' },
-            { id: 'b-ch5', volume: 'upper', volName: '上册', title: '第5章 食物的消化与物质代谢', desc: '人体消化酶作用机制与营养吸收途径' },
-            { id: 'b-ch6', volume: 'upper', volName: '上册', title: '第6章 营养成分的运输', desc: '植物木质部韧皮部运输与人体心血管循环' },
-            { id: 'b-ch7', volume: 'upper', volName: '上册', title: '第7章 动植物的协调与反应', desc: '植物生长素向光性、神经反射弧与内分泌激素' },
-            { id: 'b-ch8', volume: 'upper', volName: '上册', title: '第8章 内环境的恒定和排泄系统', desc: '血糖体温调节、肾单位滤过重吸收与渗透压' },
-            { id: 'b-ch9', volume: 'upper', volName: '上册', title: '第9章 健康与免疫', desc: '体液免疫与细胞免疫、疫苗原理与过敏反应' },
-            
-            { id: 'b-ch10', volume: 'middle', volName: '中册', title: '第10章 生态系统', desc: '食物链能量金字塔、物质循环与群落演替' },
-            { id: 'b-ch11', volume: 'middle', volName: '中册', title: '第11章 生态保育与可持续发展', desc: '温室效应、富营养化与生物多样性保护' },
-            { id: 'b-ch12', volume: 'middle', volName: '中册', title: '第12章 生殖', desc: '被子植物双受精与人体生殖系统胚胎发育' },
-            { id: 'b-ch13', volume: 'middle', volName: '中册', title: '第13章 细胞分裂', desc: '有丝分裂染色体行为与减数分裂同源染色体联会' },
-            { id: 'b-ch14', volume: 'middle', volName: '中册', title: '第14章 遗传的物质基础', desc: 'DNA双螺旋半保留复制、转录与遗传密码翻译' },
-            { id: 'b-ch15', volume: 'middle', volName: '中册', title: '第15章 基因与遗传定律', desc: '孟德尔分离与自由组合定律、伴性遗传分析' },
-            { id: 'b-ch16', volume: 'middle', volName: '中册', title: '第16章 应用遗传学', desc: '基因突变、染色体变异与PCR重组DNA技术' },
-            
-            { id: 'b-ch17', volume: 'lower', volName: '下册', title: '第17章 生物多样性', desc: '五界分类系统、二名法与动植物各大门类特征' },
-            { id: 'b-ch18', volume: 'lower', volName: '下册', title: '第18章 细菌与病毒', desc: '原核细胞结构、噬菌体增殖周期与抗生素机制' },
-            { id: 'b-ch19', volume: 'lower', volName: '下册', title: '第19章 演化', desc: '拉马克学说、达尔文自然选择与现代综合进化论' }
-        ];
-    </script>
-
-    <script src="physics-data.js"></script>
-    <script src="functions.js"></script>
-</body>
-</html>
+            <!-- PPT / PDF 课件资料表单字段 -->
+            <div id="pm-document-fields" style="display:none;">
+                <input type="text" id="pm-doc-title" placeholder="课件 / 试卷标题（例如：高数03 多项式与余式定理复习 PPT）">
