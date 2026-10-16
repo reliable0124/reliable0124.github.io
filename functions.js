@@ -142,6 +142,11 @@ auth.onAuthStateChanged(user => {
         loginBtn.onclick = handleLogin;
     }
     updateEditableUI();
+
+    // 登录状态变化时，如果正在浏览交流区，刷新点赞高亮与删除按钮显示状态
+    if (document.getElementById('level-community')?.classList.contains('active')) {
+        renderCommunityFeed();
+    }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -192,7 +197,7 @@ async function initAndListen() {
             renderCommunityFeed();
         }
     }, err => {
-        console.warn('社区讨论集合尚未初始化或受权限限制，使用本地缓存模式：', err);
+        console.warn('社区讨论集合读取失败，请检查 Firestore 规则设置：', err);
     });
 }
 
@@ -496,7 +501,7 @@ function setSectionStatus(status) {
     document.getElementById(`btn-status-${status}`)?.classList.add('active');
 }
 
-/* ========== 8. 小节内随堂练习题（优化升级版） ========== */
+/* ========== 8. 小节内随堂练习题 ========== */
 
 function renderQuizContainer(sec) {
     const container = document.getElementById('quiz-container');
@@ -744,7 +749,7 @@ function jumpPracticeQuestion(idx) {
     renderPracticeHubQuestion();
 }
 
-/* ========== 10. 学术交流区（Community）与小节随堂评论 ========== */
+/* ========== 10. 学术交流区（Community）与小节随堂评论（已修复点赞逻辑） ========== */
 
 function formatTimeAgo(timestamp) {
     if (!timestamp) return '刚刚';
@@ -832,6 +837,11 @@ function renderCommunityFeed() {
         const replies = Array.isArray(post.replies) ? post.replies : [];
         const isAuthor = currentUser && currentUser.uid === post.authorUid;
 
+        // 判断当前登录用户是否已赞，并计算真实点赞数
+        const likedBy = Array.isArray(post.likedBy) ? post.likedBy : [];
+        const hasLiked = Boolean(currentUser && likedBy.includes(currentUser.uid));
+        const likeCount = typeof post.likes === 'number' ? post.likes : likedBy.length;
+
         const repliesHtml = replies.map(r => `
             <div class="reply-item">
                 <strong style="color:var(--primary-color);">${r.authorName}：</strong>
@@ -857,8 +867,8 @@ function renderCommunityFeed() {
                 <div class="post-body">${post.content}</div>
 
                 <div class="post-footer-actions">
-                    <button class="action-chip" onclick="likeCommunityPost('${post.id}')">
-                        👍 赞 (${post.likes || 0})
+                    <button class="action-chip ${hasLiked ? 'liked' : ''}" onclick="likeCommunityPost('${post.id}')">
+                        ${hasLiked ? '💙 已赞' : '👍 赞'} (${likeCount})
                     </button>
                     <button class="action-chip" onclick="toggleReplyBox('${post.id}')">
                         💬 回复 (${replies.length})
@@ -887,13 +897,49 @@ function toggleReplyBox(postId) {
     }
 }
 
+// 修复后的点赞切换函数：支持点赞与取消点赞、防重复刷赞、即时 UI 反馈
 function likeCommunityPost(postId) {
-    if (!currentUser) { alert('请先登录后再点赞'); return; }
+    if (!currentUser) {
+        alert('请先点击右上角 Google 登录后再点赞！');
+        return;
+    }
+
     const post = communityPosts.find(p => p.id === postId);
     if (!post) return;
 
-    const newLikes = (post.likes || 0) + 1;
-    db.collection('discussions').doc(postId).update({ likes: newLikes });
+    const uid = currentUser.uid;
+    const likedBy = Array.isArray(post.likedBy) ? [...post.likedBy] : [];
+    const currentLikes = typeof post.likes === 'number' ? post.likes : likedBy.length;
+    const userIndex = likedBy.indexOf(uid);
+
+    let updatedLikedBy;
+    let updatedLikes;
+
+    if (userIndex > -1) {
+        // 已点赞 -> 取消点赞
+        likedBy.splice(userIndex, 1);
+        updatedLikedBy = likedBy;
+        updatedLikes = Math.max(0, currentLikes - 1);
+    } else {
+        // 未点赞 -> 添加点赞
+        likedBy.push(uid);
+        updatedLikedBy = likedBy;
+        updatedLikes = currentLikes + 1;
+    }
+
+    // 乐观更新本地状态并立即重绘，点击无延迟感
+    post.likedBy = updatedLikedBy;
+    post.likes = updatedLikes;
+    renderCommunityFeed();
+
+    // 同步至 Firestore 数据库
+    db.collection('discussions').doc(postId).update({
+        likedBy: updatedLikedBy,
+        likes: updatedLikes
+    }).catch(err => {
+        console.error('点赞同步失败：', err);
+        alert('点赞失败，请检查网络连接或数据库权限：' + err.message);
+    });
 }
 
 function submitCommunityReply(postId) {
@@ -914,12 +960,16 @@ function submitCommunityReply(postId) {
 
     db.collection('discussions').doc(postId).update({ replies: updatedReplies }).then(() => {
         input.value = '';
+    }).catch(err => {
+        alert('回复失败：' + err.message);
     });
 }
 
 function deleteCommunityPost(postId) {
     if (!confirm('确定要删除这条讨论吗？')) return;
-    db.collection('discussions').doc(postId).delete();
+    db.collection('discussions').doc(postId).delete().catch(err => {
+        alert('删除失败：' + err.message);
+    });
 }
 
 // 10.2 小节底部随堂评论
