@@ -52,10 +52,10 @@ const builtInPracticeQuestions = [
         type: 'question',
         subject: 'math',
         sourceTitle: '第3章 多项式专项 · 余式定理',
-        question: '已知多项式 $f(x) = 2x^3 - ax^2 + x - 5$ 除以 $x - 2$ 的余式为 $7$，则常数 $a$ 的值为：',
+        question: '已知多项式 $f(x) = 2x^3 - ax^2 + x - 5$ 除以 $x - 2$ 的余式为 $5$，则常数 $a$ 的值为：',
         options: ['$1$', '$2$', '$3$', '$-2$'],
         answerIndex: 1,
-        explanation: '由余式定理知 $f(2) = 7$，即 $2(2)^3 - a(2)^2 + 2 - 5 = 7 \\Rightarrow 16 - 4a - 3 = 7 \\Rightarrow 4a = 6$？修正计算：$16 - 3 - 7 = 6$，若 $f(x)=2x^3 - ax^2 + 3x - 5$ 则 $16 - 4a + 6 - 5 = 7 \\Rightarrow 4a = 10$；本题按 $16 - 4a + 2 - 5 = 13 - 4a = 5 \\Rightarrow a=2$（当余式为 $5$ 时 $a=2$）。'
+        explanation: '由余式定理知 $f(2) = 5$，代入得 $2(2)^3 - a(2)^2 + 2 - 5 = 5 \\Rightarrow 16 - 4a - 3 = 5 \\Rightarrow 4a = 8 \\Rightarrow a = 2$。'
     },
     {
         id: 'builtin-q4',
@@ -155,33 +155,43 @@ function renderLatexIn(element) {
 /* ========== 1. Google 登录与权限状态 ========== */
 
 function handleLogin() {
+    if (typeof auth === 'undefined') {
+        alert('Firebase 尚未初始化，请检查 index.html 底部是否包含 Firebase 配置脚本！');
+        return;
+    }
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider).catch(err => alert('登录失败：' + err.message));
 }
 
-auth.onAuthStateChanged(user => {
-    currentUser = user;
-    const statusEl = document.getElementById('user-status');
-    const loginBtn = document.getElementById('login-btn');
+if (typeof auth !== 'undefined') {
+    auth.onAuthStateChanged(user => {
+        currentUser = user;
+        const statusEl = document.getElementById('user-status');
+        const loginBtn = document.getElementById('login-btn');
 
-    if (user) {
-        statusEl.innerText = user.displayName || user.email || '已登录';
-        loginBtn.innerText = '登出';
-        loginBtn.onclick = () => auth.signOut();
-    } else {
-        statusEl.innerText = '未登录（仅浏览）';
-        loginBtn.innerText = 'Google 登录';
-        loginBtn.onclick = handleLogin;
-    }
-    updateEditableUI();
+        if (user) {
+            if (statusEl) statusEl.innerText = user.displayName || user.email || '已登录';
+            if (loginBtn) {
+                loginBtn.innerText = '登出';
+                loginBtn.onclick = () => auth.signOut();
+            }
+        } else {
+            if (statusEl) statusEl.innerText = '未登录（仅浏览）';
+            if (loginBtn) {
+                loginBtn.innerText = 'Google 登录';
+                loginBtn.onclick = handleLogin;
+            }
+        }
+        updateEditableUI();
 
-    if (document.getElementById('level-community')?.classList.contains('active')) {
-        renderCommunityFeed();
-    }
-    if (document.getElementById('level-practice')?.classList.contains('active')) {
-        renderPracticeSubViews();
-    }
-});
+        if (document.getElementById('level-community')?.classList.contains('active')) {
+            renderCommunityFeed();
+        }
+        if (document.getElementById('level-practice')?.classList.contains('active')) {
+            renderPracticeSubViews();
+        }
+    });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginBtn = document.getElementById('login-btn');
@@ -198,18 +208,23 @@ function updateEditableUI() {
 /* ========== 2. Firestore 实时数据同步（小节 + 专项库 + 交流区） ========== */
 
 async function initAndListen() {
+    if (typeof db === 'undefined') {
+        console.error('Firestore db 未定义，请确认 index.html 已正确引入 Firebase SDK。');
+        return;
+    }
+
     try {
         const snap = await db.collection('sections').get({ source: 'server' });
         const existingIds = new Set(snap.docs.map(d => d.id));
 
-        if (typeof defaultSections !== 'undefined') {
+        if (typeof defaultSections !== 'undefined' && Array.isArray(defaultSections)) {
             const missing = defaultSections.filter(s => !existingIds.has(s.id));
             for (const sec of missing) {
                 await db.collection('sections').doc(sec.id).set(sec);
             }
         }
     } catch (e) {
-        console.error('初始播种检查失败：', e);
+        console.warn('初始播种检查跳过或受限：', e);
     }
 
     // 2.1 监听小节笔记变化
@@ -224,9 +239,11 @@ async function initAndListen() {
         }
     }, err => console.error('Firestore sections 同步失败：', err));
 
-    // 2.2 监听独立专项题库与课件资料变化
-    db.collection('practice_items').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-        customPracticeItems = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    // 2.2 监听独立专项题库与课件资料变化（前端按时间倒序，避免缺失字段被过滤）
+    db.collection('practice_items').onSnapshot(snapshot => {
+        customPracticeItems = snapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() }))
+            .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
         if (document.getElementById('level-practice')?.classList.contains('active')) {
             initPracticeCenter(practiceState.subjectFilter);
         }
@@ -234,9 +251,11 @@ async function initAndListen() {
         console.warn('专项题库集合读取提示：', err);
     });
 
-    // 2.3 监听社区讨论帖变化
-    db.collection('discussions').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-        communityPosts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    // 2.3 监听社区讨论帖变化（前端按时间倒序）
+    db.collection('discussions').onSnapshot(snapshot => {
+        communityPosts = snapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() }))
+            .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
         if (document.getElementById('level-community')?.classList.contains('active')) {
             renderCommunityFeed();
         }
@@ -929,7 +948,7 @@ function renderPracticeDocsGrid() {
                 <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.06);">
                     ${isSafeUrl
                         ? `<a href="${doc.url}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="text-decoration:none; display:inline-block;">📥 打开 / 下载课件</a>`
-                        : `<button class="btn-secondary" onclick="alert('该示范条目暂未绑定外部文件链接，你可以点击右侧新增/编辑上传你自己的 PDF 或 PPT 链接！')">📎 示范条目</button>`
+                        : `<button class="btn-secondary" onclick="alert('该示范条目暂未绑定外部文件链接，你可以点击右上角新增/编辑上传你自己的 PDF 或 PPT 链接！')">📎 示范条目</button>`
                     }
                     ${(currentUser && doc.isCustom) ? `
                         <div style="display:flex; gap:6px;">
