@@ -1505,6 +1505,162 @@
                 <textarea id="pm-explanation" rows="3" placeholder="详细解析（支持 $LaTeX$ 公式推导）"></textarea>
             </div>
 
-            <!-- PPT / PDF 课件资料表单字段 -->
+            <!-- PPT / PDF 课件资料表单字段（此处已完整闭合） -->
             <div id="pm-document-fields" style="display:none;">
                 <input type="text" id="pm-doc-title" placeholder="课件 / 试卷标题（例如：高数03 多项式与余式定理复习 PPT）">
+                <div class="quiz-builder-grid">
+                    <select id="pm-doc-format">
+                        <option value="pdf">📕 PDF 讲义 / 试卷</option>
+                        <option value="ppt">📙 PPT 演示课件</option>
+                        <option value="other">📘 其他学习资料</option>
+                    </select>
+                    <input type="text" id="pm-doc-url" placeholder="文件链接或仓库路径（如 files/ch3.pdf 或云盘链接）">
+                </div>
+                <textarea id="pm-doc-desc" rows="3" placeholder="资料简介、涵盖考点或使用说明..."></textarea>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
+                <button onclick="closePracticeItemModal()" class="btn-secondary">取消</button>
+                <button class="btn-primary" onclick="savePracticeItem()">💾 保存至专项库</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== Firebase SDK 与数据库初始化 ==================== -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCm6CY-drJoxAosOt3zU2pUYK1DUQwQHX0",
+            authDomain: "reliable0124-545c8.firebaseapp.com",
+            projectId: "reliable0124-545c8",
+            storageBucket: "reliable0124-545c8.firebasestorage.app",
+            messagingSenderId: "490057880841",
+            appId: "1:490057880841:web:12cc01debc821812f1afd8"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+
+    <!-- ==================== 四科章节静态目录数据 ==================== -->
+    <script>
+        const mathChapters = [
+            { id: 'm-ch1', volume: 'upper', volName: '上册', title: '第1章 直角坐标系与直线', desc: '距离公式、定比分点、斜率与直线方程' },
+            { id: 'm-ch2', volume: 'upper', volName: '上册', title: '第2章 一元二次方程式与二次函数', desc: '配方法、判别式、韦达定理与二次函数图像' },
+            { id: 'm-ch3', volume: 'upper', volName: '上册', title: '第3章 多项式', desc: '综合除法、余式定理、因式定理与部分分式' },
+            { id: 'm-ch4', volume: 'upper', volName: '上册', title: '第4章 无理式', desc: '根式化简、分母有理化与无理方程求解' },
+            { id: 'm-ch5', volume: 'upper', volName: '上册', title: '第5章 函数', desc: '定义域值域、合成函数、反函数与基本性质' },
+            { id: 'm-ch6', volume: 'middle', volName: '中册', title: '第6章 不等式', desc: '一元二次不等式、分式与绝对值不等式、算术几何平均不等式' },
+            { id: 'm-ch7', volume: 'middle', volName: '中册', title: '第7章 逻辑', desc: '集合运算、命题逻辑、充分条件与必要条件' },
+            { id: 'm-ch8', volume: 'middle', volName: '中册', title: '第8章 角度与弧度', desc: '弧度制、同角三角恒等式、诱导公式与三角图像' },
+            { id: 'm-ch9', volume: 'middle', volName: '中册', title: '第9章 任意角的三角函数', desc: '和差角公式、倍角半角公式、正弦与余弦定理' },
+            { id: 'm-ch10', volume: 'lower', volName: '下册', title: '第10章 三角学的应用', desc: '指数对数运算法则、换底公式与指对数方程' },
+            { id: 'm-ch11', volume: 'lower', volName: '下册', title: '第11章 三角恒等式与三角方程式', desc: '等差数列、等比数列、无穷等比级数与求和符号 ∑' },
+            { id: 'm-ch12', volume: 'lower', volName: '下册', title: '第12章 平面向量与复数', desc: '向量线性运算、内积及其几何应用、复数代数与三角形式' },
+            { id: 'm-ch13', volume: 'lower', volName: '下册', title: '第13章 数列与级数', desc: '圆、椭圆、双曲线、抛物线及极限导数入门' }
+        ];
+
+        const physicsChapters = [
+            { id: 'p-ch1', volume: 'upper', volName: '上册', title: '第1章 物理学简介', desc: '物理学研究尺度、科学方法与基本量纲' },
+            { id: 'p-ch2', volume: 'upper', volName: '上册', title: '第2章 物理量的测量、单位和数据处理', desc: '国际单位制、有效数字与误差分析' },
+            { id: 'p-ch3', volume: 'upper', volName: '上册', title: '第3章 直线运动', desc: '位移、速度、加速度与匀变速运动图像' },
+            { id: 'p-ch4', volume: 'upper', volName: '上册', title: '第4章 牛顿运动定律', desc: '惯性、牛顿第二定律受力分析与超重失重' },
+            { id: 'p-ch5', volume: 'upper', volName: '上册', title: '第5章 静力学', desc: '共点力平衡、力矩平衡与重心' },
+            { id: 'p-ch6', volume: 'upper', volName: '上册', title: '第6章 平面运动', desc: '运动的合成与分解、平抛运动与斜抛运动' },
+            { id: 'p-ch7', volume: 'upper', volName: '上册', title: '第7章 功与能', desc: '动能定理、机械能守恒定律与功率' },
+            { id: 'p-ch8', volume: 'upper', volName: '上册', title: '第8章 动量守恒定律', desc: '冲量、动量定理与弹性/非弹性碰撞' },
+            { id: 'p-ch9', volume: 'upper', volName: '上册', title: '第9章 转动', desc: '角速度、向心力、万有引力与刚体转动惯量' },
+            { id: 'p-ch10', volume: 'upper', volName: '上册', title: '第10章 振动', desc: '简谐运动回复力、弹簧振子与单摆周期' },
+            { id: 'p-ch11', volume: 'upper', volName: '上册', title: '第11章 流体力学', desc: '帕斯卡定律、阿基米德浮力与伯努利方程' },
+
+            { id: 'p-ch12', volume: 'middle', volName: '中册', title: '第12章 物质的性质', desc: '固态弹性模量、液态表面张力与毛细现象' },
+            { id: 'p-ch13', volume: 'middle', volName: '中册', title: '第13章 温度与热量', desc: '温标换算、热膨胀、热平衡与比热容潜热' },
+            { id: 'p-ch14', volume: 'middle', volName: '中册', title: '第14章 热的传递', desc: '热传导定律、对流与黑体热辐射' },
+            { id: 'p-ch15', volume: 'middle', volName: '中册', title: '第15章 气体定律', desc: '玻意耳定律、查理定律与理想气体状态方程' },
+            { id: 'p-ch16', volume: 'middle', volName: '中册', title: '第16章 气体分子运动论与热力学', desc: '分子平均动能与热力学第一、第二定律' },
+            { id: 'p-ch17', volume: 'middle', volName: '中册', title: '第17章 机械波', desc: '横波纵波、波的干涉、衍射、驻波与多普勒效应' },
+            { id: 'p-ch18', volume: 'middle', volName: '中册', title: '第18章 光的反射与折射', desc: '斯涅尔折射定律、全反射与光导纤维' },
+            { id: 'p-ch19', volume: 'middle', volName: '中册', title: '第19章 棱镜和透镜', desc: '薄透镜成像公式、放大率与光学仪器' },
+            { id: 'p-ch20', volume: 'middle', volName: '中册', title: '第20章 光的波动性', desc: '杨氏双缝干涉、单缝衍射与偏振光' },
+
+            { id: 'p-ch21', volume: 'lower', volName: '下册', title: '第21章 电场', desc: '库仑定律、电场强度、电势能与平行板电容器' },
+            { id: 'p-ch22', volume: 'lower', volName: '下册', title: '第22章 恒定电流', desc: '欧姆定律、电阻定律、基尔霍夫定律与闭合电路' },
+            { id: 'p-ch23', volume: 'lower', volName: '下册', title: '第23章 电流与磁场', desc: '毕奥-萨伐尔定律、安培力与带电粒子洛伦兹力' },
+            { id: 'p-ch24', volume: 'lower', volName: '下册', title: '第24章 电磁感应与交流电', desc: '法拉第电磁感应定律、楞次定律与变压器' },
+            { id: 'p-ch25', volume: 'lower', volName: '下册', title: '第25章 量子物理学', desc: '光电效应方程、康普顿散射与物质波' },
+            { id: 'p-ch26', volume: 'lower', volName: '下册', title: '第26章 原子与原子核物理学', desc: '玻尔能级跃迁、放射性衰变与质能方程' },
+            { id: 'p-ch27', volume: 'lower', volName: '下册', title: '第27章 相对论简介', desc: '狭义相对论基本假设、钟慢尺缩效应' }
+        ];
+
+        const chemChapters = [
+            { id: 'c-ch1', volume: 'upper', volName: '上册', title: '第1章 绪论', desc: '化学发展史、混合物分离提纯与基本概念' },
+            { id: 'c-ch2', volume: 'upper', volName: '上册', title: '第2章 水和氢', desc: '水的净化、硬水软化与氢气的制备性质' },
+            { id: 'c-ch3', volume: 'upper', volName: '上册', title: '第3章 原子与分子', desc: '相对原子质量、摩尔概念与阿伏伽德罗常数' },
+            { id: 'c-ch4', volume: 'upper', volName: '上册', title: '第4章 化学方程式与化学计算', desc: '化学计量关系、过量计算与产率分析' },
+            { id: 'c-ch5', volume: 'upper', volName: '上册', title: '第5章 原子结构', desc: '电子云轨道、四个量子数与核外电子排布规律' },
+            { id: 'c-ch6', volume: 'upper', volName: '上册', title: '第6章 元素周期表', desc: '原子半径、电离能、电负性周期性递变规律' },
+            { id: 'c-ch7', volume: 'upper', volName: '上册', title: '第7章 化学键与分子间作用力', desc: '离子键、共价键杂化轨道、氢键与范德华力' },
+            { id: 'c-ch8', volume: 'upper', volName: '上册', title: '第8章 氧化还原反应', desc: '氧化数判断、氧化剂还原剂与半反应配平法' },
+            { id: 'c-ch9', volume: 'upper', volName: '上册', title: '第9章 IA族元素：钠和钾', desc: '碱金属通性、焰色反应与碳酸钠/碳酸氢钠' },
+            { id: 'c-ch10', volume: 'upper', volName: '上册', title: '第10章 IIA族元素：镁和钙', desc: '碱土金属化合物性质与钟乳石成因' },
+            { id: 'c-ch11', volume: 'upper', volName: '上册', title: '第11章 IIIA族元素：铝', desc: '铝与氧化铝的两性反应、明矾净水原理' },
+            { id: 'c-ch12', volume: 'upper', volName: '上册', title: '第12章 IVA族元素：碳和硅', desc: '同素异形体、硅酸盐工业与二氧化硅性质' },
+            { id: 'c-ch13', volume: 'upper', volName: '上册', title: '第13章 VA族元素：氮和磷', desc: '氨气哈伯法合成、铵盐检验与硝酸强氧化性' },
+            { id: 'c-ch14', volume: 'upper', volName: '上册', title: '第14章 VIA族元素：氧和硫', desc: '接触法制硫酸、二氧化硫还原性与硫酸根检验' },
+            { id: 'c-ch15', volume: 'upper', volName: '上册', title: '第15章 VIIA族元素', desc: '卤素单质置换、氯水成分与卤素离子检验' },
+            { id: 'c-ch16', volume: 'upper', volName: '上册', title: '第16章 过渡元素', desc: '配合物初步、铁铜铬锰常见价态转化与检验' },
+            
+            { id: 'c-ch17', volume: 'middle', volName: '中册', title: '第17章 气体', desc: '理想气体方程、道尔顿分压定律与气体扩散' },
+            { id: 'c-ch18', volume: 'middle', volName: '中册', title: '第18章 溶液及其性质', desc: '溶解度曲线、体积摩尔浓度与依数性' },
+            { id: 'c-ch19', volume: 'middle', volName: '中册', title: '第19章 化学反应和能量', desc: '焓变、热化学方程式与盖斯定律计算' },
+            { id: 'c-ch20', volume: 'middle', volName: '中册', title: '第20章 化学反应速率', desc: '有效碰撞模型、活化能与速率影响因素' },
+            { id: 'c-ch21', volume: 'middle', volName: '中册', title: '第21章 化学平衡的移动', desc: '平衡常数 Kc/Kp 与勒夏特列原理应用' },
+            { id: 'c-ch22', volume: 'middle', volName: '中册', title: '第22章 水溶液中的离子平衡', desc: '弱电解质电离、水的离子积、pH与缓冲溶液' },
+            { id: 'c-ch23', volume: 'middle', volName: '中册', title: '第23章 酸碱盐', desc: '阿伦尼乌斯与布朗斯特酸碱理论、酸碱中和滴定' },
+            { id: 'c-ch24', volume: 'middle', volName: '中册', title: '第24章 电化学', desc: '原电池电动势、电解池法拉第定律与金属防护' },
+            { id: 'c-ch25', volume: 'middle', volName: '中册', title: '第25章 核化学', desc: '核衰变规律、半衰期计算与同位素示踪' },
+            
+            { id: 'c-ch26', volume: 'lower', volName: '下册', title: '第26章 有机化学', desc: '官能团分类、同分异构体与系统命名法(IUPAC)' },
+            { id: 'c-ch27', volume: 'lower', volName: '下册', title: '第27章 烷烃', desc: 'sp3杂化、自由基取代反应与石油分馏' },
+            { id: 'c-ch28', volume: 'lower', volName: '下册', title: '第28章 烯烃', desc: '顺反异构、亲电加成反应与马氏规则' },
+            { id: 'c-ch29', volume: 'lower', volName: '下册', title: '第29章 炔烃', desc: '乙炔电石法制备、加成反应与金属炔化物检验' },
+            { id: 'c-ch30', volume: 'lower', volName: '下册', title: '第30章 芳香烃', desc: '苯环大π键结构、硝化与卤代亲电取代反应' },
+            { id: 'c-ch31', volume: 'lower', volName: '下册', title: '第31章 卤代烃', desc: '亲核取代水解反应与消去反应(扎伊采夫规则)' },
+            { id: 'c-ch32', volume: 'lower', volName: '下册', title: '第32章 羟基化合物：醇、酚', desc: '醇的催化氧化、消去反应与苯酚弱酸性显色' },
+            { id: 'c-ch33', volume: 'lower', volName: '下册', title: '第33章 羰基化合物：醛、酮、碳水化合物', desc: '银镜反应、斐林试剂检验与单糖多糖性质' },
+            { id: 'c-ch34', volume: 'lower', volName: '下册', title: '第34章 有机酸及其衍生物', desc: '羧酸酯化反应、油脂皂化、氨基酸与蛋白质' },
+            { id: 'c-ch35', volume: 'lower', volName: '下册', title: '第35章 有机高分子化合物', desc: '加聚反应与缩聚反应、合成塑料橡胶与纤维' }
+        ];
+
+        const bioChapters = [
+            { id: 'b-ch1', volume: 'upper', volName: '上册', title: '第1章 生物是由什么组成的', desc: '水、无机盐、糖类、脂质、蛋白质与核酸检验' },
+            { id: 'b-ch2', volume: 'upper', volName: '上册', title: '第2章 细胞的结构与功能', desc: '流动镶嵌模型、细胞器分工与跨膜运输方式' },
+            { id: 'b-ch3', volume: 'upper', volName: '上册', title: '第3章 细胞内物质和能量的转换', desc: '酶的特性、ATP循环、光合作用与细胞呼吸' },
+            { id: 'b-ch4', volume: 'upper', volName: '上册', title: '第4章 细胞分化', desc: '细胞全能性、干细胞、衰老与细胞凋亡' },
+            { id: 'b-ch5', volume: 'upper', volName: '上册', title: '第5章 食物的消化与物质代谢', desc: '人体消化酶作用机制与营养吸收途径' },
+            { id: 'b-ch6', volume: 'upper', volName: '上册', title: '第6章 营养成分的运输', desc: '植物木质部韧皮部运输与人体心血管循环' },
+            { id: 'b-ch7', volume: 'upper', volName: '上册', title: '第7章 动植物的协调与反应', desc: '植物生长素向光性、神经反射弧与内分泌激素' },
+            { id: 'b-ch8', volume: 'upper', volName: '上册', title: '第8章 内环境的恒定和排泄系统', desc: '血糖体温调节、肾单位滤过重吸收与渗透压' },
+            { id: 'b-ch9', volume: 'upper', volName: '上册', title: '第9章 健康与免疫', desc: '体液免疫与细胞免疫、疫苗原理与过敏反应' },
+            
+            { id: 'b-ch10', volume: 'middle', volName: '中册', title: '第10章 生态系统', desc: '食物链能量金字塔、物质循环与群落演替' },
+            { id: 'b-ch11', volume: 'middle', volName: '中册', title: '第11章 生态保育与可持续发展', desc: '温室效应、富营养化与生物多样性保护' },
+            { id: 'b-ch12', volume: 'middle', volName: '中册', title: '第12章 生殖', desc: '被子植物双受精与人体生殖系统胚胎发育' },
+            { id: 'b-ch13', volume: 'middle', volName: '中册', title: '第13章 细胞分裂', desc: '有丝分裂染色体行为与减数分裂同源染色体联会' },
+            { id: 'b-ch14', volume: 'middle', volName: '中册', title: '第14章 遗传的物质基础', desc: 'DNA双螺旋半保留复制、转录与遗传密码翻译' },
+            { id: 'b-ch15', volume: 'middle', volName: '中册', title: '第15章 基因与遗传定律', desc: '孟德尔分离与自由组合定律、伴性遗传分析' },
+            { id: 'b-ch16', volume: 'middle', volName: '中册', title: '第16章 应用遗传学', desc: '基因突变、染色体变异与PCR重组DNA技术' },
+            
+            { id: 'b-ch17', volume: 'lower', volName: '下册', title: '第17章 生物多样性', desc: '五界分类系统、二名法与动植物各大门类特征' },
+            { id: 'b-ch18', volume: 'lower', volName: '下册', title: '第18章 细菌与病毒', desc: '原核细胞结构、噬菌体增殖周期与抗生素机制' },
+            { id: 'b-ch19', volume: 'lower', volName: '下册', title: '第19章 演化', desc: '拉马克学说、达尔文自然选择与现代综合进化论' }
+        ];
+    </script>
+
+    <!-- 引入种子数据与核心交互脚本 -->
+    <script src="physics-data.js"></script>
+    <script src="functions.js"></script>
+</body>
+</html>
